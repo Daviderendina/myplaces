@@ -16,7 +16,7 @@ class RootPage extends StatefulWidget {
 
 class RootPageState extends State<RootPage> {
   int selectedIndex = 1;
-  
+
   @override
   Widget build(BuildContext context) {
     List pages = [null, MapPage(), PlacesPage(), ProfilePage()];
@@ -57,9 +57,27 @@ class RootPageState extends State<RootPage> {
                 gap: 10,
                 tabs: [
                   GButton(icon: Icons.search, text: "Search"),
-                  GButton(icon: Icons.map, text: "Map"),
-                  GButton(icon: Icons.place_outlined, text: "Places"),
-                  GButton(icon: Icons.person, text: "Profile"),
+                  GButton(
+                    icon: Icons.map,
+                    text: "Map",
+                    backgroundColor: Color(0x3c66c5cc),
+                    iconActiveColor: Color(0xdc66c5cc),
+                    textColor: Color(0xdc66c5cc),
+                  ),
+                  GButton(
+                    icon: Icons.place_outlined,
+                    text: "Places",
+                    backgroundColor: Color(0x3cf6cf71),
+                    iconActiveColor: Color(0xdcf6cf71),
+                    textColor: Color(0xdcf6cf71),
+                  ),
+                  GButton(
+                    icon: Icons.person,
+                    text: "Profile",
+                    backgroundColor: Color(0x3cf89c74),
+                    iconActiveColor: Color(0xdcf89c74),
+                    textColor: Color(0xdcf89c74),
+                  ),
                 ],
                 selectedIndex: selectedIndex,
                 onTabChange: (value) {

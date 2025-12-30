@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../models/default_list_element.dart';
+import 'package:myplaces/models/list_element.dart';
 
 class ListCircleCard extends StatelessWidget {
-  final DefaultListElement listElement;
+  final PlacesList listElement;
   final int placesNumber;
 
   const ListCircleCard({

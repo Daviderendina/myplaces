@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:myplaces/components/list_circle_card.dart';
 import 'package:myplaces/components/page_title.dart';
 import 'package:myplaces/models/default_list_element.dart';
+import 'package:myplaces/models/list_element.dart';
 
+import '../components/list_row_card.dart';
 import '../components/page_subtitle.dart';
 
 class PlacesPage extends StatelessWidget {
@@ -35,101 +37,39 @@ class PlacesPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ListCircleCard(
-                listElement: DefaultListElement.todo,
+                listElement: DefaultListElement.todo.listElement,
                 placesNumber: 4,
               ),
               ListCircleCard(
-                listElement: DefaultListElement.favourites,
+                listElement: DefaultListElement.favourites.listElement,
                 placesNumber: 56,
               ),
               ListCircleCard(
-                listElement: DefaultListElement.visited,
+                listElement: DefaultListElement.visited.listElement,
                 placesNumber: 5,
               ),
             ],
           ),
 
           SizedBox(height: 30),
-          PageSubtitle(text: "My Lists"),
+          Row(
+            children: [
+              PageSubtitle(text: "My Lists"),
+              Spacer(),
+              IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+            ],
+          ),
           SizedBox(height: 20),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Column(
               children: items
-                  .map((item) => UserListRow(listElement: item))
+                  .map((item) => ListRowCard(listElement: item.listElement))
                   .toList(),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class UserListRow extends StatelessWidget {
-  final DefaultListElement listElement;
-
-  const UserListRow({super.key, required this.listElement});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(21),
-        onTap: () {
-          print("Hai cliccato sull'elemento!");
-        },
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: listElement.color,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(listElement.icon, color: Colors.white, size: 26),
-            ),
-            SizedBox(width: 14),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  listElement.label,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontFamily: "Poppins",
-                  ),
-                ),
-                Text(
-                  "5 luoghi - ",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white70,
-                    fontFamily: "Poppins",
-                  ),
-                ),
-              ],
-            ),
-            Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.delete),
-              padding: EdgeInsets.all(0),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.edit),
-              padding: EdgeInsets.all(0),
-            ),
-          ],
-        ),
       ),
     );
   }
