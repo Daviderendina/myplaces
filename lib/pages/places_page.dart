@@ -1,29 +1,29 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myplaces/components/list_circle_card.dart';
 import 'package:myplaces/components/page_title.dart';
 import 'package:myplaces/models/default_list_element.dart';
-import 'package:myplaces/models/list_element.dart';
 
 import '../components/list_row_card.dart';
 import '../components/page_subtitle.dart';
 
 class PlacesPage extends StatelessWidget {
-  final List<DefaultListElement> items = [
-    DefaultListElement.favourites,
-    DefaultListElement.todo,
-    DefaultListElement.visited,
-    DefaultListElement.favourites,
-    DefaultListElement.todo,
-    DefaultListElement.favourites,
-    DefaultListElement.todo,
-    DefaultListElement.visited,
-    DefaultListElement.favourites,
-    DefaultListElement.todo,
-  ];
+  const PlacesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final List<DefaultListElement> items = [
+      DefaultListElement.favourites,
+      DefaultListElement.todo,
+      DefaultListElement.visited,
+      DefaultListElement.favourites,
+      DefaultListElement.todo,
+      DefaultListElement.favourites,
+      DefaultListElement.todo,
+      DefaultListElement.visited,
+      DefaultListElement.favourites,
+      DefaultListElement.todo,
+    ];
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

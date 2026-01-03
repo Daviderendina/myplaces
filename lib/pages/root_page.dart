@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:myplaces/pages/places_page.dart';
 import 'package:myplaces/pages/profile_page.dart';
@@ -15,35 +13,34 @@ class RootPage extends StatefulWidget {
 }
 
 class RootPageState extends State<RootPage> {
-  int selectedIndex = 1;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    List pages = [null, MapPage(), PlacesPage(), ProfilePage()];
+    final List<Widget> pages = const [MapPage(), PlacesPage(), ProfilePage()];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.black.withValues(alpha: 80),
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
       body: Stack(
         children: [
-          // Todo: spostare questo in una MapPage
           pages[selectedIndex],
 
-          // Align(
-          //   alignment: AlignmentGeometry.topCenter,
-          //   child: Padding(
-          //     padding: EdgeInsetsGeometry.only(top: 50, left: 20, right: 20),
-          //     child: SearchBar(leading: Icon(Icons.search)),
-          //   ),
-          // ),
           Align(
             alignment: AlignmentGeometry.bottomCenter,
             child: Container(
               margin: EdgeInsets.only(bottom: 20),
               height: 70,
-              width: 390,
+              width: 290,
               padding: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: Color(0xff212329),
-                borderRadius: BorderRadius.circular(22),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: GNav(
                 color: Colors.grey.shade600,
@@ -56,7 +53,6 @@ class RootPageState extends State<RootPage> {
                 haptic: true,
                 gap: 10,
                 tabs: [
-                  GButton(icon: Icons.search, text: "Search"),
                   GButton(
                     icon: Icons.map,
                     text: "Map",
