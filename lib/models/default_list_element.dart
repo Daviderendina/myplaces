@@ -3,13 +3,6 @@ import 'package:flutter/material.dart';
 import 'list_element.dart';
 
 enum DefaultListElement {
-  favourites(
-    listElement: PlacesList(
-      label: "Preferiti",
-      icon: Icons.favorite,
-      color: Colors.red,
-    ),
-  ),
   todo(
     listElement: PlacesList(
       label: "Wishlist",
@@ -17,10 +10,17 @@ enum DefaultListElement {
       color: Colors.blue,
     ),
   ),
+  favourites(
+    listElement: PlacesList(
+      label: "Preferiti",
+      icon: Icons.favorite,
+      color: Colors.red,
+    ),
+  ),
   visited(
     listElement: PlacesList(
       label: "Visitati",
-      icon: Icons.check,
+      icon: Icons.check_circle,
       color: Colors.green,
     ),
   );

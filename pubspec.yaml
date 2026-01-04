@@ -36,6 +36,7 @@ dependencies:
   material_floating_search_bar_plus: ^1.0.1
   flutter_riverpod: ^2.5.0
   http: ^1.2.1
+  carousel_slider: ^5.1.1
 
 dev_dependencies:
   flutter_test:

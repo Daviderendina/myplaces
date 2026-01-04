@@ -1,9 +1,12 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
+import 'package:myplaces/components/poi_detail_on_map.dart';
 import 'package:myplaces/components/poi_result_card.dart';
+import 'package:myplaces/models/default_list_element.dart';
 
 import '../models/poi.dart';
 import '../providers.dart';
@@ -112,7 +115,7 @@ class MapPageState extends ConsumerState<MapPage> {
             onPressed: () {
               showPoiBottomSheet();
             },
-            icon: Icon(Icons.eighteen_mp, size: 80, color: Colors.black),
+            icon: FlutterLogo(),
           ),
         ),
       ],
@@ -153,24 +156,47 @@ class MapPageState extends ConsumerState<MapPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      // se vuoi altezza custom / full screen
-      backgroundColor: Colors.black.withAlpha(200),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
+      backgroundColor: Colors.transparent,
       builder: (context) {
-        return Container(
-          padding: EdgeInsets.all(16),
-          height: 500, // altezza della sheet
-          child: Column(
-            children: [
-              Text(
-                'Dettagli POI',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        return DraggableScrollableSheet(
+          initialChildSize: 0.6,
+          expand: false,
+          builder: (context, scrollController) {
+            return ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.black),
+                child: Stack(
+                  children: [
+                    ListView(
+                      // TODO se faccio altezza in base al numero di liste, cancellare questo widget e tenerla fissa
+                      controller: scrollController, // 👈 FONDAMENTALE
+                      children: [PoiDetailOnMap()],
+                    ),
+
+                    Positioned(
+                      right: 12,
+                      top: 12,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        spacing: 0,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.fullscreen),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: Icon(Icons.close),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              // altri widget
-            ],
-          ),
+            );
+          },
         );
       },
     );
