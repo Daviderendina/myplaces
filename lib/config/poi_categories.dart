@@ -155,12 +155,3 @@ place	sea	 	A large body of salt water part of, or connected to, an ocean.
 place	ocean		The world's five main major oceanic divisions.
   * */
 };
-
-findCategoryByTypeAndSubtype(String type, String subtype) {
-  // TODO fare un configuration Service???
-  print(">> findCategoryByTypeAndSubtype");
-  print("type: ${type} - subtype: ${subtype}");
-  print(poiCategories["$type|$subtype"]);
-  print(poiCategories["$type|*"]);
-  return poiCategories["$type|$subtype"] ?? poiCategories["$type|*"];
-}

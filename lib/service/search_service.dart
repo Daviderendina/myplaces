@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:myplaces/models/poi_category.dart';
+import 'package:myplaces/mapper/poi_mapper.dart';
 
 import '../models/poi.dart';
 
@@ -27,7 +27,7 @@ class PoiService {
     print("Received ${features.length} responses: $features");
 
     List<Poi> result = features
-        .map((f) => Poi.fromJson(f))
+        .map((f) => PoiMapper.mapPoiFromPhoton(f))
         .where(filterByType)
         .toList();
 
