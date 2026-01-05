@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myplaces/config/categories_icon.dart';
 
-import '../models/poi.dart';
+import '../../models/poi.dart';
 
 class PoiResultCard extends StatelessWidget {
   final Poi poi;
@@ -46,7 +46,7 @@ class PoiResultCard extends StatelessWidget {
                   SizedBox(
                     width: 260,
                     child: Text(
-                      getCityName(poi),
+                      poi.getDisplayAreaName(),
                       style: TextStyle(color: Colors.grey.shade500),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -59,14 +59,5 @@ class PoiResultCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String getCityName(Poi poi) {
-    String location = [
-      if (poi.city != null && poi.city!.isNotEmpty) poi.city,
-      if (poi.province != null && poi.province!.isNotEmpty) poi.province,
-    ].join(', ');
-
-    return location.isEmpty ? "${poi.country}" : "$location · ${poi.country}";
   }
 }

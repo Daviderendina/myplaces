@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
-import 'package:myplaces/components/poi_result_card.dart';
+import 'package:myplaces/components/map_page/poi_result_card.dart';
 
 import '../../models/poi.dart';
 import '../../providers.dart';
@@ -22,7 +22,20 @@ class MyFloatingSearchBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var state = ref.watch(mapPageProvider);
+
     return FloatingSearchBar(
+      actions: [
+        state.searchPoiResultToShow != null
+            ? IconButton(
+                onPressed: () {
+                  ref.read(mapPageProvider.notifier).clearMap();
+                },
+                icon: Icon(Icons.close),
+              )
+            : IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+      ],
+      automaticallyImplyBackButton: false,
       controller: searchBarController,
       margins: EdgeInsetsGeometry.only(top: 55, left: 30, right: 30),
       height: 54,

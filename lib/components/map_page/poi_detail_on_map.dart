@@ -1,10 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../models/default_list_element.dart';
+import '../../models/default_list_element.dart';
+import '../../models/poi.dart';
 
 class PoiDetailOnMap extends StatelessWidget {
+  final Poi poi;
+
+  const PoiDetailOnMap({super.key, required this.poi});
+
   @override
   Widget build(BuildContext context) {
     bool isSelected = false;
@@ -24,46 +28,46 @@ class PoiDetailOnMap extends StatelessWidget {
         children: [
           //IconButton(onPressed: () {}, icon: Icon(Icons.close)),
           Text(
-            "Roma",
+            poi.name,
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
           ),
           Text(
-            "Lazio, Italy",
+            poi.getDisplayAreaName(),
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
           ),
 
           SizedBox(height: 20),
 
-          CarouselSlider(
-            options: CarouselOptions(
-              height: 180.0,
-              enableInfiniteScroll: false,
-              pageSnapping: true,
-              viewportFraction: 1.0,
-            ),
-            items:
-                [
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/La_chiesetta_votiva_degli_Alpini_nel_paesaggio_autunnale.jpg/960px-La_chiesetta_votiva_degli_Alpini_nel_paesaggio_autunnale.jpg",
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/La_chiesetta_votiva_degli_Alpini_nel_paesaggio_autunnale.jpg/960px-La_chiesetta_votiva_degli_Alpini_nel_paesaggio_autunnale.jpg",
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/La_chiesetta_votiva_degli_Alpini_nel_paesaggio_autunnale.jpg/960px-La_chiesetta_votiva_degli_Alpini_nel_paesaggio_autunnale.jpg",
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/La_chiesetta_votiva_degli_Alpini_nel_paesaggio_autunnale.jpg/960px-La_chiesetta_votiva_degli_Alpini_nel_paesaggio_autunnale.jpg",
-                ].map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(color: Colors.amber),
-                        child: Image.network(
-                          i,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
+          Container(
+            width: double.infinity,
+            height: 180,
+            color: Colors.grey.shade800,
+            child: (poi.images.isEmpty)
+                ? Center(child: Icon(Icons.not_interested))
+                : CarouselSlider(
+                    options: CarouselOptions(
+                      enableInfiniteScroll: false,
+                      pageSnapping: true,
+                      viewportFraction: 1.0,
+                    ),
+                    items: poi.images.map((poiImage) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(color: Colors.amber),
+                            child: Image.network(
+                              poiImage.thumbnail ?? "",
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
+                          );
+                        },
                       );
-                    },
-                  );
-                }).toList(),
+                    }).toList(),
+                  ),
           ),
 
           SizedBox(height: 24),
@@ -176,45 +180,3 @@ class PoiDetailOnMap extends StatelessWidget {
     );
   }
 }
-
-void test() {}
-
-/*
-Container(
-          width: 120,
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: listElement.color,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(listElement.icon, color: Colors.white, size: 32),
-              ),
-              SizedBox(height: 12),
-              Text(
-                listElement.label,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontFamily: "Poppins",
-                ),
-              ),
-              Text(
-                "$placesNumber luoghi",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                  fontFamily: "Poppins",
-                ),
-              ),
-            ],
-          ),
-        ),
-* */

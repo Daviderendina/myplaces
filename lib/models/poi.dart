@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:latlong2/latlong.dart';
 import 'package:myplaces/models/poi_category.dart';
 import 'package:myplaces/models/poi_image.dart';
 
@@ -19,7 +20,7 @@ class Poi {
 
   final PoiCategory? category;
 
-  final Point<double>? coordinates;
+  final LatLng coordinates;
 
   final List<PoiImage> images;
 
@@ -32,7 +33,7 @@ class Poi {
     this.province,
     this.region,
     this.country,
-    this.coordinates,
+    required this.coordinates,
     this.countrycode,
     this.category,
     List<PoiImage>? images,
@@ -43,6 +44,20 @@ class Poi {
   }
 
   factory Poi.empty() {
-    return Poi(id: '', name: '', category: PoiCategory.other);
+    return Poi(
+      id: '',
+      name: '',
+      category: PoiCategory.other,
+      coordinates: LatLng(0, 0),
+    );
+  }
+
+  String getDisplayAreaName() {
+    String location = [
+      if (city != null && city!.isNotEmpty) city,
+      if (province != null && province!.isNotEmpty) province,
+    ].join(', ');
+
+    return location.isEmpty ? "$country" : "$location · $country";
   }
 }

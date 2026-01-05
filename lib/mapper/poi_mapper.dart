@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:latlong2/latlong.dart';
 import 'package:myplaces/models/poi_category.dart';
-import 'package:myplaces/models/poi_image.dart';
 
 import '../config/poi_categories.dart';
 import '../models/poi.dart';
@@ -26,9 +26,9 @@ class PoiMapper {
         region: properties['state'],
         country: properties['country'],
         countrycode: properties['countrycode'],
-        coordinates: Point(
-          geometry['coordinates'][0],
+        coordinates: LatLng(
           geometry['coordinates'][1],
+          geometry['coordinates'][0],
         ),
       );
     } catch (error) {

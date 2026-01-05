@@ -1,16 +1,17 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:myplaces/components/map_page/floating_search.dart';
-import 'package:myplaces/components/poi_detail_on_map.dart';
+import 'package:myplaces/components/map_page/poi_detail_on_map.dart';
+import 'package:myplaces/service/image_service.dart';
 
 import '../models/poi.dart';
 import '../providers.dart';
 
 class MapPage extends ConsumerStatefulWidget {
+  // TODO togliere stato classico
   const MapPage({super.key});
 
   @override
@@ -22,8 +23,6 @@ class MapPageState extends ConsumerState<MapPage> {
   late final FloatingSearchBarController _searchBarController =
       FloatingSearchBarController();
 
-  Marker? searchMarker;
-
   @override
   void initState() {
     super.initState();
@@ -32,6 +31,8 @@ class MapPageState extends ConsumerState<MapPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(mapPageProvider);
+
+    print("MArker to show: ${state.searchPoiResultToShow}");
 
     return Stack(
       children: [
@@ -55,7 +56,25 @@ class MapPageState extends ConsumerState<MapPage> {
               userAgentPackageName: 'it.drendina.myplaces',
             ),
 
-            MarkerLayer(markers: [?searchMarker]),
+            MarkerLayer(
+              markers: [
+                if (state.searchPoiResultToShow != null)
+                  Marker(
+                    point: state.searchPoiResultToShow!.coordinates,
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.location_pin,
+                        color: Colors.red,
+                        size: 40,
+                      ),
+                      onTap: () =>
+                          showPoiBottomSheet(state.searchPoiResultToShow!),
+                    ),
+                  ),
+              ],
+            ),
+
+            // TODO non mi piace, forse il marker va gestito direttamente in riverpod?
             //  Stadia.AlidadeSmoothDark - 3140b6e5-c3bd-4e46-9f53-6e482e3eab45
             //TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', subdomains: ['a','b','c','d'], userAgentPackageName: 'com.example.app', )// si inchioda        TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', subdomains: const ['a', 'b', 'c', 'd'], userAgentPackageName: 'com.example.app', )
             // Scuro ni TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', subdomains: ['a','b','c','d'], userAgentPackageName: 'com.example.app', )
@@ -71,7 +90,16 @@ class MapPageState extends ConsumerState<MapPage> {
         Center(
           child: IconButton(
             onPressed: () {
-              showPoiBottomSheet();
+              showPoiBottomSheet(
+                Poi(
+                  name: "Parigi",
+                  city: "Paris",
+                  country: "France",
+                  province: "Paris",
+                  id: "12",
+                  coordinates: LatLng(15, 15),
+                ),
+              );
             },
             icon: FlutterLogo(),
           ),
@@ -84,33 +112,32 @@ class MapPageState extends ConsumerState<MapPage> {
     // TODO capire bene anche come si cancellano questi, direi alla chiusura della tab
     _searchBarController.close();
 
-    print(
-      "Moving map to ${poi.coordinates?.x.toString()}, ${poi.coordinates?.y.toString()}",
-    );
+    ImageService().enrichPoiWithImages(poi: poi).whenComplete(() {
+      print("H ${poi.images}");
+      showPoiBottomSheet(poi);
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final lng = poi.coordinates?.x ?? 41.9028;
-      final lat = poi.coordinates?.y ?? 12.4964;
-      LatLng point = LatLng(lat, lng);
-
-      setState(() {
-        searchMarker = Marker(
-          point: point,
+      Marker searchMarker = Marker(
+        point: poi.coordinates,
+        child: GestureDetector(
           child: Icon(Icons.location_pin, color: Colors.red, size: 40),
-        );
-      });
+          onTap: () => showPoiBottomSheet(poi),
+        ),
+      );
+      ref.read(mapPageProvider.notifier).showSearchPoiMarkerOnMap(poi);
 
       _mapController.move(
-        LatLng(lat, lng),
+        poi.coordinates,
         15,
         offset: Offset(0, -200),
       ); // TODO zoom diverso per attrazione diversa, anzi meglio calcolo zoom in base ai markers che mi arrivano, chat sa come fare
     });
 
-    showPoiBottomSheet();
+    //showPoiBottomSheet();
   }
 
-  void showPoiBottomSheet() {
+  void showPoiBottomSheet(Poi poi) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -129,7 +156,7 @@ class MapPageState extends ConsumerState<MapPage> {
                     ListView(
                       // TODO se faccio altezza in base al numero di liste, cancellare questo widget e tenerla fissa
                       controller: scrollController,
-                      children: [PoiDetailOnMap()],
+                      children: [PoiDetailOnMap(poi: poi)],
                     ),
 
                     Positioned(
