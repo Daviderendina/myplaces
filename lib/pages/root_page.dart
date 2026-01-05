@@ -75,8 +75,8 @@ class RootPageState extends ConsumerState<RootPage> {
                       textColor: Color(0xdc66c5cc),
                     ),
                     GButton(
-                      icon: Icons.place_outlined,
-                      text: "Places",
+                      icon: Icons.bookmark_border_outlined,
+                      text: "Saved",
                       backgroundColor: Color(0x3cf6cf71),
                       iconActiveColor: Color(0xdcf6cf71),
                       textColor: Color(0xdcf6cf71),

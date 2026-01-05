@@ -9,6 +9,11 @@ class ListRowCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<(IconData, String, VoidCallback)> popupMenuItems = [
+      (Icons.edit, "Edit", () {}),
+      (Icons.delete, "Delete", () {}),
+    ];
+
     return Container(
       margin: EdgeInsetsGeometry.all(4),
       child: Material(
@@ -50,7 +55,7 @@ class ListRowCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "5 luoghi",
+                      "5 luoghi", // TODO
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         height: 1.2,
@@ -62,21 +67,24 @@ class ListRowCard extends StatelessWidget {
                   ],
                 ),
                 Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.edit, color: Colors.grey.shade600, size: 22),
-                  padding: EdgeInsets.all(0),
-                ),
-                IconButton(
-                  onPressed: () {
-                    print("PRESS");
+                PopupMenuButton<int>(
+                  itemBuilder: (context) {
+                    return popupMenuItems.map((item) {
+                      return PopupMenuItem<int>(
+                        onTap: item.$3,
+                        child: Container(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Icon(item.$1),
+                              SizedBox(width: 10),
+                              Text(item.$2),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList();
                   },
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.grey.shade600,
-                    size: 22,
-                  ),
-                  padding: EdgeInsets.all(0),
                 ),
               ],
             ),

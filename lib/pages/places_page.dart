@@ -29,7 +29,7 @@ class PlacesPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 60),
-          PageTitle(text: "Places"),
+          PageTitle(text: "Saved"),
           SizedBox(height: 20),
 
           // Default places

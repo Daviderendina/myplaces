@@ -11,7 +11,6 @@ import '../models/poi.dart';
 import '../providers.dart';
 
 class MapPage extends ConsumerStatefulWidget {
-  // TODO togliere stato classico
   const MapPage({super.key});
 
   @override
@@ -109,7 +108,6 @@ class MapPageState extends ConsumerState<MapPage> {
   }
 
   void showPoiOnMap(Poi poi) {
-    // TODO capire bene anche come si cancellano questi, direi alla chiusura della tab
     _searchBarController.close();
 
     ImageService().enrichPoiWithImages(poi: poi).whenComplete(() {
@@ -118,26 +116,75 @@ class MapPageState extends ConsumerState<MapPage> {
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Marker searchMarker = Marker(
-        point: poi.coordinates,
-        child: GestureDetector(
-          child: Icon(Icons.location_pin, color: Colors.red, size: 40),
-          onTap: () => showPoiBottomSheet(poi),
-        ),
-      );
       ref.read(mapPageProvider.notifier).showSearchPoiMarkerOnMap(poi);
 
-      _mapController.move(
-        poi.coordinates,
-        15,
-        offset: Offset(0, -200),
-      ); // TODO zoom diverso per attrazione diversa, anzi meglio calcolo zoom in base ai markers che mi arrivano, chat sa come fare
+      // TODO zoom diverso per attrazione diversa, anzi meglio calcolo zoom in base ai markers che mi arrivano, chat sa come fare
+      _mapController.move(poi.coordinates, 15, offset: Offset(0, -200));
     });
-
-    //showPoiBottomSheet();
   }
 
   void showPoiBottomSheet(Poi poi) {
+    // TODO spostare questo nel notifier
+
+    /*
+
+    ref.listen<MapPageViewState>(mapPageProvider, (previous, next) {
+  if (next.isBottomSheetOpen && previous?.isBottomSheetOpen != true) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.6,
+          expand: false,
+          builder: (context, scrollController) {
+            return ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.black),
+                child: Stack(
+                  children: [
+                    ListView(
+                      controller: scrollController,
+                      children: [
+                        if (next.selectedPoi != null)
+                          PoiDetailOnMap(poi: next.selectedPoi!)
+                      ],
+                    ),
+                    Positioned(
+                      right: 12,
+                      top: 12,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.fullscreen),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              ref.read(mapPageProvider.notifier).closeBottomSheet();
+                              Navigator.of(context).pop();
+                            },
+                            icon: Icon(Icons.close),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+});
+
+
+    * */
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
