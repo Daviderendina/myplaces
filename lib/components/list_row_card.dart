@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myplaces/pages/list_page.dart';
 
 import '../models/list_element.dart';
 
@@ -22,7 +23,9 @@ class ListRowCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () {
-            print("Hai cliccato sull'elemento!");
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (context) => ListPage()));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),

@@ -10,6 +10,8 @@ import 'package:myplaces/service/image_service.dart';
 import '../models/poi.dart';
 import '../providers.dart';
 
+// TODO quando si cambia pagina bisogna fare il clean della mappa!!
+
 class MapPage extends ConsumerStatefulWidget {
   const MapPage({super.key});
 
