@@ -8,7 +8,6 @@ import 'package:myplaces/repository/poi_repository_impl.dart';
 import 'package:myplaces/service/list_service.dart';
 import 'package:myplaces/service/search_service.dart';
 import 'package:myplaces/state/map_page_state.dart';
-import 'package:myplaces/state/saved_page_state.dart';
 
 import 'models/my_list.dart';
 import 'objectbox.g.dart';
@@ -27,8 +26,8 @@ final mapPageProvider =
       (ref) => MapPageNotifier(ref.read(poiRepositoryProvider)),
     );
 final savedPageProvider =
-    StateNotifierProvider<SavedPageNotifier, SavedPageState>(
-      (ref) => SavedPageNotifier(ref.read(myListRepositoryProvider)),
+    AsyncNotifierProvider<SavedPageNotifier, List<MyList>>(
+      SavedPageNotifier.new,
     );
 
 final poiRepositoryProvider = Provider<PoiRepository>(

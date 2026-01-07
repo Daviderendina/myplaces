@@ -1,21 +1,42 @@
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/models/my_list.dart';
-import 'package:myplaces/repository/list_repository.dart';
-import 'package:myplaces/state/saved_page_state.dart';
+import 'package:myplaces/providers.dart';
 
-class SavedPageNotifier extends StateNotifier<SavedPageState> {
-  final ListRepository _repository;
+import '../repository/list_repository.dart';
 
-  SavedPageNotifier(this._repository) : super(const SavedPageState());
+class SavedPageNotifier extends AsyncNotifier<List<MyList>> {
+  late final ListRepository _repository;
 
-  void getAllLists() async {
-    state.copyWith(isLoading: true);
+  @override
+  Future<List<MyList>> build() async {
+    _repository = ref.read(myListRepositoryProvider);
+
+    return await _repository.getAll();
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    try {
+      final lists = await _repository.getAll();
+      state = AsyncData(lists);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
+  Future<void> addList(MyList newList) async {
+    final current = state.value ?? [];
 
     try {
-      List<MyList> allLists = _repository.getAll();
-      state.copyWith(lists: allLists, isLoading: false);
+      MyList created = await _repository.add(newList);
+      print("Created list with id ${created.id}");
+      state = AsyncData([...current, created]);
     } catch (e) {
-      state.copyWith(lists: [], isLoading: false); // TODO mostrare errore
+      print("Error adding list: $e");
     }
+  }
+
+  void removeList(MyList myList) async {
+    _repository.delete(myList);
   }
 }

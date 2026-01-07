@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myplaces/models/list_element.dart';
+import 'package:myplaces/models/my_list.dart';
 
-class ListCircleCard extends StatelessWidget {
-  final PlacesList listElement;
-  final int placesNumber;
+class CardMylistDefault extends StatelessWidget {
+  final MyList myList;
 
-  const ListCircleCard({
-    super.key,
-    required this.listElement,
-    required this.placesNumber,
-  });
+  const CardMylistDefault({super.key, required this.myList});
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +27,14 @@ class ListCircleCard extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: listElement.color,
+                  color: Colors.deepPurple, //TODO
                   shape: BoxShape.circle,
                 ),
-                child: Icon(listElement.icon, color: Colors.white, size: 32),
+                child: Icon(Icons.question_mark, color: Colors.white, size: 32),
               ),
               SizedBox(height: 12),
               Text(
-                listElement.label,
+                myList.displayName,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -47,7 +43,7 @@ class ListCircleCard extends StatelessWidget {
                 ),
               ),
               Text(
-                "$placesNumber luoghi",
+                "${myList.poiList.length} places",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.white70,

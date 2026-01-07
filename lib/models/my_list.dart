@@ -10,5 +10,15 @@ class MyList {
   @Backlink('lists')
   final ToMany<Poi> poiList = ToMany();
 
-  MyList({required this.name, this.isDefault = false});
+  MyList({required String name, this.isDefault = false})
+    : name = name.toLowerCase();
+
+  String get displayName => name
+      .split(' ')
+      .map((word) => word[0].toUpperCase() + word.substring(1))
+      .join(' ');
+
+  void setId(int id) {
+    this.id = id;
+  }
 }

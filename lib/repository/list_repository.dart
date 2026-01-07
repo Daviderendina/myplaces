@@ -9,4 +9,6 @@ class ListRepository {
   List<MyList> getAll() => _service.getAllLists();
 
   Future<MyList> add(MyList myList) => _service.addList(myList);
+
+  void delete(MyList myList) => _service.deleteList(myList);
 }

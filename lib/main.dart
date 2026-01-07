@@ -31,9 +31,18 @@ class MyApp extends ConsumerWidget {
       data: (_) => MaterialApp(
         home: MaterialApp(
           title: 'Flutter Demo',
-          theme: ThemeData.dark(),
+          theme: appTheme(),
           home: const RootPage(),
         ),
+      ),
+    );
+  }
+
+  ThemeData appTheme() {
+    return ThemeData.dark(useMaterial3: true).copyWith(
+      dialogTheme: DialogThemeData(
+        backgroundColor: Colors.grey.shade900,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }
