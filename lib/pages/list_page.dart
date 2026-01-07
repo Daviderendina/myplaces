@@ -3,11 +3,16 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/models/poi_image.dart';
 
 import '../models/poi.dart';
 
 class ListPage extends StatelessWidget {
+  final MyList myList;
+
+  ListPage({super.key, required this.myList});
+
   @override
   Widget build(BuildContext context) {
     List<Poi> listsPoi = [];
@@ -17,7 +22,7 @@ class ListPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Preferiti", style: TextStyle(fontSize: 26)),
+        title: Text(myList.displayName, style: TextStyle(fontSize: 26)),
         toolbarHeight: 80,
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.map)),
@@ -61,7 +66,7 @@ Widget getPoiCard(Poi poi) {
                 width: 70,
                 height: 70,
                 child: Image.network(
-                  poi.images[0].thumbnail ?? "",
+                  poi.images.isNotEmpty ? poi.images[0].thumbnail ?? "" : "",
                   fit: BoxFit.cover,
                 ),
               ),

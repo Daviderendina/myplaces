@@ -8,8 +8,13 @@ import '../../models/list_element.dart';
 
 class CardMylistCustom extends ConsumerWidget {
   final MyList myList;
+  final VoidCallback onTap;
 
-  const CardMylistCustom({super.key, required this.myList});
+  const CardMylistCustom({
+    super.key,
+    required this.myList,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,11 +25,7 @@ class CardMylistCustom extends ConsumerWidget {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
-          onTap: () {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (context) => ListPage()));
-          },
+          onTap: onTap,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(

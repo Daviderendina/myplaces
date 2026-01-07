@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/default_list_element.dart';
 import '../../models/poi.dart';
 
 class PoiDetailOnMap extends StatelessWidget {
@@ -72,31 +71,31 @@ class PoiDetailOnMap extends StatelessWidget {
 
           SizedBox(height: 24),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 24,
-            children: DefaultListElement.values.map((element) {
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: isSelected
-                      ? element.listElement.color
-                      : Colors.grey.shade800,
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    print("X");
-                  },
-                  icon: Icon(
-                    element.listElement.icon,
-                    size: 32,
-                    color: isSelected ? Colors.white : Colors.grey.shade700,
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-
+          // TODO
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   spacing: 24,
+          //   children: DefaultListElement.values.map((element) {
+          //     return Container(
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(30),
+          //         color: isSelected
+          //             ? element.listElement.color
+          //             : Colors.grey.shade800,
+          //       ),
+          //       child: IconButton(
+          //         onPressed: () {
+          //           print("X");
+          //         },
+          //         icon: Icon(
+          //           element.listElement.icon,
+          //           size: 32,
+          //           color: isSelected ? Colors.white : Colors.grey.shade700,
+          //         ),
+          //       ),
+          //     );
+          //   }).toList(),
+          // ),
           SizedBox(height: 18),
 
           Wrap(

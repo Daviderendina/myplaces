@@ -4,8 +4,13 @@ import 'package:myplaces/models/my_list.dart';
 
 class CardMylistDefault extends StatelessWidget {
   final MyList myList;
+  final VoidCallback onTap;
 
-  const CardMylistDefault({super.key, required this.myList});
+  const CardMylistDefault({
+    super.key,
+    required this.myList,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +18,7 @@ class CardMylistDefault extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          print("Card cliccata");
-        },
+        onTap: onTap,
         child: Container(
           width: 120,
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 6),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myplaces/components/page_title.dart';
-import 'package:myplaces/models/default_list_element.dart';
+import 'package:myplaces/components/common/page_title.dart';
 import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/providers.dart';
 
 import '../components/saved_page/card_mylist_custom.dart';
-import '../components/page_subtitle.dart';
+import '../components/common/page_subtitle.dart';
 import '../components/saved_page/card_mylist_default.dart';
+import 'list_page.dart';
 
 class SavedPage extends ConsumerWidget {
   const SavedPage({super.key});
@@ -27,16 +27,18 @@ class SavedPage extends ConsumerWidget {
               SizedBox(height: 60),
               PageTitle(text: "Saved"),
               SizedBox(height: 20),
-
-              // Default places - TODO devo prenderli dal servbizio e gestirli diversamente
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: myLists
                     .where((l) => l.isDefault)
-                    .map((list) => CardMylistDefault(myList: list))
+                    .map(
+                      (myList) => CardMylistDefault(
+                        myList: myList,
+                        onTap: openListDetail(context, myList),
+                      ),
+                    )
                     .toList(),
               ),
-
               SizedBox(height: 30),
               Row(
                 children: [
@@ -49,13 +51,17 @@ class SavedPage extends ConsumerWidget {
                 ],
               ),
               SizedBox(height: 20),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 child: Column(
                   children: myLists
                       .where((l) => !l.isDefault)
-                      .map((item) => CardMylistCustom(myList: item))
+                      .map(
+                        (myList) => CardMylistCustom(
+                          myList: myList,
+                          onTap: openListDetail(context, myList),
+                        ),
+                      )
                       .toList(),
                 ),
               ),
@@ -64,6 +70,14 @@ class SavedPage extends ConsumerWidget {
         );
       },
     );
+  }
+
+  VoidCallback openListDetail(BuildContext context, MyList myList) {
+    return () {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (context) => ListPage(myList: myList)));
+    };
   }
 
   Future openNewListDialog(BuildContext context, WidgetRef ref) {
