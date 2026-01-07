@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/components/list_circle_card.dart';
 import 'package:myplaces/components/page_title.dart';
 import 'package:myplaces/models/default_list_element.dart';
+import 'package:myplaces/providers.dart';
 
 import '../components/list_row_card.dart';
 import '../components/page_subtitle.dart';
 
-class PlacesPage extends StatelessWidget {
-  const PlacesPage({super.key});
+class SavedPage extends ConsumerWidget {
+  const SavedPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<DefaultListElement> items = [
-      DefaultListElement.favourites,
-      DefaultListElement.todo,
-      DefaultListElement.visited,
-      DefaultListElement.favourites,
-      DefaultListElement.todo,
-      DefaultListElement.favourites,
-      DefaultListElement.todo,
-      DefaultListElement.visited,
-      DefaultListElement.favourites,
-      DefaultListElement.todo,
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(savedPageProvider);
 
     return SingleChildScrollView(
       child: Column(
@@ -32,7 +23,7 @@ class PlacesPage extends StatelessWidget {
           PageTitle(text: "Saved"),
           SizedBox(height: 20),
 
-          // Default places
+          // Default places - TODO devo prenderli dal servbizio e gestirli diversamente
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -64,8 +55,8 @@ class PlacesPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Column(
-              children: items
-                  .map((item) => ListRowCard(listElement: item.listElement))
+              children: state.lists
+                  .map((item) => ListRowCard(myList: item))
                   .toList(),
             ),
           ),

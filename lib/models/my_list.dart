@@ -1,11 +1,14 @@
-class PlacesList {
-  int? id;
+import 'package:myplaces/models/poi.dart';
+import 'package:objectbox/objectbox.dart';
+
+@Entity()
+class MyList {
+  int id = 0;
   String name;
+  bool isDefault;
 
-  PlacesList({this.id, required this.name});
+  @Backlink('lists')
+  final ToMany<Poi> poiList = ToMany();
 
-  Map<String, dynamic> toMap() => {if (id != null) 'id': id, 'name': name};
-
-  factory PlacesList.fromMap(Map<String, dynamic> m) =>
-      PlacesList(id: m['id'], name: m['name']);
+  MyList({required this.name, this.isDefault = false});
 }

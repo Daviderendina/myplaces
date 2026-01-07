@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/pages/list_page.dart';
 
 import '../models/list_element.dart';
 
 class ListRowCard extends StatelessWidget {
-  final PlacesList listElement;
+  final MyList myList;
 
-  const ListRowCard({super.key, required this.listElement});
+  const ListRowCard({super.key, required this.myList});
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +37,8 @@ class ListRowCard extends StatelessWidget {
                   width: 48,
                   height: 48,
                   child: Icon(
-                    listElement.icon,
-                    color: listElement.color.withAlpha(250),
+                    Icons.question_mark, //TODO listElement.icon,
+                    color: Colors.white, //TODOlistElement.color.withAlpha(250),
                     size: 34,
                   ),
                 ),
@@ -47,7 +48,7 @@ class ListRowCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      listElement.label,
+                      myList.name,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         height: 1.2,

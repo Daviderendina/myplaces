@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:myplaces/pages/places_page.dart';
+import 'package:myplaces/pages/saved_page.dart';
 import 'package:myplaces/pages/profile_page.dart';
 import 'package:myplaces/providers.dart';
 
@@ -20,7 +20,7 @@ class RootPageState extends ConsumerState<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = [MapPage(), PlacesPage(), ProfilePage()];
+    final List<Widget> pages = [MapPage(), SavedPage(), ProfilePage()];
 
     return PopScope(
       canPop: false,

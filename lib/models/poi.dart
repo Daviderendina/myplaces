@@ -1,10 +1,14 @@
-import 'dart:math';
-
 import 'package:latlong2/latlong.dart';
+import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/models/poi_category.dart';
 import 'package:myplaces/models/poi_image.dart';
+import 'package:objectbox/objectbox.dart';
 
+@Entity()
 class Poi {
+  @Id(assignable: true)
+  int obxId = 0;
+
   final String id;
 
   final String? type;
@@ -18,11 +22,15 @@ class Poi {
   final String? country;
   final String? countrycode;
 
-  final PoiCategory? category;
+  final String? _categoryStr;
 
-  final LatLng coordinates;
+  final double _lat;
+  final double _lng;
 
-  final List<PoiImage> images;
+  final ToMany<PoiImage> images = ToMany();
+
+  //@Backlink('poiList')
+  final ToMany<MyList> lists = ToMany();
 
   Poi({
     required this.id,
@@ -33,23 +41,36 @@ class Poi {
     this.province,
     this.region,
     this.country,
-    required this.coordinates,
+    LatLng? coordinates,
     this.countrycode,
-    this.category,
-    List<PoiImage>? images,
-  }) : images = images ?? [];
+    PoiCategory? category,
+  }) : _lat = coordinates?.latitude ?? 0,
+       _lng = coordinates?.longitude ?? 0,
+       _categoryStr = category?.name;
+
+  LatLng get coordinates => LatLng(_lat, _lng);
+
+  PoiCategory? get category => _categoryStr == null
+      ? null
+      : PoiCategory.values.firstWhere(
+          (e) => e.name == _categoryStr,
+          orElse: () => PoiCategory.other,
+        );
+
+  void setImages(List<PoiImage> newImages) {
+    for (var image in newImages) {
+      if (!images.any((i) => i.thumbnail == image.thumbnail)) {
+        images.add(image);
+      }
+    }
+  }
 
   bool isEmpty() {
     return id.isEmpty && name.isEmpty;
   }
 
   factory Poi.empty() {
-    return Poi(
-      id: '',
-      name: '',
-      category: PoiCategory.other,
-      coordinates: LatLng(0, 0),
-    );
+    return Poi(id: '', name: '', coordinates: LatLng(0, 0));
   }
 
   String getDisplayAreaName() {
@@ -61,3 +82,5 @@ class Poi {
     return location.isEmpty ? "$country" : "$location · $country";
   }
 }
+
+// TODO: nella ricerca devo mostrare anche i miei elementi se matchano!!!! Altrimenti mi incasino tutte le liste coi doppiooni!!! NB: l' id per i POI e ubnivoco
