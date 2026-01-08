@@ -83,40 +83,43 @@ class PoiDetailOnMapState extends ConsumerState<PoiDetailOnMap> {
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 26,
             children: allDefinedLists.where((l) => l.isDefault).map((myList) {
               bool selected = poiListsId.contains(myList.id);
 
-              return Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: selected
-                          ? Colors.teal
-                          : Theme.of(context).colorScheme.surface,
-                    ),
-                    child: IconButton(
-                      onPressed: () => onListClick(selected, poi, myList),
-                      icon: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Icon(
-                          Icons.question_mark,
-                          size: 30,
-                          color: selected ? whiteColor : Colors.grey.shade800,
+              return Container(
+                width: 90,
+                child: Column(
+                  children: [
+                    Container(
+                      width: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: selected
+                            ? Colors.teal
+                            : Theme.of(context).colorScheme.surface,
+                      ),
+                      child: IconButton(
+                        onPressed: () => onListClick(selected, poi, myList),
+                        icon: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Icon(
+                            Icons.question_mark,
+                            size: 30,
+                            color: selected ? whiteColor : Colors.grey.shade800,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 4),
+                    SizedBox(height: 4),
 
-                  Text(
-                    myList.displayName,
-                    style: TextStyle(
-                      color: selected ? whiteColor : Colors.grey.shade800,
+                    Text(
+                      myList.displayName,
+                      style: TextStyle(
+                        color: selected ? whiteColor : Colors.grey.shade800,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }).toList(),
           ),

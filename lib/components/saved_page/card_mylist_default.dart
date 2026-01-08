@@ -30,7 +30,7 @@ class CardMylistDefault extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: Colors.deepPurple, //TODO
+                  color: Color(0xffd39e1d), //TODO sistemare
                   shape: BoxShape.circle,
                 ),
                 child: Icon(Icons.question_mark, color: Colors.white, size: 32),

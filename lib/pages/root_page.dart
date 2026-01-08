@@ -25,9 +25,7 @@ class RootPageState extends ConsumerState<RootPage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        print("HERE: ${ref.watch(mapPageProvider).searchPoiResultToShow}");
         if (ref.watch(mapPageProvider).searchPoiResultToShow != null) {
-          print("HEREx2");
           ref.read(mapPageProvider.notifier).clearMap();
         } else {
           SystemNavigator.pop();
