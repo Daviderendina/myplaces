@@ -10,19 +10,19 @@ class PoiRepository {
   PoiRepository(this._searchService, this._poiService);
 
   Future<List<Poi>> search(String query) {
-    print("Search for $query");
+    print("PoiRepository.search >>> Search for $query");
     return _searchService.search(query);
   }
 
   void save(Poi poi) {
-    print("Saving Poi: ${poi.id}");
+    print("PoiRepository.save >>> Saving Poi: ${poi.id}");
     _poiService.savePoi(poi);
   }
 
   // TODO fare async
   Poi? getById(String id) {
     Poi? found = _poiService.getById(id);
-    print("Found poi: ${found}");
+    print("PoiRepository.getById >>> Found poi: ${found}");
     return found;
   }
 }

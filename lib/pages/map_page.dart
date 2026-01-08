@@ -136,66 +136,6 @@ class MapPageState extends ConsumerState<MapPage> {
     // TODO spostare questo nel notifier
     poi = getPoi(poi);
 
-    /*
-
-    ref.listen<MapPageViewState>(mapPageProvider, (previous, next) {
-  if (next.isBottomSheetOpen && previous?.isBottomSheetOpen != true) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return DraggableScrollableSheet(
-          initialChildSize: 0.6,
-          expand: false,
-          builder: (context, scrollController) {
-            return ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.black),
-                child: Stack(
-                  children: [
-                    ListView(
-                      controller: scrollController,
-                      children: [
-                        if (next.selectedPoi != null)
-                          PoiDetailOnMap(poi: next.selectedPoi!)
-                      ],
-                    ),
-                    Positioned(
-                      right: 12,
-                      top: 12,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.fullscreen),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              ref.read(mapPageProvider.notifier).closeBottomSheet();
-                              Navigator.of(context).pop();
-                            },
-                            icon: Icon(Icons.close),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-});
-
-
-    * */
-
     /// TODO sta roba da spostare
     showModalBottomSheet(
       context: context,
