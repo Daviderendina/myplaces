@@ -13,7 +13,7 @@ class PoiMapper {
       final geometry = photonApiResponse['geometry'];
 
       return Poi(
-        id: properties['osm_id'].toString(),
+        id: properties['osm_id'],
         type: properties['osm_key'],
         subtype: properties['osm_value'],
         category: findCategoryByTypeAndSubtype(

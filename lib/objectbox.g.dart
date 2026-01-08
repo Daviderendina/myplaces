@@ -58,15 +58,9 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 8830379915544507035),
     name: 'Poi',
-    lastPropertyId: const obx_int.IdUid(10, 2324446696472440668),
+    lastPropertyId: const obx_int.IdUid(11, 6588607892471418106),
     flags: 0,
     properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 6907666138422418640),
-        name: 'obxId',
-        type: 6,
-        flags: 129,
-      ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(2, 5546610703469631195),
         name: 'id',
@@ -120,6 +114,12 @@ final _entities = <obx_int.ModelEntity>[
         name: 'countrycode',
         type: 9,
         flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(11, 6588607892471418106),
+        name: 'obxId',
+        type: 6,
+        flags: 129,
       ),
     ],
     relations: <obx_int.ModelRelation>[
@@ -215,7 +215,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
     retiredIndexUids: const [],
-    retiredPropertyUids: const [],
+    retiredPropertyUids: const [6907666138422418640],
     retiredRelationUids: const [],
     modelVersion: 5,
     modelVersionParserMinimum: 5,
@@ -299,8 +299,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final countrycodeOffset = object.countrycode == null
             ? null
             : fbb.writeString(object.countrycode!);
-        fbb.startTable(11);
-        fbb.addInt64(0, object.obxId);
+        fbb.startTable(12);
         fbb.addOffset(1, idOffset);
         fbb.addOffset(2, typeOffset);
         fbb.addOffset(3, subtypeOffset);
@@ -310,6 +309,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(7, regionOffset);
         fbb.addOffset(8, countryOffset);
         fbb.addOffset(9, countrycodeOffset);
+        fbb.addInt64(10, object.obxId);
         fbb.finish(fbb.endTable());
         return object.obxId;
       },
@@ -353,7 +353,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           region: regionParam,
           country: countryParam,
           countrycode: countrycodeParam,
-        )..obxId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        )..obxId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
         obx_int.InternalToManyAccess.setRelInfo<Poi>(
           object.images,
           store,
@@ -431,45 +431,45 @@ class MyList_ {
 
 /// [Poi] entity fields to define ObjectBox queries.
 class Poi_ {
-  /// See [Poi.obxId].
-  static final obxId = obx.QueryIntegerProperty<Poi>(
-    _entities[1].properties[0],
-  );
-
   /// See [Poi.id].
-  static final id = obx.QueryStringProperty<Poi>(_entities[1].properties[1]);
+  static final id = obx.QueryStringProperty<Poi>(_entities[1].properties[0]);
 
   /// See [Poi.type].
-  static final type = obx.QueryStringProperty<Poi>(_entities[1].properties[2]);
+  static final type = obx.QueryStringProperty<Poi>(_entities[1].properties[1]);
 
   /// See [Poi.subtype].
   static final subtype = obx.QueryStringProperty<Poi>(
-    _entities[1].properties[3],
+    _entities[1].properties[2],
   );
 
   /// See [Poi.name].
-  static final name = obx.QueryStringProperty<Poi>(_entities[1].properties[4]);
+  static final name = obx.QueryStringProperty<Poi>(_entities[1].properties[3]);
 
   /// See [Poi.city].
-  static final city = obx.QueryStringProperty<Poi>(_entities[1].properties[5]);
+  static final city = obx.QueryStringProperty<Poi>(_entities[1].properties[4]);
 
   /// See [Poi.province].
   static final province = obx.QueryStringProperty<Poi>(
-    _entities[1].properties[6],
+    _entities[1].properties[5],
   );
 
   /// See [Poi.region].
   static final region = obx.QueryStringProperty<Poi>(
-    _entities[1].properties[7],
+    _entities[1].properties[6],
   );
 
   /// See [Poi.country].
   static final country = obx.QueryStringProperty<Poi>(
-    _entities[1].properties[8],
+    _entities[1].properties[7],
   );
 
   /// See [Poi.countrycode].
   static final countrycode = obx.QueryStringProperty<Poi>(
+    _entities[1].properties[8],
+  );
+
+  /// See [Poi.obxId].
+  static final obxId = obx.QueryIntegerProperty<Poi>(
     _entities[1].properties[9],
   );
 

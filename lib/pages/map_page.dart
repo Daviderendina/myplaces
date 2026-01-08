@@ -109,7 +109,14 @@ class MapPageState extends ConsumerState<MapPage> {
     );
   }
 
+  Poi getPoi(Poi poi) {
+    return ref.read(poiRepositoryProvider).getById(poi.id) ?? poi;
+  }
+
   void showPoiOnMap(Poi poi) {
+    // TODO capire se e giusto farlo qui, forse non ha motlo senso
+    poi = getPoi(poi);
+
     _searchBarController.close();
 
     ImageService().enrichPoiWithImages(poi: poi).whenComplete(() {
@@ -127,6 +134,7 @@ class MapPageState extends ConsumerState<MapPage> {
 
   void showPoiBottomSheet(Poi poi) {
     // TODO spostare questo nel notifier
+    poi = getPoi(poi);
 
     /*
 
@@ -187,6 +195,8 @@ class MapPageState extends ConsumerState<MapPage> {
 
 
     * */
+
+    /// TODO sta roba da spostare
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

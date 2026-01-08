@@ -4,7 +4,7 @@ import 'package:myplaces/mapper/poi_mapper.dart';
 
 import '../models/poi.dart';
 
-class PoiService {
+class PoiSearchService {
   static const String _baseUrl = 'https://photon.komoot.io/api';
 
   Future<List<Poi>> search(String query) async {

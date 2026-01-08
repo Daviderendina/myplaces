@@ -11,26 +11,26 @@ class Poi {
 
   final String id;
 
-  final String? type;
-  final String? subtype;
+  String? type;
+  String? subtype;
 
-  final String name;
+  String name;
 
-  final String? city;
-  final String? province; // county?? tipo provincia
-  final String? region; // state, cio`e regione
-  final String? country;
-  final String? countrycode;
+  String? city;
+  String? province; // county?? tipo provincia
+  String? region; // state, cio`e regione
+  String? country;
+  String? countrycode;
 
-  final String? _categoryStr;
+  String? _categoryStr;
 
-  final double _lat;
-  final double _lng;
+  double _lat;
+  double _lng;
 
-  final ToMany<PoiImage> images = ToMany();
+  ToMany<PoiImage> images = ToMany();
 
   //@Backlink('poiList')
-  final ToMany<MyList> lists = ToMany();
+  ToMany<MyList> lists = ToMany();
 
   Poi({
     required this.id,

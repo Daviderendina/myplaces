@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,31 +8,34 @@ import 'package:myplaces/providers.dart';
 import '../../models/my_list.dart';
 import '../../models/poi.dart';
 
-class PoiDetailOnMap extends ConsumerWidget {
+class PoiDetailOnMap extends ConsumerStatefulWidget {
   // TODO quando carico questo devo vedere prima se `e presente nel DB e comportarmi di conseguenza
   final Poi poi;
 
   const PoiDetailOnMap({super.key, required this.poi});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PoiDetailOnMap> createState() => PoiDetailOnMapState();
+}
+
+class PoiDetailOnMapState extends ConsumerState<PoiDetailOnMap> {
+  @override
+  Widget build(BuildContext context) {
     List<MyList> allDefinedLists = ref.read(myListRepositoryProvider).getAll();
+    Poi poi = widget.poi;
 
-    // TODO spostare di qui quando verranno gestite per bene
-    String listName = "Canada";
-    IconData listIcon = Icons.landscape;
+    List<int> poiListsId = poi.lists.map((l) => l.id).toList();
+    print(poiListsId);
 
-    Color whiteColor = Colors.white.withAlpha(190);
+    Color whiteColor = Colors.white.withAlpha(200);
 
     return Container(
-      color: Colors.black,
+      color: Colors.black54,
       padding: EdgeInsets.only(top: 26, left: 33, right: 33),
-      // altezza della sheet
       child: Column(
         spacing: 0,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //IconButton(onPressed: () {}, icon: Icon(Icons.close)),
           Text(
             poi.name,
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
@@ -74,13 +79,14 @@ class PoiDetailOnMap extends ConsumerWidget {
                   ),
           ),
 
-          SizedBox(height: 24),
+          SizedBox(height: 28),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 24,
+            spacing: 26,
             children: allDefinedLists.where((l) => l.isDefault).map((myList) {
-              bool selected = myList.name == "visited";
+              bool selected = poiListsId.contains(myList.id);
+
               return Column(
                 children: [
                   Container(
@@ -91,13 +97,14 @@ class PoiDetailOnMap extends ConsumerWidget {
                           : Theme.of(context).colorScheme.surface,
                     ),
                     child: IconButton(
-                      onPressed: () {
-                        print("X");
-                      },
-                      icon: Icon(
-                        Icons.question_mark, //TODO myList.listElement.icon,
-                        size: 30,
-                        color: selected ? whiteColor : Colors.grey.shade800,
+                      onPressed: () => onListClick(selected, poi, myList),
+                      icon: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Icon(
+                          Icons.question_mark,
+                          size: 30,
+                          color: selected ? whiteColor : Colors.grey.shade800,
+                        ),
                       ),
                     ),
                   ),
@@ -113,36 +120,59 @@ class PoiDetailOnMap extends ConsumerWidget {
               );
             }).toList(),
           ),
-          SizedBox(height: 18),
+
+          SizedBox(height: 22),
 
           Wrap(
             spacing: 5,
             children: allDefinedLists.where((l) => !l.isDefault).map((myList) {
-              bool selected = myList.name.length == 1 ? true : false;
+              bool selected = poiListsId.contains(myList.id);
+
               return FilterChip(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(color: Colors.transparent),
+                  side: BorderSide(
+                    color: selected
+                        ? Color(0xFFA7644E).withAlpha(40)
+                        : Colors.transparent,
+                  ),
                 ),
+                backgroundColor: Colors.black45,
                 selected: selected,
                 showCheckmark: false,
                 label: Text(
                   myList.name,
                   style: TextStyle(
-                    color: selected ? whiteColor : Colors.grey.shade800,
+                    color: selected
+                        ? Color(0xFFA7644E).withAlpha(255)
+                        : Colors.grey[800],
                   ),
                 ),
                 avatar: Icon(
                   Icons.question_mark,
-                  color: selected ? whiteColor : Colors.grey.shade800,
+                  color: selected
+                      ? Color(0xFFA7644E).withAlpha(255)
+                      : Colors.grey[800],
                 ),
-                onSelected: (value) {},
-                selectedColor: Colors.teal.shade600,
+                onSelected: (value) => onListClick(selected, poi, myList),
+                selectedColor: Color(0xFFA7644E).withAlpha(50),
               );
             }).toList(),
           ),
         ],
       ),
     );
+  }
+
+  void onListClick(bool selected, Poi poi, MyList myList) {
+    setState(() {
+      if (selected) {
+        poi.lists.removeWhere((l) => l.id == myList.id);
+      } else {
+        poi.lists.add(myList);
+      }
+      ref.read(poiRepositoryProvider).save(poi);
+      ref.read(savedPageProvider.notifier).refresh();
+    });
   }
 }

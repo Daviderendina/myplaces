@@ -29,15 +29,9 @@
     },
     {
       "id": "2:8830379915544507035",
-      "lastPropertyId": "10:2324446696472440668",
+      "lastPropertyId": "11:6588607892471418106",
       "name": "Poi",
       "properties": [
-        {
-          "id": "1:6907666138422418640",
-          "name": "obxId",
-          "type": 6,
-          "flags": 129
-        },
         {
           "id": "2:5546610703469631195",
           "name": "id",
@@ -82,6 +76,12 @@
           "id": "10:2324446696472440668",
           "name": "countrycode",
           "type": 9
+        },
+        {
+          "id": "11:6588607892471418106",
+          "name": "obxId",
+          "type": 6,
+          "flags": 129
         }
       ],
       "relations": [
@@ -130,7 +130,9 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    6907666138422418640
+  ],
   "retiredRelationUids": [],
   "version": 1
 }
