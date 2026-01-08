@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../models/poi.dart';
 
 class PoiDetailOnMap extends StatelessWidget {
+  // TODO quando carico questo devo vedere prima se `e presente nel DB e comportarmi di conseguenza
   final Poi poi;
 
   const PoiDetailOnMap({super.key, required this.poi});
