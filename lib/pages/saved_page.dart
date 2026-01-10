@@ -44,9 +44,14 @@ class SavedPage extends ConsumerWidget {
                 children: [
                   PageSubtitle(text: "My Lists"),
                   Spacer(),
-                  IconButton(
+                  ActionChip(
+                    label: Text("Add"),
+                    avatar: Icon(Icons.add),
                     onPressed: () => openNewListDialog(context, ref),
-                    icon: Icon(Icons.add),
+                    elevation: 0,
+                    pressElevation: 0,
+                    shape: const StadiumBorder(),
+                    backgroundColor: Colors.yellow.withAlpha(60),
                   ),
                 ],
               ),
