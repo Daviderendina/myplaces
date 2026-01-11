@@ -58,7 +58,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 8830379915544507035),
     name: 'Poi',
-    lastPropertyId: const obx_int.IdUid(11, 6588607892471418106),
+    lastPropertyId: const obx_int.IdUid(15, 6106478929915493272),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -120,6 +120,24 @@ final _entities = <obx_int.ModelEntity>[
         name: 'obxId',
         type: 6,
         flags: 129,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(13, 7505679922691171486),
+        name: 'lat',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(14, 6554320035092931751),
+        name: 'lng',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(15, 6106478929915493272),
+        name: 'categoryName',
+        type: 9,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[
@@ -215,7 +233,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
     retiredIndexUids: const [],
-    retiredPropertyUids: const [6907666138422418640],
+    retiredPropertyUids: const [6907666138422418640, 8356680331267662623],
     retiredRelationUids: const [],
     modelVersion: 5,
     modelVersionParserMinimum: 5,
@@ -299,7 +317,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final countrycodeOffset = object.countrycode == null
             ? null
             : fbb.writeString(object.countrycode!);
-        fbb.startTable(12);
+        final categoryNameOffset = fbb.writeString(object.categoryName);
+        fbb.startTable(16);
         fbb.addOffset(1, idOffset);
         fbb.addOffset(2, typeOffset);
         fbb.addOffset(3, subtypeOffset);
@@ -310,6 +329,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(8, countryOffset);
         fbb.addOffset(9, countrycodeOffset);
         fbb.addInt64(10, object.obxId);
+        fbb.addFloat64(12, object.lat);
+        fbb.addFloat64(13, object.lng);
+        fbb.addOffset(14, categoryNameOffset);
         fbb.finish(fbb.endTable());
         return object.obxId;
       },
@@ -343,6 +365,21 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final countrycodeParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 22);
+        final categoryNameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 32, '');
+        final latParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          28,
+          0,
+        );
+        final lngParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          30,
+          0,
+        );
         final object = Poi(
           id: idParam,
           type: typeParam,
@@ -353,6 +390,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           region: regionParam,
           country: countryParam,
           countrycode: countrycodeParam,
+          categoryName: categoryNameParam,
+          lat: latParam,
+          lng: lngParam,
         )..obxId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
         obx_int.InternalToManyAccess.setRelInfo<Poi>(
           object.images,
@@ -471,6 +511,17 @@ class Poi_ {
   /// See [Poi.obxId].
   static final obxId = obx.QueryIntegerProperty<Poi>(
     _entities[1].properties[9],
+  );
+
+  /// See [Poi.lat].
+  static final lat = obx.QueryDoubleProperty<Poi>(_entities[1].properties[10]);
+
+  /// See [Poi.lng].
+  static final lng = obx.QueryDoubleProperty<Poi>(_entities[1].properties[11]);
+
+  /// See [Poi.categoryName].
+  static final categoryName = obx.QueryStringProperty<Poi>(
+    _entities[1].properties[12],
   );
 
   /// see [Poi.images]

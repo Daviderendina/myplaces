@@ -6,6 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/components/list_page/poi_card.dart';
 import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/models/poi_image.dart';
+import 'package:myplaces/pages/poi_detail_page.dart';
 
 import '../models/poi.dart';
 
@@ -31,7 +32,15 @@ class ListPage extends StatelessWidget {
           ? ListView.builder(
               itemCount: poiList.length,
               itemBuilder: (BuildContext context, int index) {
-                return PoiCard(poi: poiList[index]);
+                Poi poi = poiList[index];
+                return PoiCard(
+                  poi: poi,
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PoiDetailPage(poi: poi),
+                    ),
+                  ),
+                );
               },
             )
           : Center(child: Text("Empty list")),

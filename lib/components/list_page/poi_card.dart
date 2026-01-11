@@ -5,13 +5,14 @@ import '../../models/poi.dart';
 
 class PoiCard extends StatelessWidget {
   final Poi poi;
+  final VoidCallback onTap;
 
-  const PoiCard({super.key, required this.poi});
+  const PoiCard({super.key, required this.poi, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     List<(IconData, String, VoidCallback)> popupMenuItems = [
-      (Icons.add, "Add to list", () {}),
+      // (Icons.add, "Add to list", () {}),
       (Icons.pending, "Add to Wishlist", () {}),
       (Icons.favorite, "Add to Favourites", () {}),
       (Icons.check_circle, "Add to Visited", () {}),
@@ -26,7 +27,7 @@ class PoiCard extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
-          onTap: () {},
+          onTap: onTap,
           child: SizedBox(
             height: 70,
             child: Row(

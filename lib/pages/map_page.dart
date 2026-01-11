@@ -5,6 +5,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:myplaces/components/map_page/floating_search.dart';
 import 'package:myplaces/components/map_page/poi_detail_on_map.dart';
+import 'package:myplaces/models/poi_category.dart';
+import 'package:myplaces/pages/poi_detail_page.dart';
 import 'package:myplaces/service/image_service.dart';
 
 import '../models/poi.dart';
@@ -96,9 +98,11 @@ class MapPageState extends ConsumerState<MapPage> {
                   name: "Parigi",
                   city: "Paris",
                   country: "France",
+                  countrycode: "FR",
                   province: "Paris",
                   id: "12",
                   coordinates: LatLng(15, 15),
+                  categoryName: PoiCategory.city.name,
                 ),
               );
             },
@@ -166,7 +170,12 @@ class MapPageState extends ConsumerState<MapPage> {
                         spacing: 0,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            // TODO sarebbe carino dismettere anche la modale sotto, senza per`o cancellare niente dalla mappa
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PoiDetailPage(poi: poi),
+                              ),
+                            ),
                             icon: Icon(Icons.fullscreen),
                           ),
                           IconButton(

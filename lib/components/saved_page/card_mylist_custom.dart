@@ -46,7 +46,7 @@ class CardMylistCustom extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      myList.displayName + " / " + myList.id.toString(),
+                      myList.displayName,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         height: 1.2,

@@ -29,7 +29,7 @@
     },
     {
       "id": "2:8830379915544507035",
-      "lastPropertyId": "11:6588607892471418106",
+      "lastPropertyId": "15:6106478929915493272",
       "name": "Poi",
       "properties": [
         {
@@ -82,6 +82,21 @@
           "name": "obxId",
           "type": 6,
           "flags": 129
+        },
+        {
+          "id": "13:7505679922691171486",
+          "name": "lat",
+          "type": 8
+        },
+        {
+          "id": "14:6554320035092931751",
+          "name": "lng",
+          "type": 8
+        },
+        {
+          "id": "15:6106478929915493272",
+          "name": "categoryName",
+          "type": 9
         }
       ],
       "relations": [
@@ -131,7 +146,8 @@
   "retiredEntityUids": [],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
-    6907666138422418640
+    6907666138422418640,
+    8356680331267662623
   ],
   "retiredRelationUids": [],
   "version": 1

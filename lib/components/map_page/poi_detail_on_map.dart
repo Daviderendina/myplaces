@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/components/common/poi_detail/add_list_custom.dart';
+import 'package:myplaces/components/common/poi_detail/add_list_default.dart';
 import 'package:myplaces/providers.dart';
 
 import '../../models/my_list.dart';
@@ -23,11 +25,6 @@ class PoiDetailOnMapState extends ConsumerState<PoiDetailOnMap> {
   Widget build(BuildContext context) {
     List<MyList> allDefinedLists = ref.read(myListRepositoryProvider).getAll();
     Poi poi = widget.poi;
-
-    List<int> poiListsId = poi.lists.map((l) => l.id).toList();
-    print(poiListsId);
-
-    Color whiteColor = Colors.white.withAlpha(200);
 
     return Container(
       color: Colors.black54,
@@ -81,86 +78,16 @@ class PoiDetailOnMapState extends ConsumerState<PoiDetailOnMap> {
 
           SizedBox(height: 28),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: allDefinedLists.where((l) => l.isDefault).map((myList) {
-              bool selected = poiListsId.contains(myList.id);
-
-              return Container(
-                width: 90,
-                child: Column(
-                  children: [
-                    Container(
-                      width: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: selected
-                            ? Colors.teal
-                            : Theme.of(context).colorScheme.surface,
-                      ),
-                      child: IconButton(
-                        onPressed: () => onListClick(selected, poi, myList),
-                        icon: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Icon(
-                            Icons.question_mark,
-                            size: 30,
-                            color: selected ? whiteColor : Colors.grey.shade800,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 4),
-
-                    Text(
-                      myList.displayName,
-                      style: TextStyle(
-                        color: selected ? whiteColor : Colors.grey.shade800,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
+          AddListDefaultButtons(
+            lists: allDefinedLists.where((l) => l.isDefault).toList(),
+            poi: poi,
           ),
 
           SizedBox(height: 22),
 
-          Wrap(
-            spacing: 5,
-            children: allDefinedLists.where((l) => !l.isDefault).map((myList) {
-              bool selected = poiListsId.contains(myList.id);
-
-              return FilterChip(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(
-                    color: selected
-                        ? Color(0xFFA7644E).withAlpha(40)
-                        : Colors.transparent,
-                  ),
-                ),
-                backgroundColor: Colors.black45,
-                selected: selected,
-                showCheckmark: false,
-                label: Text(
-                  myList.name,
-                  style: TextStyle(
-                    color: selected
-                        ? Color(0xFFA7644E).withAlpha(255)
-                        : Colors.grey[800],
-                  ),
-                ),
-                avatar: Icon(
-                  Icons.question_mark,
-                  color: selected
-                      ? Color(0xFFA7644E).withAlpha(255)
-                      : Colors.grey[800],
-                ),
-                onSelected: (value) => onListClick(selected, poi, myList),
-                selectedColor: Color(0xFFA7644E).withAlpha(50),
-              );
-            }).toList(),
+          AddListCustomChips(
+            lists: allDefinedLists.where((l) => !l.isDefault).toList(),
+            poi: poi,
           ),
         ],
       ),

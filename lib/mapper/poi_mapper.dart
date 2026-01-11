@@ -16,10 +16,10 @@ class PoiMapper {
         id: properties['osm_id'].toString(),
         type: properties['osm_key'],
         subtype: properties['osm_value'],
-        category: findCategoryByTypeAndSubtype(
+        categoryName: findCategoryByTypeAndSubtype(
           properties['osm_key'],
           properties['osm_value'],
-        ),
+        ).name,
         name: properties['name'],
         city: properties['city'],
         province: properties['county'],
@@ -37,15 +37,10 @@ class PoiMapper {
     }
   }
 
-  static PoiCategory? findCategoryByTypeAndSubtype(
-    String type,
-    String subtype,
-  ) {
+  static PoiCategory findCategoryByTypeAndSubtype(String type, String subtype) {
     // TODO fare un configuration Service???
-    print(">> findCategoryByTypeAndSubtype");
-    print("type: ${type} - subtype: ${subtype}");
-    print(poiCategories["$type|$subtype"]);
-    print(poiCategories["$type|*"]);
-    return poiCategories["$type|$subtype"] ?? poiCategories["$type|*"];
+    return poiCategories["$type|$subtype"] ??
+        poiCategories["$type|*"] ??
+        PoiCategory.unknown;
   }
 }

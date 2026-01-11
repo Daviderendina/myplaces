@@ -22,14 +22,13 @@ class Poi {
   String? country;
   String? countrycode;
 
-  String? _categoryStr;
+  String categoryName;
 
-  double _lat;
-  double _lng;
+  double lat;
+  double lng;
 
   ToMany<PoiImage> images = ToMany();
 
-  //@Backlink('poiList')
   ToMany<MyList> lists = ToMany();
 
   Poi({
@@ -43,19 +42,14 @@ class Poi {
     this.country,
     LatLng? coordinates,
     this.countrycode,
-    PoiCategory? category,
-  }) : _lat = coordinates?.latitude ?? 0,
-       _lng = coordinates?.longitude ?? 0,
-       _categoryStr = category?.name;
+    required this.categoryName,
+    this.lat = 0,
+    this.lng = 0,
+  });
 
-  LatLng get coordinates => LatLng(_lat, _lng);
+  LatLng get coordinates => LatLng(lat, lng);
 
-  PoiCategory? get category => _categoryStr == null
-      ? null
-      : PoiCategory.values.firstWhere(
-          (e) => e.name == _categoryStr,
-          orElse: () => PoiCategory.other,
-        );
+  PoiCategory get category => PoiCategory.values.byName(categoryName);
 
   void setImages(List<PoiImage> newImages) {
     for (var image in newImages) {
@@ -70,7 +64,12 @@ class Poi {
   }
 
   factory Poi.empty() {
-    return Poi(id: '', name: '', coordinates: LatLng(0, 0));
+    return Poi(
+      id: '',
+      name: '',
+      coordinates: LatLng(0, 0),
+      categoryName: PoiCategory.unknown.name,
+    );
   }
 
   String getDisplayAreaName() {
