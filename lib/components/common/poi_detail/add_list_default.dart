@@ -75,11 +75,9 @@ class AddListDefaultButtonsState extends ConsumerState<AddListDefaultButtons> {
     print("onListClick >>> ${poi.lists}");
     setState(() {
       if (selected) {
-        print("REMM");
         poi.lists.removeWhere((l) => l.id == myList.id);
       } else {
-        print("ADDD");
-        poi.lists.add(myList);
+        poi.addToList(myList);
       }
     });
 

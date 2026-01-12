@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 2564830902377691936),
     name: 'MyList',
-    lastPropertyId: const obx_int.IdUid(3, 7891920259085479833),
+    lastPropertyId: const obx_int.IdUid(4, 4018009328234177358),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -43,6 +43,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(3, 7891920259085479833),
         name: 'isDefault',
         type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 4018009328234177358),
+        name: 'note',
+        type: 9,
         flags: 0,
       ),
     ],
@@ -253,10 +259,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
       },
       objectToFB: (MyList object, fb.Builder fbb) {
         final nameOffset = fbb.writeString(object.name);
-        fbb.startTable(4);
+        final noteOffset = fbb.writeString(object.note);
+        fbb.startTable(5);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addBool(2, object.isDefault);
+        fbb.addOffset(3, noteOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -272,8 +280,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
           8,
           false,
         );
-        final object = MyList(name: nameParam, isDefault: isDefaultParam)
-          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final noteParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final object = MyList(
+          name: nameParam,
+          isDefault: isDefaultParam,
+          note: noteParam,
+        )..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
         obx_int.InternalToManyAccess.setRelInfo<MyList>(
           object.poiList,
           store,
@@ -466,6 +480,11 @@ class MyList_ {
   /// See [MyList.isDefault].
   static final isDefault = obx.QueryBooleanProperty<MyList>(
     _entities[0].properties[2],
+  );
+
+  /// See [MyList.note].
+  static final note = obx.QueryStringProperty<MyList>(
+    _entities[0].properties[3],
   );
 }
 

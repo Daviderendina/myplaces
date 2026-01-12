@@ -93,18 +93,4 @@ class PoiDetailOnMapState extends ConsumerState<PoiDetailOnMap> {
       ),
     );
   }
-
-  void onListClick(bool selected, Poi poi, MyList myList) {
-    print("onListClick >>>");
-    setState(() {
-      if (selected) {
-        poi.lists.removeWhere((l) => l.id == myList.id);
-      } else {
-        poi.lists.add(myList);
-      }
-    });
-
-    ref.read(poiRepositoryProvider).save(poi);
-    ref.read(savedPageProvider.notifier).refresh();
-  }
 }

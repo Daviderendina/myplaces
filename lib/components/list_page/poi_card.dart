@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/poi.dart';
@@ -20,22 +19,21 @@ class PoiCard extends StatelessWidget {
     ];
 
     return Container(
-      margin: EdgeInsetsGeometry.all(4),
       child: Material(
-        color: Colors.grey.shade900,
+        color: Colors.grey[900],
         borderRadius: BorderRadius.circular(8),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: onTap,
           child: SizedBox(
-            height: 70,
+            height: 60,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 70,
-                  height: 70,
+                  width: 60,
+                  height: 60,
                   child: Image.network(
                     poi.images.isNotEmpty ? poi.images[0].thumbnail ?? "" : "",
                     fit: BoxFit.cover,
@@ -58,7 +56,7 @@ class PoiCard extends StatelessWidget {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               height: 1.2,
-                              fontSize: 18,
+                              fontSize: 19,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontFamily: "Poppins",
@@ -85,15 +83,13 @@ class PoiCard extends StatelessWidget {
                     return popupMenuItems.map((item) {
                       return PopupMenuItem<int>(
                         onTap: item.$3,
-                        child: Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Icon(item.$1),
-                              SizedBox(width: 10),
-                              Text(item.$2),
-                            ],
-                          ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Icon(item.$1),
+                            SizedBox(width: 10),
+                            Text(item.$2),
+                          ],
                         ),
                       );
                     }).toList();

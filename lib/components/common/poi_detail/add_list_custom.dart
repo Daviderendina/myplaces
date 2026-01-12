@@ -70,7 +70,7 @@ class AddListCustomChipsState extends ConsumerState<AddListCustomChips> {
         poi.lists.removeWhere((l) => l.id == myList.id);
       } else {
         print("ADDD");
-        poi.lists.add(myList);
+        poi.addToList(myList);
       }
     });
 

@@ -12,19 +12,31 @@ class ListService {
     return _box.getAll();
   }
 
-  Future<MyList> addList(MyList newList) async {
+  Future<MyList> save(MyList newList) async {
     print("Creating new list");
+    MyList? myListSaved = getById(newList.id);
 
-    newList.name = newList.name.toLowerCase();
+    if (myListSaved != null) {
+      // Update the existing record
+      newList.id = myListSaved.id;
+    }
 
-    final existing = getListByName(newList.name);
-    if (existing != null) {
+    // Check if the name is duplicate
+    bool nameAlreadyExists =
+        (myListSaved == null) && (getListByName(newList.name) != null);
+    if (nameAlreadyExists) {
       return Future.error("Name is already present");
     }
 
     final id = await _box.putAsync(newList);
     newList.setId(id);
     return newList;
+
+    // TODO provo a fare un wait per cpaire se il thread `e un altro
+  }
+
+  MyList? getById(int id) {
+    return _box.query(MyList_.id.equals(id)).build().findFirst();
   }
 
   MyList? getListByName(String name) {

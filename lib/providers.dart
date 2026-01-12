@@ -18,11 +18,15 @@ final appInitProvider = FutureProvider<void>((ref) async {
   // Create default lists
   // TODO fare una config da qualche parte
   final lists = ['Wishlist', 'Favourites', 'Visited'];
+  ListService service = ref.read(listServiceProvider);
   for (var e in lists) {
-    ref.read(listServiceProvider).addList(MyList(name: e, isDefault: true));
+    if (service.getListByName(e) == null) {
+      ref.read(listServiceProvider).save(MyList(name: e, isDefault: true));
+    }
   }
 });
 
+// States provider
 final mapPageProvider =
     StateNotifierProvider<MapPageNotifier, MapPageViewState>(
       (ref) => MapPageNotifier(ref.read(poiRepositoryProvider)),
@@ -32,6 +36,7 @@ final savedPageProvider =
       SavedPageNotifier.new,
     );
 
+// Repository
 final poiRepositoryProvider = Provider<PoiRepository>(
   (ref) => PoiRepository(
     ref.read(poiSearchServiceProvider),
@@ -42,6 +47,7 @@ final myListRepositoryProvider = Provider<ListRepository>(
   (ref) => ListRepository(ref.read(listServiceProvider)),
 );
 
+// Service
 final listServiceProvider = Provider<ListService>(
   (ref) => ListService(ref.read(myListBoxProvider)),
 );
@@ -52,6 +58,7 @@ final poiServiceProvider = Provider<PoiService>(
   (ref) => PoiService(ref.read(poiBoxProvider)),
 );
 
+// Database
 final myListBoxProvider = Provider<Box<MyList>>((ref) {
   final store = ref.read(objectBoxStoreProvider);
   return store.box<MyList>();

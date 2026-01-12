@@ -6,11 +6,12 @@ class MyList {
   int id = 0;
   String name;
   bool isDefault;
+  String note;
 
   @Backlink('lists')
   final ToMany<Poi> poiList = ToMany();
 
-  MyList({required String name, this.isDefault = false})
+  MyList({required String name, this.isDefault = false, this.note = ""})
     : name = name.toLowerCase();
 
   String get displayName => name

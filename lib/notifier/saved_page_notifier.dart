@@ -28,7 +28,7 @@ class SavedPageNotifier extends AsyncNotifier<List<MyList>> {
     final current = state.value ?? [];
 
     try {
-      MyList created = await _repository.add(newList);
+      MyList created = await _repository.save(newList);
       print("Created list with id ${created.id}");
       state = AsyncData([...current, created]);
     } catch (e) {

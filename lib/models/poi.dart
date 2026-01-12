@@ -80,6 +80,12 @@ class Poi {
 
     return location.isEmpty ? "$country" : "$location · $country";
   }
+
+  void addToList(MyList myList) {
+    if (!lists.map((l) => l.id).toSet().contains(myList.id)) {
+      lists.add(myList);
+    }
+  }
 }
 
 // TODO: nella ricerca devo mostrare anche i miei elementi se matchano!!!! Altrimenti mi incasino tutte le liste coi doppiooni!!! NB: l' id per i POI e ubnivoco
