@@ -39,30 +39,29 @@ class ListPage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14),
         child: Column(
           children: [
-            if (true) //TODO
-              Container(
-                width: double.infinity, // tutta la larghezza possibile
-                decoration: BoxDecoration(
-                  border: BoxBorder.all(color: Colors.grey.shade900),
-                ),
-                child: TextField(
-                  controller: textEditingController,
-                  decoration: const InputDecoration(
-                    hintText: 'Aggiungi una nota..',
-                    border: OutlineInputBorder(),
-                  ),
-                  onSubmitted: (newValue) =>
-                      updateListNoteField(newValue, myList, ref),
-                  onTapOutside: (event) {
-                    updateListNoteField(
-                      textEditingController.text,
-                      myList,
-                      ref,
-                    );
-                    FocusScope.of(context).unfocus();
-                  },
-                ),
+            Container(
+              width: double.infinity, // tutta la larghezza possibile
+              decoration: BoxDecoration(
+                border: BoxBorder.all(color: Colors.grey.shade900),
               ),
+              child: TextField(
+                controller: textEditingController,
+                decoration: const InputDecoration(
+                  hintText: 'Aggiungi una nota..',
+                  border: OutlineInputBorder(),
+                ),
+                onSubmitted: (newValue) =>
+                    updateListNoteField(newValue, myList, ref),
+                onTapOutside: (event) {
+                  updateListNoteField(
+                    textEditingController.text,
+                    myList,
+                    ref,
+                  );
+                  FocusScope.of(context).unfocus();
+                },
+              ),
+            ),
 
             SizedBox(height: 20),
 

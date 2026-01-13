@@ -64,7 +64,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 8830379915544507035),
     name: 'Poi',
-    lastPropertyId: const obx_int.IdUid(15, 6106478929915493272),
+    lastPropertyId: const obx_int.IdUid(16, 4023479565838488807),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -142,6 +142,12 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(15, 6106478929915493272),
         name: 'categoryName',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(16, 4023479565838488807),
+        name: 'note',
         type: 9,
         flags: 0,
       ),
@@ -332,7 +338,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
             ? null
             : fbb.writeString(object.countrycode!);
         final categoryNameOffset = fbb.writeString(object.categoryName);
-        fbb.startTable(16);
+        final noteOffset = fbb.writeString(object.note);
+        fbb.startTable(17);
         fbb.addOffset(1, idOffset);
         fbb.addOffset(2, typeOffset);
         fbb.addOffset(3, subtypeOffset);
@@ -346,6 +353,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addFloat64(12, object.lat);
         fbb.addFloat64(13, object.lng);
         fbb.addOffset(14, categoryNameOffset);
+        fbb.addOffset(15, noteOffset);
         fbb.finish(fbb.endTable());
         return object.obxId;
       },
@@ -394,6 +402,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           30,
           0,
         );
+        final noteParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 34, '');
         final object = Poi(
           id: idParam,
           type: typeParam,
@@ -407,6 +418,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           categoryName: categoryNameParam,
           lat: latParam,
           lng: lngParam,
+          note: noteParam,
         )..obxId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
         obx_int.InternalToManyAccess.setRelInfo<Poi>(
           object.images,
@@ -542,6 +554,9 @@ class Poi_ {
   static final categoryName = obx.QueryStringProperty<Poi>(
     _entities[1].properties[12],
   );
+
+  /// See [Poi.note].
+  static final note = obx.QueryStringProperty<Poi>(_entities[1].properties[13]);
 
   /// see [Poi.images]
   static final images = obx.QueryRelationToMany<Poi, PoiImage>(

@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/components/common/page_subtitle.dart';
+import 'package:myplaces/components/common/page_title.dart';
 import 'package:myplaces/extension/title_case_extension.dart';
 import 'package:myplaces/models/poi_category.dart';
 
@@ -30,144 +32,128 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
       'https://picsum.photos/id/30/800/600',
     ];
 
-    // Poi poi = Poi(
-    //   id: "123",
-    //   name: "Rho",
-    //   province: "Milano",
-    //   region: "Lombardia",
-    //   country: "Italy",
-    //   countrycode: "IT",
-    //   categoryName: PoiCategory.city.name,
-    // );
     Poi poi = widget.poi;
     poi.setImages(images.map(((i) => PoiImage(thumbnail: i))).toList());
+
+    TextEditingController textEditingController = TextEditingController();
+
+    if (poi.note.isNotEmpty) {
+      textEditingController.text = poi.note;
+    }
 
     List<MyList> allDefinedLists = ref.read(myListRepositoryProvider).getAll();
 
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back_outlined),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 300,
+              PageTitle(text: poi.name, padding: EdgeInsetsGeometry.zero,),
+
+              SizedBox(height: 12,),
+
+              getInfoTextWithLeadingIcon(
+                poi.getDisplayAreaName(),
+                CountryFlag.fromCountryCode(
+                  poi.countrycode ?? '',
+                  theme: const ImageTheme(shape: Circle()),
+                ),
+              ),
+
+              SizedBox(height: 10,),
+
+              getInfoTextWithLeadingIcon(
+                poi.category.name,
+                Icon(poi.category.icon),
+              ),
+
+              SizedBox(height: 28),
+
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
                 width: double.infinity,
-                child: CarouselSlider(
-                  items: poi.images.map((image) {
-                    return Image.network(
-                      image.thumbnail ?? '',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
+                height: 200,
+                color: Colors.grey.shade800,
+                child: (poi.images.isEmpty)
+                    ? Center(child: Icon(Icons.not_interested))
+                    : CarouselSlider(
+                  options: CarouselOptions(
+                    enableInfiniteScroll: false,
+                    pageSnapping: true,
+                    viewportFraction: 1.0,
+                  ),
+                  items: poi.images.map((poiImage) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(color: Colors.amber),
+                          child: Image.network(
+                            poiImage.thumbnail ?? "",
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                        );
+                      },
                     );
                   }).toList(),
-                  options: CarouselOptions(
-                    height: 300,
-                    viewportFraction: 1,
-                    enableInfiniteScroll: false,
-                    onPageChanged: (index, reason) {
-                      // setState(() => _currentCarouselIndex = index);
-                    },
+                ),
+              ),
+              SizedBox(height: 40),
+
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  controller: textEditingController,
+                  decoration: const InputDecoration(
+                    hintText: 'Aggiungi una nota..',
+                    border: OutlineInputBorder(),
                   ),
+                  onSubmitted: (newValue) =>
+                      updatePoiNoteField(newValue, poi, ref),
+                  onTapOutside: (event) {
+                    updatePoiNoteField(
+                      textEditingController.text,
+                      poi,
+                      ref,
+                    );
+                    FocusScope.of(context).unfocus();
+                  },
                 ),
               ),
 
-              // Fade
-              Positioned(
-                top: 200,
-                left: 0,
-                right: 0,
-                height: 100,
-                child: IgnorePointer(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.black],
-                      ),
-                    ),
-                  ),
-                ),
+              SizedBox(height: 40),
+
+              AddListDefaultButtons(
+                lists: allDefinedLists.where((l) => l.isDefault).toList(),
+                poi: poi,
               ),
 
-              // BackButton
-              SafeArea(
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  margin: const EdgeInsets.only(left: 5, top: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withAlpha(140),
-                    shape: BoxShape.circle,
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    onTap: () => Navigator.pop(context),
-                    child: const Center(
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 26,
-                      ),
-                    ),
-                  ),
-                ),
+              SizedBox(height: 30),
+
+              PageSubtitle(text: "My lists"),
+
+              SizedBox(height: 22),
+
+              AddListCustomChips(
+                lists: allDefinedLists.where((l) => !l.isDefault).toList(),
+                poi: poi,
               ),
             ],
           ),
-
-          Positioned.fill(
-            top: 320,
-            child: SingleChildScrollView(
-              child: Container(
-                color: Colors.black,
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 12,
-                  children: [
-                    Text(
-                      maxLines: 2,
-                      poi.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-
-                    getInfoTextWithLeadingIcon(
-                      poi.getDisplayAreaName(),
-                      CountryFlag.fromCountryCode(
-                        poi.countrycode ?? '',
-                        theme: const ImageTheme(shape: Circle()),
-                      ),
-                    ),
-
-                    getInfoTextWithLeadingIcon(
-                      poi.category.name,
-                      Icon(poi.category.icon),
-                    ),
-
-                    AddListDefaultButtons(
-                      lists: allDefinedLists.where((l) => l.isDefault).toList(),
-                      poi: poi,
-                    ),
-
-                    AddListCustomChips(
-                      lists: allDefinedLists
-                          .where((l) => !l.isDefault)
-                          .toList(),
-                      poi: poi,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -179,9 +165,14 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
         SizedBox(width: 25, height: 25, child: Center(child: leading)),
         Text(
           text.toTitleCase(),
-          style: TextStyle(color: Colors.grey.shade400, fontSize: 16),
+          style: TextStyle(color: Colors.grey.shade500, fontSize: 18),
         ),
       ],
     );
+  }
+
+  void updatePoiNoteField(String newValue, Poi poi, WidgetRef ref) {
+    poi.note = newValue;
+    ref.read(poiRepositoryProvider).save(poi);
   }
 }

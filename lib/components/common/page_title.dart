@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 
 class PageTitle extends StatelessWidget {
   final String text;
+  final EdgeInsetsGeometry padding;
 
-  const PageTitle({super.key, required this.text});
+  const PageTitle({
+    super.key,
+    required this.text,
+    this.padding = const EdgeInsets.only(left: 24),
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsGeometry.only(left: 24),
+      padding: padding,
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 44,
           fontWeight: FontWeight.w400,
           letterSpacing: 1.2,

@@ -1,4 +1,5 @@
 import 'package:myplaces/models/poi.dart';
+import 'package:objectbox/objectbox.dart';
 
 import '../objectbox.g.dart';
 

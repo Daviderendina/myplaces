@@ -24,6 +24,8 @@ class Poi {
 
   String categoryName;
 
+  String note;
+
   double lat;
   double lng;
 
@@ -45,6 +47,7 @@ class Poi {
     required this.categoryName,
     this.lat = 0,
     this.lng = 0,
+    this.note = ''
   });
 
   LatLng get coordinates => LatLng(lat, lng);
