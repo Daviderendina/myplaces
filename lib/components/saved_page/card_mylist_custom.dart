@@ -57,7 +57,7 @@ class CardMylistCustom extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      "${myList.poiList.length} places",
+                      "${myList.poiList.length} places${myList.isArchived ? " · hidden" : ""}",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         height: 1.2,

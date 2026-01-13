@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myplaces/components/common/page_subtitle.dart';
-import 'package:myplaces/components/common/page_title.dart';
+import 'package:myplaces/components/common/my_subtitle.dart';
+import 'package:myplaces/components/common/my_title.dart';
 import 'package:myplaces/extension/title_case_extension.dart';
 import 'package:myplaces/models/poi_category.dart';
 
@@ -58,9 +58,9 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PageTitle(text: poi.name, padding: EdgeInsetsGeometry.zero,),
+              MyTitle(text: poi.name),
 
-              SizedBox(height: 12,),
+              SizedBox(height: 12),
 
               getInfoTextWithLeadingIcon(
                 poi.getDisplayAreaName(),
@@ -70,7 +70,7 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                 ),
               ),
 
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
 
               getInfoTextWithLeadingIcon(
                 poi.category.name,
@@ -80,36 +80,36 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
               SizedBox(height: 28),
 
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
+                //margin: EdgeInsets.symmetric(horizontal: 16),
                 width: double.infinity,
                 height: 200,
                 color: Colors.grey.shade800,
                 child: (poi.images.isEmpty)
                     ? Center(child: Icon(Icons.not_interested))
                     : CarouselSlider(
-                  options: CarouselOptions(
-                    enableInfiniteScroll: false,
-                    pageSnapping: true,
-                    viewportFraction: 1.0,
-                  ),
-                  items: poi.images.map((poiImage) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(color: Colors.amber),
-                          child: Image.network(
-                            poiImage.thumbnail ?? "",
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
+                        options: CarouselOptions(
+                          enableInfiniteScroll: false,
+                          pageSnapping: true,
+                          viewportFraction: 1.0,
+                        ),
+                        items: poi.images.map((poiImage) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(color: Colors.amber),
+                                child: Image.network(
+                                  poiImage.thumbnail ?? "",
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
               ),
               SizedBox(height: 40),
 
@@ -124,11 +124,7 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                   onSubmitted: (newValue) =>
                       updatePoiNoteField(newValue, poi, ref),
                   onTapOutside: (event) {
-                    updatePoiNoteField(
-                      textEditingController.text,
-                      poi,
-                      ref,
-                    );
+                    updatePoiNoteField(textEditingController.text, poi, ref);
                     FocusScope.of(context).unfocus();
                   },
                 ),
@@ -143,7 +139,7 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
 
               SizedBox(height: 30),
 
-              PageSubtitle(text: "My lists"),
+              MySubtitle(text: "My lists"),
 
               SizedBox(height: 22),
 

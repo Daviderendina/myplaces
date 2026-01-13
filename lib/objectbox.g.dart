@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 2564830902377691936),
     name: 'MyList',
-    lastPropertyId: const obx_int.IdUid(4, 4018009328234177358),
+    lastPropertyId: const obx_int.IdUid(5, 8881191055268672394),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -49,6 +49,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(4, 4018009328234177358),
         name: 'note',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 8881191055268672394),
+        name: 'isArchived',
+        type: 1,
         flags: 0,
       ),
     ],
@@ -266,11 +272,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectToFB: (MyList object, fb.Builder fbb) {
         final nameOffset = fbb.writeString(object.name);
         final noteOffset = fbb.writeString(object.note);
-        fbb.startTable(5);
+        fbb.startTable(6);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addBool(2, object.isDefault);
         fbb.addOffset(3, noteOffset);
+        fbb.addBool(4, object.isArchived);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -289,10 +296,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final noteParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 10, '');
+        final isArchivedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          12,
+          false,
+        );
         final object = MyList(
           name: nameParam,
           isDefault: isDefaultParam,
           note: noteParam,
+          isArchived: isArchivedParam,
         )..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
         obx_int.InternalToManyAccess.setRelInfo<MyList>(
           object.poiList,
@@ -497,6 +511,11 @@ class MyList_ {
   /// See [MyList.note].
   static final note = obx.QueryStringProperty<MyList>(
     _entities[0].properties[3],
+  );
+
+  /// See [MyList.isArchived].
+  static final isArchived = obx.QueryBooleanProperty<MyList>(
+    _entities[0].properties[4],
   );
 }
 

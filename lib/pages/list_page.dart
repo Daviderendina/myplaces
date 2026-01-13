@@ -12,13 +12,21 @@ import 'package:myplaces/providers.dart';
 
 import '../models/poi.dart';
 
-class ListPage extends ConsumerWidget {
+class ListPage extends ConsumerStatefulWidget {
   final MyList myList;
 
-  ListPage({super.key, required this.myList});
+  const ListPage({super.key, required this.myList});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      ListPageState();
+}
+
+class ListPageState extends ConsumerState<ListPage> {
+  @override
+  Widget build(BuildContext context) {
+    MyList myList = widget.myList;
+
     List<Poi> poiList = myList.poiList;
     TextEditingController textEditingController = TextEditingController();
 
@@ -31,6 +39,9 @@ class ListPage extends ConsumerWidget {
         title: Text(myList.displayName, style: TextStyle(fontSize: 26)),
         toolbarHeight: 80,
         actions: [
+          (myList.isArchived) ?
+            IconButton(onPressed: () => updateListArchivedField(false, myList, ref), icon: Icon(Icons.visibility)) :
+            IconButton(onPressed: () => updateListArchivedField(true, myList, ref), icon: Icon(Icons.visibility_off)),
           IconButton(onPressed: () {}, icon: Icon(Icons.map)),
           IconButton(onPressed: () {}, icon: Icon(Icons.filter_list)),
         ],
@@ -92,6 +103,14 @@ class ListPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+
+  void updateListArchivedField(bool value, MyList myList, WidgetRef ref) {
+    setState(() {
+      myList.isArchived = value;
+    });
+    ref.read(myListRepositoryProvider).save(myList);
   }
 
   void updateListNoteField(String newValue, MyList myList, WidgetRef ref) {

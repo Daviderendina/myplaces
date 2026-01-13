@@ -1,70 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myplaces/components/common/page_title.dart';
+import 'package:myplaces/components/common/main_page_padding.dart';
+import 'package:myplaces/components/common/main_page_subtitle.dart';
+import 'package:myplaces/components/common/my_title.dart';
 import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/providers.dart';
 
+import '../components/common/main_page_title.dart';
 import '../components/saved_page/card_mylist_custom.dart';
-import '../components/common/page_subtitle.dart';
+import '../components/common/my_subtitle.dart';
 import '../components/saved_page/card_mylist_default.dart';
 import 'list_page.dart';
 
-class SavedPage extends ConsumerWidget {
+class SavedPage extends ConsumerStatefulWidget {
   const SavedPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => SavedPageState();
+}
+
+class SavedPageState extends ConsumerState<SavedPage> {
+  bool hiddenListsVisibility = false;
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(savedPageProvider);
+
+    // TODO mostrare diversemente le hidden list
 
     return state.when(
       error: (e, _) => Text('Errore: $e'),
       loading: () => const CircularProgressIndicator(),
       data: (myLists) {
         return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 60),
-              PageTitle(text: "Saved"),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: myLists
-                    .where((l) => l.isDefault)
-                    .map(
-                      (myList) => CardMylistDefault(
-                        myList: myList,
-                        onTap: openListDetail(context, myList),
+          child: MainPagePadding(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 60),
+
+                MainPageTitle(text: "Saved"),
+
+                SizedBox(height: 20),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: myLists
+                      .where((l) => l.isDefault)
+                      .map(
+                        (myList) => CardMylistDefault(
+                          myList: myList,
+                          onTap: openListDetail(context, myList),
+                        ),
+                      )
+                      .toList(),
+                ),
+
+                SizedBox(height: 30),
+
+                Row(
+                  children: [
+                    MainPageSubtitle(text: "My Lists"),
+                    Spacer(),
+                    ActionChip(
+                      label: Text(
+                        "Add",
+                        style: TextStyle(color: Colors.white54),
                       ),
-                    )
-                    .toList(),
-              ),
-              SizedBox(height: 30),
-              Row(
-                children: [
-                  PageSubtitle(text: "My Lists"),
-                  Spacer(),
-                  ActionChip(
-                    label: Text("Add", style: TextStyle(color: Colors.white54)),
-                    avatar: Icon(Icons.add, color: Colors.white54),
-                    onPressed: () => openNewListDialog(context, ref),
-                    elevation: 0,
-                    pressElevation: 0,
-                    shape: const StadiumBorder(
-                      side: BorderSide(color: Colors.white10),
+                      avatar: Icon(Icons.add, color: Colors.white54),
+                      onPressed: () => openNewListDialog(context, ref),
+                      elevation: 0,
+                      pressElevation: 0,
+                      shape: const StadiumBorder(
+                        side: BorderSide(color: Colors.white10),
+                      ),
+                      padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
+                      backgroundColor: Colors.yellow.withAlpha(0),
                     ),
-                    padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
-                    backgroundColor: Colors.yellow.withAlpha(0),
-                  ),
-                  SizedBox(width: 16),
-                ],
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Column(
+                    SizedBox(width: 4),
+                    FilterChip(
+                      selected: hiddenListsVisibility,
+                      selectedColor: Colors.amber.shade900,
+                      showCheckmark: false,
+                      label: Icon(
+                        hiddenListsVisibility
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        size: 20,
+                      ),
+                      onSelected: (value) => setState(() {
+                        hiddenListsVisibility = !hiddenListsVisibility;
+                      }),
+                      padding: EdgeInsetsGeometry.symmetric(
+                        vertical: 0,
+                        horizontal: 5,
+                      ),
+                      shape: const StadiumBorder(
+                        side: BorderSide(color: Colors.white10),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+
+                Column(
                   children: myLists
                       .where((l) => !l.isDefault)
+                      .where(
+                        (l) =>
+                            (hiddenListsVisibility) ||
+                            (!hiddenListsVisibility && !l.isArchived),
+                      )
                       .map(
                         (myList) => CardMylistCustom(
                           myList: myList,
@@ -73,9 +120,9 @@ class SavedPage extends ConsumerWidget {
                       )
                       .toList(),
                 ),
-              ),
-              SizedBox(height: 100),
-            ],
+                SizedBox(height: 100),
+              ],
+            ),
           ),
         );
       },
