@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:myplaces/notifier/map_page_notifier.dart';
 import 'package:myplaces/notifier/saved_page_notifier.dart';
+import 'package:myplaces/repository/config_repository.dart';
 import 'package:myplaces/repository/list_repository.dart';
 import 'package:myplaces/repository/poi_repository.dart';
 import 'package:myplaces/repository/poi_repository.dart';
@@ -16,14 +17,13 @@ import 'objectbox.g.dart';
 
 final appInitProvider = FutureProvider<void>((ref) async {
   // Create default lists
-  // TODO fare una config da qualche parte
-  final lists = ['Wishlist', 'Favourites', 'Visited'];
-  ListService service = ref.read(listServiceProvider);
-  for (var e in lists) {
-    if (service.getListByName(e) == null) {
-      ref.read(listServiceProvider).save(MyList(name: e, isDefault: true));
-    }
-  }
+  ListService listService = ref.read(listServiceProvider);
+  ref
+      .read(configRepositoryProvider)
+      .getDefaultLists()
+      .where((l) => !listService.listExists(l))
+      .map((l) => listService.save(l))
+      .toList();
 });
 
 // States provider
@@ -45,6 +45,9 @@ final poiRepositoryProvider = Provider<PoiRepository>(
 );
 final myListRepositoryProvider = Provider<ListRepository>(
   (ref) => ListRepository(ref.read(listServiceProvider)),
+);
+final configRepositoryProvider = Provider<ConfigRepository>(
+  (ref) => ConfigRepository(),
 );
 
 // Service

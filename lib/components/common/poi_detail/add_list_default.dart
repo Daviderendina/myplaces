@@ -31,6 +31,47 @@ class AddListDefaultButtonsState extends ConsumerState<AddListDefaultButtons> {
       children: widget.lists.map((myList) {
         bool selected = poiListsId.contains(myList.id);
 
+        ref.read(myListRepositoryProvider).getAll();
+
+        final items = [
+          {'title': 'Preferiti', 'icon': Icons.favorite},
+          {'title': 'Viaggi', 'icon': Icons.flight},
+        ];
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.favorite, color: Colors.red, size: 30),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.favorite_outline, size: 30),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.favorite_outline, size: 30),
+            ),
+            SizedBox(width: 15),
+            ActionChip(
+              label: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Add to list",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                ),
+              ),
+              avatar: Icon(Icons.add),
+              onPressed: () {},
+              elevation: 0,
+              pressElevation: 0,
+              shape: const StadiumBorder(side: BorderSide(color: Colors.white)),
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
+            ),
+          ],
+        );
+
         return Container(
           width: 90,
           child: Column(
@@ -72,16 +113,16 @@ class AddListDefaultButtonsState extends ConsumerState<AddListDefaultButtons> {
 
   // TODO fare unico
   void onListClick(bool selected, Poi poi, MyList myList) {
-    print("onListClick >>> ${poi.lists}");
-    setState(() {
-      if (selected) {
-        poi.lists.removeWhere((l) => l.id == myList.id);
-      } else {
-        poi.addToList(myList);
-      }
-    });
-
-    ref.read(poiRepositoryProvider).save(poi);
-    ref.read(savedPageProvider.notifier).refresh();
+    // print("onListClick >>> ${poi.lists}");
+    // setState(() {
+    //   if (selected) {
+    //     poi.lists.removeWhere((l) => l.id == myList.id);
+    //   } else {
+    //     poi.addToList(myList);
+    //   }
+    // });
+    //
+    // ref.read(poiRepositoryProvider).save(poi);
+    // ref.read(savedPageProvider.notifier).refresh();
   }
 }

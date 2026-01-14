@@ -12,6 +12,10 @@ class ListService {
     return _box.getAll();
   }
 
+  List<MyList> getAllDefaultLists() {
+    return getAllLists().where((l) => l.isDefault).toList();
+  }
+
   Future<MyList> save(MyList newList) async {
     print("Creating new list");
     MyList? myListSaved = getById(newList.id);
@@ -22,8 +26,7 @@ class ListService {
     }
 
     // Check if the name is duplicate
-    bool nameAlreadyExists =
-        (myListSaved == null) && (getListByName(newList.name) != null);
+    bool nameAlreadyExists = myListSaved == null && listExists(newList);
     if (nameAlreadyExists) {
       return Future.error("Name is already present");
     }
@@ -46,6 +49,10 @@ class ListService {
     print("RESULT / $result");
     query.close();
     return result;
+  }
+
+  bool listExists(MyList myList) {
+    return getListByName(myList.name) != null;
   }
 
   void deleteList(MyList myList) async {

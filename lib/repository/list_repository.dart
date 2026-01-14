@@ -10,6 +10,8 @@ class ListRepository {
 
   List<MyList> getAll() => _service.getAllLists();
 
+  List<MyList> getAllDefaultLists() => _service.getAllDefaultLists();
+
   Future<MyList> save(MyList myList) => _service.save(myList);
 
   void delete(MyList myList) => _service.deleteList(myList);

@@ -63,18 +63,18 @@ class AddListCustomChipsState extends ConsumerState<AddListCustomChips> {
 
   // TODO fare unico
   void onListClick(bool selected, Poi poi, MyList myList) {
-    print("onListClick >>> ${poi.lists}");
-    setState(() {
-      if (selected) {
-        print("REMM");
-        poi.lists.removeWhere((l) => l.id == myList.id);
-      } else {
-        print("ADDD");
-        poi.addToList(myList);
-      }
-    });
-
-    ref.read(poiRepositoryProvider).save(poi);
-    ref.read(savedPageProvider.notifier).refresh();
+    // print("onListClick >>> ${poi.lists}");
+    // setState(() {
+    //   if (selected) {
+    //     print("REMM");
+    //     poi.lists.removeWhere((l) => l.id == myList.id);
+    //   } else {
+    //     print("ADDD");
+    //     poi.addToList(myList);
+    //   }
+    // });
+    //
+    // ref.read(poiRepositoryProvider).save(poi);
+    // ref.read(savedPageProvider.notifier).refresh();
   }
 }

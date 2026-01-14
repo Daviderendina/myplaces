@@ -47,7 +47,7 @@ class Poi {
     required this.categoryName,
     this.lat = 0,
     this.lng = 0,
-    this.note = ''
+    this.note = '',
   });
 
   LatLng get coordinates => LatLng(lat, lng);
@@ -84,10 +84,8 @@ class Poi {
     return location.isEmpty ? "$country" : "$location · $country";
   }
 
-  void addToList(MyList myList) {
-    if (!lists.map((l) => l.id).toSet().contains(myList.id)) {
-      lists.add(myList);
-    }
+  bool belongToList(int listId) {
+    return lists.map((l) => l.id).toList().contains(listId);
   }
 }
 

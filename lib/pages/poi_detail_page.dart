@@ -7,6 +7,7 @@ import 'package:myplaces/components/common/my_title.dart';
 import 'package:myplaces/components/common/note_box.dart';
 import 'package:myplaces/extension/title_case_extension.dart';
 import 'package:myplaces/models/poi_category.dart';
+import 'package:myplaces/repository/poi_repository.dart';
 
 import '../components/common/poi_detail/add_list_custom.dart';
 import '../components/common/poi_detail/add_list_default.dart';
@@ -36,11 +37,9 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
     Poi poi = widget.poi;
     poi.setImages(images.map(((i) => PoiImage(thumbnail: i))).toList());
 
-    TextEditingController textEditingController = TextEditingController();
-
-    if (poi.note.isNotEmpty) {
-      textEditingController.text = poi.note;
-    }
+    List<MyList> defaultLists = ref
+        .read(myListRepositoryProvider)
+        .getAllDefaultLists();
 
     return Scaffold(
       body: Stack(
@@ -118,24 +117,21 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 30,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.favorite_outline, size: 30),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.favorite_outline, size: 30),
-                        ),
+                        ...defaultLists.map((list) {
+                          return IconButton(
+                            onPressed: () => triggerPoiToList(poi, list),
+                            icon: Icon(
+                              Icons.question_mark_outlined,
+                              size: 30,
+                              color: poi.belongToList(list.id)
+                                  ? Colors.amber
+                                  : Colors.grey,
+                            ),
+                          );
+                        }),
                         SizedBox(width: 15),
                         ActionChip(
+                          backgroundColor: Colors.lightBlue.withAlpha(30),
                           label: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
@@ -143,21 +139,52 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,
+                                color: Colors.lightBlue.shade200,
                               ),
                             ),
                           ),
-                          avatar: Icon(Icons.add),
+                          avatar: Icon(
+                            Icons.add,
+                            color: Colors.lightBlue.shade200,
+                          ),
                           onPressed: () {},
                           elevation: 0,
                           pressElevation: 0,
                           shape: const StadiumBorder(
-                            side: BorderSide(color: Colors.white),
+                            side: BorderSide(color: Colors.transparent),
                           ),
                           padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
                         ),
                       ],
                     ),
                   ],
+                ),
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 40,
+            left: 15,
+            child: Material(
+              color: Colors.transparent,
+              child: Ink(
+                decoration: BoxDecoration(
+                  color: Colors.black54, // colore del cerchio
+                  shape: BoxShape.circle,
+                ),
+                child: InkWell(
+                  customBorder: CircleBorder(),
+                  onTap: () => Navigator.pop(context),
+                  child: SizedBox(
+                    width: 36,
+                    height: 36,
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -180,8 +207,24 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
     );
   }
 
+  void triggerPoiToList(Poi poi, MyList myList) {
+    bool poiBelongsToList = poi.belongToList(myList.id);
+    PoiRepository repository = ref.read(poiRepositoryProvider);
+
+    setState(() {
+      if (poiBelongsToList) {
+        repository.removePoiFromList(poi, myList);
+      } else {
+        repository.addPoiToList(poi, myList);
+      }
+    });
+    ref.read(savedPageProvider.notifier).refresh();
+  }
+
   void updatePoiNoteField(String newValue, Poi poi, WidgetRef ref) {
     poi.note = newValue;
     ref.read(poiRepositoryProvider).save(poi);
+    // TODO serve un provider anche per la pagina myLisy che viene quindi aggiornata da questa!!! Altrimenti non si aggiornala schermata
+    ref.read(savedPageProvider.notifier).refresh();
   }
 }
