@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as ref;
 import 'package:myplaces/service/poi_service.dart';
 
 import '../models/my_list.dart';
@@ -27,16 +28,14 @@ class PoiRepository {
     return found;
   }
 
-  Poi addPoiToList(Poi poi, MyList myList) {
-    if (!poi.lists.map((l) => l.id).toSet().contains(myList.id)) {
-      poi.lists.add(myList);
+  Poi togglePoiInList(Poi poi, MyList myList) {
+    if (poi.lists.any((l) => l.id == myList.id)) {
+      poi.lists.removeWhere((l) => l.id == myList.id);
+    } else {
+      if (!poi.lists.map((l) => l.id).toSet().contains(myList.id)) {
+        poi.lists.add(myList);
+      }
     }
-    save(poi);
-    return poi;
-  }
-
-  Poi removePoiFromList(Poi poi, MyList myList) {
-    poi.lists.removeWhere((l) => l.id == myList.id);
     save(poi);
     return poi;
   }

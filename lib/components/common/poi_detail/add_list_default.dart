@@ -33,11 +33,6 @@ class AddListDefaultButtonsState extends ConsumerState<AddListDefaultButtons> {
 
         ref.read(myListRepositoryProvider).getAll();
 
-        final items = [
-          {'title': 'Preferiti', 'icon': Icons.favorite},
-          {'title': 'Viaggi', 'icon': Icons.flight},
-        ];
-
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

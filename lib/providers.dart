@@ -35,6 +35,7 @@ final savedPageProvider =
     AsyncNotifierProvider<SavedPageNotifier, List<MyList>>(
       SavedPageNotifier.new,
     );
+final selectedPoiProvider = StateProvider<Poi?>((ref) => null);
 
 // Repository
 final poiRepositoryProvider = Provider<PoiRepository>(
@@ -49,6 +50,11 @@ final myListRepositoryProvider = Provider<ListRepository>(
 final configRepositoryProvider = Provider<ConfigRepository>(
   (ref) => ConfigRepository(),
 );
+
+// Repository value provider
+final myListsProvider = Provider<List<MyList>>((ref) {
+  return ref.read(myListRepositoryProvider).getAll();
+});
 
 // Service
 final listServiceProvider = Provider<ListService>(

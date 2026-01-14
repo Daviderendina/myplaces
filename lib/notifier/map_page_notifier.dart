@@ -25,7 +25,7 @@ class MapPageNotifier extends StateNotifier<MapPageViewState> {
       state = state.copyWith(isSearching: false, searchResults: res);
     } catch (e) {
       print(e.toString());
-      // TODO capire, aggiungere campo error allo state e mostrare toast a UI
+      // TODO capire, aggiungere campo error allo state e mostrare toast a functions
       //state = MapPageState(error: e.toString());
     }
   }

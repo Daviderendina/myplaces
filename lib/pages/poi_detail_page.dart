@@ -6,11 +6,11 @@ import 'package:myplaces/components/common/my_subtitle.dart';
 import 'package:myplaces/components/common/my_title.dart';
 import 'package:myplaces/components/common/note_box.dart';
 import 'package:myplaces/extension/title_case_extension.dart';
-import 'package:myplaces/models/poi_category.dart';
 import 'package:myplaces/repository/poi_repository.dart';
 
 import '../components/common/poi_detail/add_list_custom.dart';
 import '../components/common/poi_detail/add_list_default.dart';
+import '../functions/select_list_page/select_list_page.dart';
 import '../models/my_list.dart';
 import '../models/poi.dart';
 import '../models/poi_image.dart';
@@ -132,6 +132,14 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                         SizedBox(width: 15),
                         ActionChip(
                           backgroundColor: Colors.lightBlue.withAlpha(30),
+                          onPressed: () {
+                            ref.read(selectedPoiProvider.notifier).state = poi;
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => SelectListPage(),
+                              ),
+                            );
+                          },
                           label: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
@@ -147,7 +155,6 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                             Icons.add,
                             color: Colors.lightBlue.shade200,
                           ),
-                          onPressed: () {},
                           elevation: 0,
                           pressElevation: 0,
                           shape: const StadiumBorder(
@@ -208,16 +215,8 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
   }
 
   void triggerPoiToList(Poi poi, MyList myList) {
-    bool poiBelongsToList = poi.belongToList(myList.id);
     PoiRepository repository = ref.read(poiRepositoryProvider);
-
-    setState(() {
-      if (poiBelongsToList) {
-        repository.removePoiFromList(poi, myList);
-      } else {
-        repository.addPoiToList(poi, myList);
-      }
-    });
+    repository.togglePoiInList(poi, myList);
     ref.read(savedPageProvider.notifier).refresh();
   }
 

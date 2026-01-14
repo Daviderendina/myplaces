@@ -90,3 +90,48 @@ class Poi {
 }
 
 // TODO: nella ricerca devo mostrare anche i miei elementi se matchano!!!! Altrimenti mi incasino tutte le liste coi doppiooni!!! NB: l' id per i POI e ubnivoco
+
+extension PoiCopy on Poi {
+  /// Crea un clone del Poi. Utile per aggiornare il provider senza invalidarlo.
+  Poi copy({
+    String? type,
+    String? subtype,
+    String? name,
+    String? city,
+    String? province,
+    String? region,
+    String? country,
+    String? countrycode,
+    String? categoryName,
+    String? note,
+    double? lat,
+    double? lng,
+    List<PoiImage>? images,
+    List<MyList>? lists,
+  }) {
+    final clonedPoi = Poi(
+      id: this.id,
+      type: type ?? this.type,
+      subtype: subtype ?? this.subtype,
+      name: name ?? this.name,
+      city: city ?? this.city,
+      province: province ?? this.province,
+      region: region ?? this.region,
+      country: country ?? this.country,
+      countrycode: countrycode ?? this.countrycode,
+      categoryName: categoryName ?? this.categoryName,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      note: note ?? this.note,
+    );
+
+    // Copia le immagini e le liste (solo i riferimenti, non duplicare DB)
+    clonedPoi.images.addAll(images ?? this.images);
+    clonedPoi.lists.addAll(lists ?? this.lists);
+
+    // Mantieni lo stesso obxId se vuoi
+    clonedPoi.obxId = this.obxId;
+
+    return clonedPoi;
+  }
+}
