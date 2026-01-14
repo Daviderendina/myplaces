@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/components/common/my_subtitle.dart';
 import 'package:myplaces/components/common/my_title.dart';
+import 'package:myplaces/components/common/note_box.dart';
 import 'package:myplaces/extension/title_case_extension.dart';
 import 'package:myplaces/models/poi_category.dart';
 
@@ -41,115 +42,127 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
       textEditingController.text = poi.note;
     }
 
-    List<MyList> allDefinedLists = ref.read(myListRepositoryProvider).getAll();
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back_outlined),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MyTitle(text: poi.name),
-
-              SizedBox(height: 12),
-
-              getInfoTextWithLeadingIcon(
-                poi.getDisplayAreaName(),
-                CountryFlag.fromCountryCode(
-                  poi.countrycode ?? '',
-                  theme: const ImageTheme(shape: Circle()),
-                ),
-              ),
-
-              SizedBox(height: 10),
-
-              getInfoTextWithLeadingIcon(
-                poi.category.name,
-                Icon(poi.category.icon),
-              ),
-
-              SizedBox(height: 28),
-
-              Container(
-                //margin: EdgeInsets.symmetric(horizontal: 16),
-                width: double.infinity,
-                height: 200,
-                color: Colors.grey.shade800,
-                child: (poi.images.isEmpty)
-                    ? Center(child: Icon(Icons.not_interested))
-                    : CarouselSlider(
-                        options: CarouselOptions(
-                          enableInfiniteScroll: false,
-                          pageSnapping: true,
-                          viewportFraction: 1.0,
-                        ),
-                        items: poi.images.map((poiImage) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(color: Colors.amber),
-                                child: Image.network(
-                                  poiImage.thumbnail ?? "",
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      ),
-              ),
-              SizedBox(height: 40),
-
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  controller: textEditingController,
-                  decoration: const InputDecoration(
-                    hintText: 'Aggiungi una nota..',
-                    border: OutlineInputBorder(),
-                  ),
-                  onSubmitted: (newValue) =>
-                      updatePoiNoteField(newValue, poi, ref),
-                  onTapOutside: (event) {
-                    updatePoiNoteField(textEditingController.text, poi, ref);
-                    FocusScope.of(context).unfocus();
-                  },
-                ),
-              ),
-
-              SizedBox(height: 40),
-
-              AddListDefaultButtons(
-                lists: allDefinedLists.where((l) => l.isDefault).toList(),
-                poi: poi,
-              ),
-
-              SizedBox(height: 30),
-
-              MySubtitle(text: "My lists"),
-
-              SizedBox(height: 22),
-
-              AddListCustomChips(
-                lists: allDefinedLists.where((l) => !l.isDefault).toList(),
-                poi: poi,
-              ),
-            ],
+      body: Stack(
+        children: [
+          SizedBox(
+            height: 420,
+            child: Image.network(
+              'https://media.istockphoto.com/id/635758088/photo/sunrise-at-the-eiffel-tower-in-paris-along-the-seine.jpg?s=612x612&w=0&k=20&c=rdy3aU1CDyh66mPyR5AAc1yJ0yEameR_v2vOXp2uuMM=',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+
+          Align(
+            alignment: AlignmentGeometry.bottomCenter,
+            child: Container(
+              //height: 500,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30, left: 30, right: 30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title
+                    MyTitle(text: poi.name),
+
+                    SizedBox(height: 12),
+
+                    getInfoTextWithLeadingIcon(
+                      poi.getDisplayAreaName(),
+                      CountryFlag.fromCountryCode(
+                        poi.countrycode ?? '',
+                        theme: const ImageTheme(shape: Circle()),
+                      ),
+                    ),
+
+                    SizedBox(height: 10),
+
+                    getInfoTextWithLeadingIcon(
+                      poi.category.name,
+                      Icon(poi.category.icon),
+                    ),
+
+                    SizedBox(height: 28),
+
+                    Text(
+                      maxLines: 4,
+                      "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi conLorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi con",
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: 16,
+                      ),
+                    ),
+
+                    SizedBox(height: 30),
+
+                    MySubtitle(text: "My notes"),
+                    SizedBox(height: 12),
+
+                    NoteBox(
+                      actualNote: poi.note,
+                      onSubmitted: (value) =>
+                          updatePoiNoteField(value, poi, ref),
+                    ),
+                    SizedBox(height: 24),
+
+                    // Buttons list
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 30,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.favorite_outline, size: 30),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.favorite_outline, size: 30),
+                        ),
+                        SizedBox(width: 15),
+                        ActionChip(
+                          label: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Add to list",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          avatar: Icon(Icons.add),
+                          onPressed: () {},
+                          elevation: 0,
+                          pressElevation: 0,
+                          shape: const StadiumBorder(
+                            side: BorderSide(color: Colors.white),
+                          ),
+                          padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -158,7 +171,7 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
     return Row(
       spacing: 15,
       children: [
-        SizedBox(width: 25, height: 25, child: Center(child: leading)),
+        SizedBox(width: 22, height: 22, child: Center(child: leading)),
         Text(
           text.toTitleCase(),
           style: TextStyle(color: Colors.grey.shade500, fontSize: 18),
