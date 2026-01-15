@@ -37,6 +37,8 @@ final savedPageProvider =
       SavedPageNotifier.new,
     );
 final selectedPoiProvider = StateProvider<Poi?>((ref) => null);
+final selectedListProvider = StateProvider<MyList?>((ref) => null);
+
 final myListsProvider = StateNotifierProvider<MyListsNotifier, List<MyList>>(
   (ref) => MyListsNotifier(ref.read(myListRepositoryProvider)),
 );

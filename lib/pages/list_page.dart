@@ -13,9 +13,7 @@ import 'package:myplaces/providers.dart';
 import '../models/poi.dart';
 
 class ListPage extends ConsumerStatefulWidget {
-  final MyList myList;
-
-  const ListPage({super.key, required this.myList});
+  const ListPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => ListPageState();
@@ -24,7 +22,9 @@ class ListPage extends ConsumerStatefulWidget {
 class ListPageState extends ConsumerState<ListPage> {
   @override
   Widget build(BuildContext context) {
-    MyList myList = widget.myList;
+    final myList = ref.watch(selectedListProvider);
+
+    if (myList == null) return SizedBox();
 
     List<Poi> poiList = myList.poiList;
     TextEditingController textEditingController = TextEditingController();

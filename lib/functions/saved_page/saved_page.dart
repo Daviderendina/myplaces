@@ -6,11 +6,11 @@ import 'package:myplaces/components/common/my_title.dart';
 import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/providers.dart';
 
-import '../components/common/main_page_title.dart';
-import '../components/saved_page/card_mylist_custom.dart';
-import '../components/common/my_subtitle.dart';
-import '../components/saved_page/card_mylist_default.dart';
-import 'list_page.dart';
+import '../../components/common/main_page_title.dart';
+import '../../components/saved_page/card_mylist_custom.dart';
+import '../../components/common/my_subtitle.dart';
+import '../../components/saved_page/card_mylist_default.dart';
+import '../../pages/list_page.dart';
 
 class SavedPage extends ConsumerStatefulWidget {
   const SavedPage({super.key});
@@ -25,8 +25,6 @@ class SavedPageState extends ConsumerState<SavedPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(savedPageProvider);
-
-    // TODO mostrare diversemente le hidden list
 
     return state.when(
       error: (e, _) => Text('Errore: $e'),
@@ -50,7 +48,7 @@ class SavedPageState extends ConsumerState<SavedPage> {
                       .map(
                         (myList) => CardMylistDefault(
                           myList: myList,
-                          onTap: openListDetail(context, myList),
+                          onTap: openListDetail(context, ref, myList),
                         ),
                       )
                       .toList(),
@@ -115,7 +113,7 @@ class SavedPageState extends ConsumerState<SavedPage> {
                       .map(
                         (myList) => CardMylistCustom(
                           myList: myList,
-                          onTap: openListDetail(context, myList),
+                          onTap: openListDetail(context, ref, myList),
                         ),
                       )
                       .toList(),
@@ -129,11 +127,17 @@ class SavedPageState extends ConsumerState<SavedPage> {
     );
   }
 
-  VoidCallback openListDetail(BuildContext context, MyList myList) {
+  VoidCallback openListDetail(
+    BuildContext context,
+    WidgetRef ref,
+    MyList myList,
+  ) {
     return () {
+      ref.read(selectedListProvider.notifier).state = myList;
+
       Navigator.of(
         context,
-      ).push(MaterialPageRoute(builder: (context) => ListPage(myList: myList)));
+      ).push(MaterialPageRoute(builder: (context) => ListPage()));
     };
   }
 
