@@ -87,11 +87,14 @@ class ListPageState extends ConsumerState<ListPage> {
                         Poi poi = poiList[index];
                         return PoiCard(
                           poi: poi,
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => PoiDetailPage(poi: poi),
-                            ),
-                          ),
+                          onTap: () {
+                            ref.read(selectedPoiProvider.notifier).state = poi;
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PoiDetailPage(poi: poi),
+                              ),
+                            );
+                          },
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {

@@ -13,6 +13,7 @@ import 'package:myplaces/state/map_page_state.dart';
 
 import 'models/my_list.dart';
 import 'models/poi.dart';
+import 'notifier/my_lists_notifier.dart';
 import 'objectbox.g.dart';
 
 final appInitProvider = FutureProvider<void>((ref) async {
@@ -36,6 +37,9 @@ final savedPageProvider =
       SavedPageNotifier.new,
     );
 final selectedPoiProvider = StateProvider<Poi?>((ref) => null);
+final myListsProvider = StateNotifierProvider<MyListsNotifier, List<MyList>>(
+  (ref) => MyListsNotifier(ref.read(myListRepositoryProvider)),
+);
 
 // Repository
 final poiRepositoryProvider = Provider<PoiRepository>(
@@ -50,11 +54,6 @@ final myListRepositoryProvider = Provider<ListRepository>(
 final configRepositoryProvider = Provider<ConfigRepository>(
   (ref) => ConfigRepository(),
 );
-
-// Repository value provider
-final myListsProvider = Provider<List<MyList>>((ref) {
-  return ref.read(myListRepositoryProvider).getAll();
-});
 
 // Service
 final listServiceProvider = Provider<ListService>(

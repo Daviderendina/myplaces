@@ -10,17 +10,15 @@ class SelectListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<MyList> allDefinedLists = ref.watch(myListsProvider);
+    final allDefinedLists = ref.watch(myListsProvider);
     final poi = ref.watch(selectedPoiProvider);
-
-    print("POI LISTS: ${poi?.lists.length}");
 
     if (poi == null) return SizedBox();
 
     return Scaffold(
       appBar: AppBar(title: Text("Select lists")),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 14),
         child: Column(
           children: allDefinedLists.map((myList) {
             bool listBelongsToPoi = poi.lists.any((l) => l.id == myList.id);
@@ -35,7 +33,7 @@ class SelectListPage extends ConsumerWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
-                      vertical: 10,
+                      vertical: 6,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,8 +46,8 @@ class SelectListPage extends ConsumerWidget {
                                 : Colors.grey.withAlpha(40),
                           ),
                           child: SizedBox(
-                            width: 48,
-                            height: 48,
+                            width: 40,
+                            height: 40,
                             child: Icon(
                               Icons.question_mark,
                               color: listBelongsToPoi
@@ -70,25 +68,27 @@ class SelectListPage extends ConsumerWidget {
                               style: TextStyle(
                                 height: 1.2,
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: listBelongsToPoi
+                                    ? FontWeight.bold
+                                    : FontWeight.w400,
                                 color: Colors.white.withAlpha(
-                                  listBelongsToPoi ? 255 : 140,
+                                  listBelongsToPoi ? 255 : 100,
                                 ),
                                 fontFamily: "Poppins",
                               ),
                             ),
-                            Text(
-                              "${myList.poiList.length} places${myList.isArchived ? " · hidden" : ""}",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                height: 1.2,
-                                fontSize: 14,
-                                color: Colors.white70.withAlpha(
-                                  listBelongsToPoi ? 255 : 140,
-                                ),
-                                fontFamily: "Poppins",
-                              ),
-                            ),
+                            // Text(
+                            //   "${myList.poiList.length} places${myList.isArchived ? " · hidden" : ""}",
+                            //   textAlign: TextAlign.left,
+                            //   style: TextStyle(
+                            //     height: 1.2,
+                            //     fontSize: 14,
+                            //     color: Colors.white70.withAlpha(
+                            //       listBelongsToPoi ? 255 : 140,
+                            //     ),
+                            //     fontFamily: "Poppins",
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],
@@ -109,6 +109,6 @@ class SelectListPage extends ConsumerWidget {
 
     // Update providers
     ref.read(selectedPoiProvider.notifier).state = updatedPoi.copy();
-    ref.invalidate(myListsProvider); // TODO non va
+    ref.read(myListsProvider.notifier).refresh(); // TODO non funziona!!!!
   }
 }
