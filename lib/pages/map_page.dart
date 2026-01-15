@@ -6,7 +6,7 @@ import 'package:material_floating_search_bar_plus/material_floating_search_bar_p
 import 'package:myplaces/components/map_page/floating_search.dart';
 import 'package:myplaces/components/map_page/poi_detail_on_map.dart';
 import 'package:myplaces/models/poi_category.dart';
-import 'package:myplaces/pages/poi_detail_page.dart';
+import 'package:myplaces/functions/poi_detail_page/poi_detail_page.dart';
 import 'package:myplaces/service/image_service.dart';
 
 import '../models/poi.dart';

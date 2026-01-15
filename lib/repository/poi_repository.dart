@@ -1,4 +1,3 @@
-import 'package:http/http.dart' as ref;
 import 'package:myplaces/service/poi_service.dart';
 
 import '../models/my_list.dart';
@@ -16,9 +15,9 @@ class PoiRepository {
     return _searchService.search(query);
   }
 
-  void save(Poi poi) async {
+  Future<Poi> save(Poi poi) async {
     print("PoiRepository.save >>> Saving Poi: ${poi.id}");
-    _poiService.savePoi(poi);
+    return _poiService.savePoi(poi);
   }
 
   // TODO fare async
@@ -28,15 +27,14 @@ class PoiRepository {
     return found;
   }
 
-  Poi togglePoiInList(Poi poi, MyList myList) {
-    if (poi.lists.any((l) => l.id == myList.id)) {
+  Future<Poi> togglePoiInList(Poi poi, MyList myList) async {
+    bool listBelongToPoi = poi.lists.any((l) => l.id == myList.id);
+    if (listBelongToPoi) {
       poi.lists.removeWhere((l) => l.id == myList.id);
     } else {
-      if (!poi.lists.map((l) => l.id).toSet().contains(myList.id)) {
-        poi.lists.add(myList);
-      }
+      poi.lists.add(myList);
     }
-    save(poi);
-    return poi;
+
+    return await save(poi);
   }
 }

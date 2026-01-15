@@ -7,7 +7,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/components/list_page/poi_card.dart';
 import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/models/poi_image.dart';
-import 'package:myplaces/pages/poi_detail_page.dart';
+import 'package:myplaces/functions/poi_detail_page/poi_detail_page.dart';
 import 'package:myplaces/providers.dart';
 
 import '../models/poi.dart';
@@ -18,8 +18,7 @@ class ListPage extends ConsumerStatefulWidget {
   const ListPage({super.key, required this.myList});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      ListPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => ListPageState();
 }
 
 class ListPageState extends ConsumerState<ListPage> {
@@ -39,9 +38,15 @@ class ListPageState extends ConsumerState<ListPage> {
         title: Text(myList.displayName, style: TextStyle(fontSize: 26)),
         toolbarHeight: 80,
         actions: [
-          (myList.isArchived) ?
-            IconButton(onPressed: () => updateListArchivedField(false, myList, ref), icon: Icon(Icons.visibility)) :
-            IconButton(onPressed: () => updateListArchivedField(true, myList, ref), icon: Icon(Icons.visibility_off)),
+          (myList.isArchived)
+              ? IconButton(
+                  onPressed: () => updateListArchivedField(false, myList, ref),
+                  icon: Icon(Icons.visibility),
+                )
+              : IconButton(
+                  onPressed: () => updateListArchivedField(true, myList, ref),
+                  icon: Icon(Icons.visibility_off),
+                ),
           IconButton(onPressed: () {}, icon: Icon(Icons.map)),
           IconButton(onPressed: () {}, icon: Icon(Icons.filter_list)),
         ],
@@ -64,11 +69,7 @@ class ListPageState extends ConsumerState<ListPage> {
                 onSubmitted: (newValue) =>
                     updateListNoteField(newValue, myList, ref),
                 onTapOutside: (event) {
-                  updateListNoteField(
-                    textEditingController.text,
-                    myList,
-                    ref,
-                  );
+                  updateListNoteField(textEditingController.text, myList, ref);
                   FocusScope.of(context).unfocus();
                 },
               ),
@@ -104,7 +105,6 @@ class ListPageState extends ConsumerState<ListPage> {
       ),
     );
   }
-
 
   void updateListArchivedField(bool value, MyList myList, WidgetRef ref) {
     setState(() {

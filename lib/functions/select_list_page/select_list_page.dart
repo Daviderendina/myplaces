@@ -12,6 +12,7 @@ class SelectListPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<MyList> allDefinedLists = ref.watch(myListsProvider);
     final poi = ref.watch(selectedPoiProvider);
+
     print("POI LISTS: ${poi?.lists.length}");
 
     if (poi == null) return SizedBox();
@@ -102,12 +103,12 @@ class SelectListPage extends ConsumerWidget {
     );
   }
 
-  void onListClick(WidgetRef ref, MyList myList, Poi poi) {
+  void onListClick(WidgetRef ref, MyList myList, Poi poi) async {
     final repo = ref.read(poiRepositoryProvider);
-    Poi updatedPoi = repo.togglePoiInList(poi, myList);
+    Poi updatedPoi = await repo.togglePoiInList(poi, myList);
 
     // Update providers
     ref.read(selectedPoiProvider.notifier).state = updatedPoi.copy();
-    ref.invalidate(myListsProvider);
+    ref.invalidate(myListsProvider); // TODO non va
   }
 }

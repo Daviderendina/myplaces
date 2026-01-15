@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,13 +7,11 @@ import 'package:myplaces/components/common/note_box.dart';
 import 'package:myplaces/extension/title_case_extension.dart';
 import 'package:myplaces/repository/poi_repository.dart';
 
-import '../components/common/poi_detail/add_list_custom.dart';
-import '../components/common/poi_detail/add_list_default.dart';
-import '../functions/select_list_page/select_list_page.dart';
-import '../models/my_list.dart';
-import '../models/poi.dart';
-import '../models/poi_image.dart';
-import '../providers.dart';
+import '../select_list_page/select_list_page.dart';
+import '../../models/my_list.dart';
+import '../../models/poi.dart';
+import '../../models/poi_image.dart';
+import '../../providers.dart';
 
 class PoiDetailPage extends ConsumerStatefulWidget {
   final Poi poi;
@@ -34,12 +31,16 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
       'https://picsum.photos/id/30/800/600',
     ];
 
-    Poi poi = widget.poi;
+    final List<MyList> allDefinedLists = ref.watch(myListsProvider);
+    final poi = ref.watch(selectedPoiProvider);
+
+    if (poi == null) return SizedBox();
+
     poi.setImages(images.map(((i) => PoiImage(thumbnail: i))).toList());
 
-    List<MyList> defaultLists = ref
-        .read(myListRepositoryProvider)
-        .getAllDefaultLists();
+    List<MyList> defaultLists = allDefinedLists
+        .where((l) => l.isDefault)
+        .toList();
 
     return Scaffold(
       body: Stack(

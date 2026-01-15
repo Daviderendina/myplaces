@@ -12,15 +12,14 @@ class PoiService {
     return _box.query(Poi_.id.equals(id)).build().findFirst();
   }
 
-  void savePoi(Poi poi) async {
-    print("Total pois: ${_box.getAll().length}");
+  Future<Poi> savePoi(Poi poi) async {
     Poi? poiSaved = getById(poi.id);
 
     if (poiSaved != null) {
       poi.obxId = poiSaved.obxId;
     }
-    _box.putAsync(poi);
+    _box.put(poi);
 
-    // TODO provo a fare un wait per cpaire se il thread `e un altro
+    return Future.value(poi.copy());
   }
 }
