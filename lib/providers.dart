@@ -1,17 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:myplaces/src/map/presentation/map_page_controller.dart';
-import 'package:myplaces/src/map/presentation/map_page_state.dart';
-import 'package:myplaces/src/map/presentation/mysearchbar_controller.dart';
+import 'package:myplaces/src/map/presentation/controller/map_page_controller.dart';
+import 'package:myplaces/src/map/presentation/controller/map_page_state.dart';
+import 'package:myplaces/src/map/presentation/controller/mysearchbar_controller.dart';
 import 'package:myplaces/notifier/saved_page_notifier.dart';
 import 'package:myplaces/repository/config_repository.dart';
 import 'package:myplaces/repository/list_repository.dart';
 import 'package:myplaces/repository/poi_repository.dart';
-import 'package:myplaces/repository/poi_repository.dart';
 import 'package:myplaces/service/list_service.dart';
 import 'package:myplaces/service/poi_search_service.dart';
 import 'package:myplaces/service/poi_service.dart';
-import 'package:myplaces/state/map_page_state.dart';
+import 'package:myplaces/src/poi/controller/selected_poi_controller.dart';
 
 import 'models/my_list.dart';
 import 'models/poi.dart';
@@ -24,10 +23,11 @@ final searchBarControllerProvider =
     );
 final mapPageControllerProvider =
     StateNotifierProvider<MapPageController, MapPageState>(
-      (ref) => MapPageController(
-        const MapPageState(),
-        ref.read(poiRepositoryProvider),
-      ),
+      (ref) => MapPageController(const MapPageState()),
+    );
+final selectedPoiController =
+    StateNotifierProvider<SelectedPoiController, Poi?>(
+      (ref) => SelectedPoiController(null, ref.read(poiRepositoryProvider)),
     );
 
 // OLD !!!!

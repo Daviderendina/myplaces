@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../models/poi.dart';
-import '../../../providers.dart';
+import '../../../../models/poi.dart';
+import '../../../../providers.dart';
 
 class SearchBarController extends AsyncNotifier<List<Poi>> {
   @override

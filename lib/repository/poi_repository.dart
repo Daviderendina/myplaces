@@ -21,7 +21,7 @@ class PoiRepository {
   }
 
   // TODO fare async
-  Poi? getById(String id) {
+  Future<Poi?> getById(String id) async {
     Poi? found = _poiService.getById(id);
     // print("PoiRepository.getById >>> Found poi: ${found}");
     return found;

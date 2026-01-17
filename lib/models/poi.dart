@@ -42,7 +42,6 @@ class Poi {
     this.province,
     this.region,
     this.country,
-    LatLng? coordinates,
     this.countrycode,
     required this.categoryName,
     this.lat = 0,
@@ -67,12 +66,7 @@ class Poi {
   }
 
   factory Poi.empty() {
-    return Poi(
-      id: '',
-      name: '',
-      coordinates: LatLng(0, 0),
-      categoryName: PoiCategory.unknown.name,
-    );
+    return Poi(id: '', name: '', categoryName: PoiCategory.unknown.name);
   }
 
   String getDisplayAreaName() {
@@ -86,6 +80,13 @@ class Poi {
 
   bool belongToList(int listId) {
     return lists.map((l) => l.id).toList().contains(listId);
+  }
+
+  @override
+  String toString() {
+    return '''
+Poi(obxId: $obxId, id: $id, type: $type, subtype: $subtype, name: $name, city: $city, province: $province, region: $region, country: $country, countrycode: $countrycode, categoryName: $categoryName, note: $note, lat: $lat, lng: $lng, coordinates: ${coordinates.latitude},${coordinates.longitude}, images: [${images.map((i) => i.thumbnail).join(', ')}], lists: [${lists.map((l) => l.name).join(', ')}]
+)''';
   }
 }
 

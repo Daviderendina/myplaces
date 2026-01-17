@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:myplaces/mapper/poi_mapper.dart';
 
 import '../models/poi.dart';
+import '../src/tools/logger.dart';
 
 class PoiSearchService {
   static const String _baseUrl = 'https://photon.komoot.io/api';
@@ -30,6 +31,8 @@ class PoiSearchService {
         .map((f) => PoiMapper.mapPoiFromPhoton(f))
         .where(filterByType)
         .toList();
+
+    //TODO logger.info("Search result: ${result.map((p) => p.toString()).toList()}");
 
     // print("Filtered out ${features.length - result.length} poi");
     return result;

@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
-import 'package:myplaces/src/map/presentation/mysearchbar.dart';
-import 'package:myplaces/components/map_page/poi_detail_on_map.dart';
-import 'package:myplaces/models/poi_category.dart';
-import 'package:myplaces/functions/poi_detail_page/poi_detail_page.dart';
-import 'package:myplaces/service/image_service.dart';
-import 'package:myplaces/src/map/presentation/poi_bottom_sheet.dart';
+import 'package:myplaces/src/map/presentation/ui/poi_bottom_sheet.dart';
+import 'package:myplaces/src/tools/logger.dart';
 
-import '../../../models/poi.dart';
-import '../../../providers.dart';
+import '../../../../models/poi.dart';
+import '../../../../providers.dart';
+import 'mysearchbar.dart';
 
 // TODO quando si cambia pagina bisogna fare il clean della mappa!!
 
 class MapPage extends ConsumerWidget {
-  const MapPage({super.key});
+  final MapController mapController = MapController();
+  final FloatingSearchBarController searchBarController =
+      FloatingSearchBarController();
+
+  MapPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    late final MapController mapController = MapController();
-    late final FloatingSearchBarController searchBarController =
-        FloatingSearchBarController();
-
     final state = ref.watch(mapPageControllerProvider);
+    final poi = ref.watch(selectedPoiController);
+
+    logger.info("Show marker: ${state.showPoiMarker}");
+    logger.info("Poi to show: $poi");
 
     return Stack(
       children: [
@@ -50,16 +50,16 @@ class MapPage extends ConsumerWidget {
 
             MarkerLayer(
               markers: [
-                if (state.poiToShow != null && state.showPoiMarker)
+                if (poi != null && state.showPoiMarker)
                   Marker(
-                    point: state.poiToShow!.coordinates,
+                    point: poi.coordinates,
                     child: GestureDetector(
+                      onTap: () => showPoiModal(context),
                       child: Icon(
                         Icons.location_pin,
                         color: Colors.red,
                         size: 40,
                       ),
-                      onTap: () {}, // TODO mostra modale via ref
                     ),
                   ),
               ],
@@ -72,7 +72,7 @@ class MapPage extends ConsumerWidget {
         ),
         MySearchBar(
           searchBarController: searchBarController,
-          onResultTap: (r) => showPoiOnMap(ref, r),
+          onResultTap: (r) => showPoiOnMap(context, ref, r),
         ),
 
         // Center(
@@ -98,11 +98,20 @@ class MapPage extends ConsumerWidget {
     );
   }
 
-  void showPoiOnMap(WidgetRef ref, Poi poi) {
+  Future<void> showPoiOnMap(
+    BuildContext context,
+    WidgetRef ref,
+    Poi poi,
+  ) async {
+    ref.read(selectedPoiController.notifier).selectNewPoi(poi);
+    ref.read(mapPageControllerProvider.notifier).setPoiMarkerVisibility(true);
+
+    showPoiModal(context);
+
     //print("Showing poi on map: ${poi.name}");
-    ref.read(mapPageControllerProvider.notifier).showPoiDetailOnMap(poi);
+    //ref.read(mapPageControllerProvider.notifier).showPoiDetailOnMap(poi);
     // TODO qui devo usare due notifier, uno per il marker e l'altro per il poi
-    showPoiModal();
+    //showPoiModal();
 
     // TODO
     // ImageService().enrichPoiWithImages(poi: poi).whenComplete(() {
@@ -118,17 +127,12 @@ class MapPage extends ConsumerWidget {
     // });
   }
 
-  void showPoiModal(BuildContext context, Poi poi) {
-    // in futuro questo poi arriva da riverpod diretto
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (_) => PoiBottomSheet(
-          poi: poi,
-        ), // TOO qui devo usare riverpod con il selectedPoi ?? A questo punto forse lo uso anche per il poi da mostrare, cosi centralizzo anche il recupero da DB
-      );
-    });
+  Future<void> showPoiModal(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => PoiBottomSheet(),
+    );
   }
 }

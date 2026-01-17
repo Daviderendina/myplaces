@@ -6,7 +6,7 @@ import 'package:myplaces/functions/saved_page/saved_page.dart';
 import 'package:myplaces/pages/profile_page.dart';
 import 'package:myplaces/providers.dart';
 
-import '../src/map/presentation/map_page.dart';
+import '../src/map/presentation/ui/map_page.dart';
 
 class RootPage extends ConsumerStatefulWidget {
   const RootPage({super.key});

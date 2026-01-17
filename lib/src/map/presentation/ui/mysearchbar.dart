@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:myplaces/components/map_page/poi_result_card.dart';
 
-import '../../../models/poi.dart';
-import '../../../providers.dart';
+import '../../../../models/poi.dart';
+import '../../../../providers.dart';
 
 class MySearchBar extends ConsumerWidget {
   final FloatingSearchBarController searchBarController;
