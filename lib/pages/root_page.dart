@@ -6,7 +6,7 @@ import 'package:myplaces/functions/saved_page/saved_page.dart';
 import 'package:myplaces/pages/profile_page.dart';
 import 'package:myplaces/providers.dart';
 
-import 'map_page.dart';
+import '../src/map/presentation/map_page.dart';
 
 class RootPage extends ConsumerStatefulWidget {
   const RootPage({super.key});
@@ -24,13 +24,13 @@ class RootPageState extends ConsumerState<RootPage> {
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (ref.watch(mapPageProvider).searchPoiResultToShow != null) {
-          ref.read(mapPageProvider.notifier).clearMap();
-        } else {
-          SystemNavigator.pop();
-        }
-      },
+      // onPopInvokedWithResult: (didPop, result) {
+      //   if (ref.watch(mapPageProvider).searchPoiResultToShow != null) {
+      //     ref.read(mapPageProvider.notifier).clearMap();
+      //   } else {
+      //     SystemNavigator.pop();
+      //   }
+      // }, TODO sistemare
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,

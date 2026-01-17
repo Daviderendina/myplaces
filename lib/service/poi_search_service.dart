@@ -10,7 +10,7 @@ class PoiSearchService {
   Future<List<Poi>> search(String query) async {
     final String queryParam = "lang=en&q=$query";
     final uri = Uri.parse('$_baseUrl?$queryParam');
-    print("Invoking ${uri.toString()}");
+    // print("Invoking ${uri.toString()}");
 
     final response = await http.get(
       uri,
@@ -18,20 +18,20 @@ class PoiSearchService {
     );
 
     if (response.statusCode != 200) {
-      print(response.reasonPhrase);
+      // print(response.reasonPhrase);
       throw Exception('HTTP ${response.statusCode}');
     }
 
     final body = jsonDecode(response.body) as Map<String, dynamic>;
     final List features = body['features'];
-    print("Received ${features.length} responses: $features");
+    // print("Received ${features.length} responses: $features");
 
     List<Poi> result = features
         .map((f) => PoiMapper.mapPoiFromPhoton(f))
         .where(filterByType)
         .toList();
 
-    print("Filtered out ${features.length - result.length} poi");
+    // print("Filtered out ${features.length - result.length} poi");
     return result;
   }
 

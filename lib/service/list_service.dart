@@ -8,7 +8,7 @@ class ListService {
   ListService(this._box);
 
   List<MyList> getAllLists() {
-    print('MyList count: ${_box.count()}');
+    // print('MyList count: ${_box.count()}');
     return _box.getAll();
   }
 
@@ -17,7 +17,7 @@ class ListService {
   }
 
   Future<MyList> save(MyList newList) async {
-    print("Creating new list");
+    // print("Creating new list");
     MyList? myListSaved = getById(newList.id);
 
     if (myListSaved != null) {
@@ -46,7 +46,7 @@ class ListService {
     String nameLower = name.toLowerCase();
     final query = _box.query(MyList_.name.equals(nameLower)).build();
     final result = query.findFirst();
-    print("RESULT / $result");
+    // print("RESULT / $result");
     query.close();
     return result;
   }

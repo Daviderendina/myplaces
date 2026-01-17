@@ -3,37 +3,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:myplaces/components/map_page/poi_result_card.dart';
 
-import '../../models/poi.dart';
-import '../../providers.dart';
+import '../../../models/poi.dart';
+import '../../../providers.dart';
 
-class MyFloatingSearchBar extends ConsumerWidget {
+class MySearchBar extends ConsumerWidget {
   final FloatingSearchBarController searchBarController;
-  final bool isSearching;
-  final List<Poi> searchResults;
   final Function(Poi poi) onResultTap;
 
-  const MyFloatingSearchBar({
+  const MySearchBar({
     required this.searchBarController,
-    required this.isSearching,
-    required this.searchResults,
     required this.onResultTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var state = ref.watch(mapPageProvider);
+    final AsyncValue<List<Poi>> state = ref.watch(searchBarControllerProvider);
 
     return FloatingSearchBar(
       actions: [
-        state.searchPoiResultToShow != null
-            ? IconButton(
-                onPressed: () {
-                  ref.read(mapPageProvider.notifier).clearMap();
-                },
-                icon: Icon(Icons.close),
-              )
-            : IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+        // state.searchPoiResultToShow != null
+        //     ? IconButton(
+        //         onPressed: () {
+        //           ref.read(mapPageProvider.notifier).clearMap();
+        //         },
+        //         icon: Icon(Icons.close),
+        //       )
+        //     : IconButton(onPressed: () {}, icon: Icon(Icons.search)),
       ],
       automaticallyImplyBackButton: false,
       controller: searchBarController,
@@ -41,7 +37,7 @@ class MyFloatingSearchBar extends ConsumerWidget {
       height: 54,
       hint: 'Search...',
       hintStyle: TextStyle(fontSize: 17.5, color: Colors.grey.shade400),
-      progress: isSearching,
+      progress: state.isLoading,
       leadingActions: [
         FloatingSearchBarAction(
           child: Padding(
@@ -57,22 +53,31 @@ class MyFloatingSearchBar extends ConsumerWidget {
       physics: const BouncingScrollPhysics(),
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: (query) {
-        ref.read(mapPageProvider.notifier).search(query);
+        ref.read(searchBarControllerProvider.notifier).search(query);
       },
       transition: CircularFloatingSearchBarTransition(),
       builder: (context, transition) {
-        final results = searchResults;
-
         return ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Material(
             color: Colors.transparent,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              spacing: 1,
-              children: results.map((poi) {
-                return PoiResultCard(poi: poi, onTap: () => {onResultTap(poi)});
-              }).toList(),
+              children: state.when(
+                data: (pois) => pois
+                    .map(
+                      (poi) => PoiResultCard(
+                        poi: poi,
+                        onTap: () {
+                          searchBarController.close();
+                          onResultTap(poi);
+                        },
+                      ),
+                    )
+                    .toList(),
+                loading: () => [const CircularProgressIndicator()],
+                error: (e, _) => [Text('Error: $e')],
+              ),
             ),
           ),
         );

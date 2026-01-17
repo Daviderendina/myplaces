@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:myplaces/notifier/map_page_notifier.dart';
+import 'package:myplaces/src/map/presentation/map_page_controller.dart';
+import 'package:myplaces/src/map/presentation/map_page_state.dart';
+import 'package:myplaces/src/map/presentation/mysearchbar_controller.dart';
 import 'package:myplaces/notifier/saved_page_notifier.dart';
 import 'package:myplaces/repository/config_repository.dart';
 import 'package:myplaces/repository/list_repository.dart';
@@ -16,6 +18,20 @@ import 'models/poi.dart';
 import 'notifier/my_lists_notifier.dart';
 import 'objectbox.g.dart';
 
+final searchBarControllerProvider =
+    AsyncNotifierProvider<SearchBarController, List<Poi>>(
+      () => SearchBarController(),
+    );
+final mapPageControllerProvider =
+    StateNotifierProvider<MapPageController, MapPageState>(
+      (ref) => MapPageController(
+        const MapPageState(),
+        ref.read(poiRepositoryProvider),
+      ),
+    );
+
+// OLD !!!!
+
 final appInitProvider = FutureProvider<void>((ref) async {
   // Create default lists
   ListService listService = ref.read(listServiceProvider);
@@ -28,10 +44,7 @@ final appInitProvider = FutureProvider<void>((ref) async {
 });
 
 // States provider
-final mapPageProvider =
-    StateNotifierProvider<MapPageNotifier, MapPageViewState>(
-      (ref) => MapPageNotifier(ref.read(poiRepositoryProvider)),
-    );
+
 final savedPageProvider =
     AsyncNotifierProvider<SavedPageNotifier, List<MyList>>(
       SavedPageNotifier.new,

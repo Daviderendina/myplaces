@@ -32,7 +32,7 @@ class ImageService {
       },
     );
 
-    print("Searching image from uri ${uri.toString()}");
+    // print("Searching image from uri ${uri.toString()}");
 
     final response = await http.get(uri);
     if (response.statusCode != 200) return poi;
