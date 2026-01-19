@@ -88,11 +88,7 @@ class RootPageState extends ConsumerState<RootPage> {
                     ),
                   ],
                   selectedIndex: selectedIndex,
-                  onTabChange: (value) {
-                    setState(() {
-                      selectedIndex = value;
-                    });
-                  },
+                  onTabChange: changePage,
                 ),
               ),
             ),
@@ -100,5 +96,15 @@ class RootPageState extends ConsumerState<RootPage> {
         ),
       ),
     );
+  }
+
+  void changePage(int index) {
+    if (this.selectedIndex == 0) {
+      // map page
+      ref.read(mapPageControllerProvider.notifier).clearMap();
+    }
+    setState(() {
+      selectedIndex = index;
+    });
   }
 }
