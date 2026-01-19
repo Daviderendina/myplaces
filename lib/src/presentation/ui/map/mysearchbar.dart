@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:myplaces/components/map_page/poi_result_card.dart';
 
-import '../../../../models/poi.dart';
-import '../../../../providers.dart';
+import '../../../../../models/poi.dart';
+import '../../../../../providers.dart';
 
 class MySearchBar extends ConsumerWidget {
   final FloatingSearchBarController searchBarController;
@@ -19,17 +19,18 @@ class MySearchBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<List<Poi>> state = ref.watch(searchBarControllerProvider);
+    final mapPageState = ref.watch(mapPageControllerProvider);
 
     return FloatingSearchBar(
       actions: [
-        // state.searchPoiResultToShow != null
-        //     ? IconButton(
-        //         onPressed: () {
-        //           ref.read(mapPageProvider.notifier).clearMap();
-        //         },
-        //         icon: Icon(Icons.close),
-        //       )
-        //     : IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+        mapPageState.showPoiMarker
+            ? IconButton(
+                onPressed: () {
+                  ref.read(mapPageControllerProvider.notifier).clearMap();
+                },
+                icon: Icon(Icons.close),
+              )
+            : IconButton(onPressed: () {}, icon: Icon(Icons.search)),
       ],
       automaticallyImplyBackButton: false,
       controller: searchBarController,
@@ -63,6 +64,7 @@ class MySearchBar extends ConsumerWidget {
             color: Colors.transparent,
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              spacing: 2,
               children: state.when(
                 data: (pois) => pois
                     .map(
@@ -75,7 +77,7 @@ class MySearchBar extends ConsumerWidget {
                       ),
                     )
                     .toList(),
-                loading: () => [const CircularProgressIndicator()],
+                loading: () => [], // TODO implementare qui il loading
                 error: (e, _) => [Text('Error: $e')],
               ),
             ),

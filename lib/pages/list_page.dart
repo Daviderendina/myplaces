@@ -7,7 +7,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/components/list_page/poi_card.dart';
 import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/models/poi_image.dart';
-import 'package:myplaces/functions/poi_detail_page/poi_detail_page.dart';
+import 'package:myplaces/src/presentation/ui/poi_detail/poi_detail_page.dart';
 import 'package:myplaces/providers.dart';
 
 import '../models/poi.dart';

@@ -3,11 +3,7 @@ class MapPageState {
 
   const MapPageState({this.showPoiMarker = false});
 
-  MapPageState copyWith({
-    Object? poiToShow,
-    bool? showPoiDetailModal,
-    bool? showPoiMarker,
-  }) {
+  MapPageState copyWith({bool? showPoiMarker}) {
     return MapPageState(showPoiMarker: showPoiMarker ?? this.showPoiMarker);
   }
 }

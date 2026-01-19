@@ -6,12 +6,13 @@ import 'package:myplaces/components/common/my_title.dart';
 import 'package:myplaces/components/common/note_box.dart';
 import 'package:myplaces/extension/title_case_extension.dart';
 import 'package:myplaces/repository/poi_repository.dart';
+import 'package:myplaces/src/presentation/ui/common/poi/poi_button_list.dart';
 
-import '../select_list_page/select_list_page.dart';
-import '../../models/my_list.dart';
-import '../../models/poi.dart';
-import '../../models/poi_image.dart';
-import '../../providers.dart';
+import '../../../../functions/select_list_page/select_list_page.dart';
+import '../../../../models/my_list.dart';
+import '../../../../models/poi.dart';
+import '../../../../models/poi_image.dart';
+import '../../../../providers.dart';
 
 class PoiDetailPage extends ConsumerStatefulWidget {
   final Poi poi;
@@ -115,56 +116,7 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                     SizedBox(height: 24),
 
                     // Buttons list
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ...defaultLists.map((list) {
-                          return IconButton(
-                            onPressed: () => triggerPoiToList(poi, list),
-                            icon: Icon(
-                              Icons.question_mark_outlined,
-                              size: 30,
-                              color: poi.belongToList(list.id)
-                                  ? Colors.amber
-                                  : Colors.grey,
-                            ),
-                          );
-                        }),
-                        SizedBox(width: 15),
-                        ActionChip(
-                          backgroundColor: Colors.lightBlue.withAlpha(30),
-                          onPressed: () {
-                            ref.read(selectedPoiProvider.notifier).state = poi;
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => SelectListPage(),
-                              ),
-                            );
-                          },
-                          label: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Add to list",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.lightBlue.shade200,
-                              ),
-                            ),
-                          ),
-                          avatar: Icon(
-                            Icons.add,
-                            color: Colors.lightBlue.shade200,
-                          ),
-                          elevation: 0,
-                          pressElevation: 0,
-                          shape: const StadiumBorder(
-                            side: BorderSide(color: Colors.transparent),
-                          ),
-                          padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
-                        ),
-                      ],
-                    ),
+                    PoiButtonList(),
                   ],
                 ),
               ),
@@ -213,12 +165,6 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
         ),
       ],
     );
-  }
-
-  void triggerPoiToList(Poi poi, MyList myList) {
-    PoiRepository repository = ref.read(poiRepositoryProvider);
-    repository.togglePoiInList(poi, myList);
-    ref.read(savedPageProvider.notifier).refresh();
   }
 
   void updatePoiNoteField(String newValue, Poi poi, WidgetRef ref) {

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
-import 'package:myplaces/src/map/presentation/ui/poi_bottom_sheet.dart';
+import 'package:myplaces/src/presentation/ui/map/poi_bottom_sheet.dart';
 import 'package:myplaces/src/tools/logger.dart';
 
-import '../../../../models/poi.dart';
-import '../../../../providers.dart';
+import '../../../../../models/poi.dart';
+import '../../../../../providers.dart';
 import 'mysearchbar.dart';
 
 // TODO quando si cambia pagina bisogna fare il clean della mappa!!
@@ -104,27 +104,15 @@ class MapPage extends ConsumerWidget {
     Poi poi,
   ) async {
     ref.read(selectedPoiController.notifier).selectNewPoi(poi);
-    ref.read(mapPageControllerProvider.notifier).setPoiMarkerVisibility(true);
 
     showPoiModal(context);
 
-    //print("Showing poi on map: ${poi.name}");
-    //ref.read(mapPageControllerProvider.notifier).showPoiDetailOnMap(poi);
-    // TODO qui devo usare due notifier, uno per il marker e l'altro per il poi
-    //showPoiModal();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(mapPageControllerProvider.notifier).setPoiMarkerVisibility(true);
 
-    // TODO
-    // ImageService().enrichPoiWithImages(poi: poi).whenComplete(() {
-    //   print("H ${poi.images}");
-    //   showPoiBottomSheet(poi);
-    // });
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   ref.read(mapPageProvider.notifier).showSearchPoiMarkerOnMap(poi);
-    //
-    //   // TODO zoom diverso per attrazione diversa, anzi meglio calcolo zoom in base ai markers che mi arrivano, chat sa come fare
-    //   _mapController.move(poi.coordinates, 15, offset: Offset(0, -200));
-    // });
+      // TODO zoom diverso per attrazione diversa, anzi meglio calcolo zoom in base ai markers che mi arrivano, chat sa come fare
+      mapController.move(poi.coordinates, 15, offset: Offset(0, -200));
+    });
   }
 
   Future<void> showPoiModal(BuildContext context) async {
