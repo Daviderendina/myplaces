@@ -9,13 +9,13 @@ class PoiButtonList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<MyList> allDefinedLists = ref.watch(myListsProvider);
-    final poi = ref.watch(selectedPoiController);
+    final poi = ref.watch(selectedPoiControllerProvider);
 
     List<MyList> defaultLists = allDefinedLists
         .where((l) => l.isDefault)
         .toList();
 
-    final controller = ref.read(selectedPoiController.notifier);
+    final controller = ref.read(selectedPoiControllerProvider.notifier);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

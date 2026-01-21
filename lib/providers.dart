@@ -25,9 +25,15 @@ final mapPageControllerProvider =
     StateNotifierProvider<MapPageController, MapPageState>(
       (ref) => MapPageController(const MapPageState()),
     );
-final selectedPoiController =
+
+final selectedPoiControllerProvider =
     StateNotifierProvider<SelectedPoiController, Poi?>(
       (ref) => SelectedPoiController(null, ref.read(poiRepositoryProvider)),
+    );
+
+final listsControllerProvider =
+    AsyncNotifierProvider<SavedPageController, List<MyList>>(
+      SavedPageController.new,
     );
 
 // OLD !!!!
@@ -44,11 +50,6 @@ final appInitProvider = FutureProvider<void>((ref) async {
 });
 
 // States provider
-
-final savedPageProvider =
-    AsyncNotifierProvider<SavedPageNotifier, List<MyList>>(
-      SavedPageNotifier.new,
-    );
 final selectedPoiProvider = StateProvider<Poi?>((ref) => null);
 final selectedListProvider = StateProvider<MyList?>((ref) => null);
 

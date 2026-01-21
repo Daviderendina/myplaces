@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:myplaces/functions/saved_page/saved_page.dart';
 import 'package:myplaces/pages/profile_page.dart';
 import 'package:myplaces/providers.dart';
 
 import '../src/presentation/ui/map/map_page.dart';
+import '../src/presentation/ui/saved/saved_page.dart';
 
 class RootPage extends ConsumerStatefulWidget {
   const RootPage({super.key});

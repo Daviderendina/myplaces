@@ -13,7 +13,7 @@ class PoiBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Poi? poi = ref.watch(selectedPoiController);
+    Poi? poi = ref.watch(selectedPoiControllerProvider);
 
     return poi == null
         ? SizedBox()

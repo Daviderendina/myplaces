@@ -21,7 +21,7 @@ class MapPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(mapPageControllerProvider);
-    final poi = ref.watch(selectedPoiController);
+    final poi = ref.watch(selectedPoiControllerProvider);
 
     logger.info("Show marker: ${state.showPoiMarker}");
     logger.info("Poi to show: $poi");
@@ -103,7 +103,7 @@ class MapPage extends ConsumerWidget {
     WidgetRef ref,
     Poi poi,
   ) async {
-    ref.read(selectedPoiController.notifier).selectNewPoi(poi);
+    ref.read(selectedPoiControllerProvider.notifier).selectNewPoi(poi);
 
     showPoiModal(context);
 

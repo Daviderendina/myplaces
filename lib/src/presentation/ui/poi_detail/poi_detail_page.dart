@@ -171,6 +171,6 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
     poi.note = newValue;
     ref.read(poiRepositoryProvider).save(poi);
     // TODO serve un provider anche per la pagina myLisy che viene quindi aggiornata da questa!!! Altrimenti non si aggiornala schermata
-    ref.read(savedPageProvider.notifier).refresh();
+    ref.read(listsControllerProvider.notifier).refresh();
   }
 }

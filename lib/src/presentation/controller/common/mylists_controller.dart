@@ -2,10 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/providers.dart';
 
-import '../repository/list_repository.dart';
+import '../../../../repository/list_repository.dart';
 
-class SavedPageController extends AsyncNotifier<List<MyList>> {
+class MyListsController extends AsyncNotifier<List<MyList>> {
   late final ListRepository _repository;
+
+  // TODO questo devbe tornare a gestire la lista di MyList definite - entrypoint per la gestione delle liste
 
   @override
   Future<List<MyList>> build() async {
@@ -17,26 +19,26 @@ class SavedPageController extends AsyncNotifier<List<MyList>> {
   Future<void> refresh() async {
     state = const AsyncLoading();
     try {
-      final lists = await _repository.getAll();
-      state = AsyncData(lists);
+      state = AsyncData(_repository.getAll());
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
   Future<void> addList(MyList newList) async {
-    final current = state.value ?? [];
-
     try {
+      // TODO qui sarebbe carino farlo in maniera ottimistica, ma ho il problema dell'ID!!!
       MyList created = await _repository.save(newList);
-      // print("Created list with id ${created.id}");
-      state = AsyncData([...current, created]);
+      state = AsyncData([...state.requireValue, created]);
     } catch (e) {
       // print("Error adding list: $e");
     }
   }
 
-  void removeList(MyList myList) async {
+  void deleteList(MyList myList) async {
+    state = AsyncData(
+      state.requireValue.where((l) => l.id != myList.id).toList(),
+    );
     _repository.delete(myList);
   }
 }

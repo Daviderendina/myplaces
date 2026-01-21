@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/components/common/main_page_padding.dart';
 import 'package:myplaces/components/common/main_page_subtitle.dart';
-import 'package:myplaces/components/common/my_title.dart';
 import 'package:myplaces/models/my_list.dart';
 import 'package:myplaces/providers.dart';
 
-import '../../components/common/main_page_title.dart';
-import '../../components/saved_page/card_mylist_custom.dart';
-import '../../components/common/my_subtitle.dart';
-import '../../components/saved_page/card_mylist_default.dart';
-import '../../pages/list_page.dart';
+import '../../../../components/common/main_page_title.dart';
+import '../../../../components/saved_page/card_mylist_custom.dart';
+import '../../../../components/saved_page/card_mylist_default.dart';
+import '../../../../pages/list_page.dart';
 
 class SavedPage extends ConsumerStatefulWidget {
   const SavedPage({super.key});
@@ -24,9 +22,9 @@ class SavedPageState extends ConsumerState<SavedPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(savedPageProvider);
+    final lists = ref.watch(listsControllerProvider);
 
-    return state.when(
+    return lists.when(
       error: (e, _) => Text('Errore: $e'),
       loading: () => const CircularProgressIndicator(),
       data: (myLists) {
@@ -169,7 +167,7 @@ class SavedPageState extends ConsumerState<SavedPage> {
 
               final newList = MyList(name: name);
               ref
-                  .read(savedPageProvider.notifier)
+                  .read(listsControllerProvider.notifier)
                   .addList(
                     newList,
                   ); // TODO gestire qui onError, devo mostrare il toast se la lista esiste gia - Se faccio in una page dedicata lo mostro direttamente sulla toast

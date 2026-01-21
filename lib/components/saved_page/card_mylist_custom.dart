@@ -75,8 +75,10 @@ class CardMylistCustom extends ConsumerWidget {
                     if (value == "edit") {
                       // codice edit
                     } else if (value == "delete") {
-                      ref.read(savedPageProvider.notifier).removeList(myList);
-                      ref.read(savedPageProvider.notifier).refresh();
+                      ref
+                          .read(listsControllerProvider.notifier)
+                          .removeList(myList);
+                      ref.read(listsControllerProvider.notifier).refresh();
                     }
                   },
                   itemBuilder: (context) => [
