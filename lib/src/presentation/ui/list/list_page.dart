@@ -15,21 +15,54 @@ import '../../../../components/common/main_page_title.dart';
 import '../../../../models/poi.dart';
 import '../common/chips.dart';
 
-class ListPage extends ConsumerWidget {
+class ListPage extends ConsumerStatefulWidget {
   const ListPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ListPage> createState() => _ListPageState();
+}
+
+class _ListPageState extends ConsumerState<ListPage> {
+  late final TextEditingController _textEditingController;
+  late final FocusNode _focusNode;
+
+  bool showNote = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController = TextEditingController();
+    _focusNode = FocusNode();
+
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus && _textEditingController.text.trim().isEmpty) {
+        setState(() {
+          showNote = false;
+        });
+      } else {
+        ref
+            .read(selectedListControllerProvider.notifier)
+            .updateNote(_textEditingController.text.trim());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final myList = ref.watch(selectedListControllerProvider);
 
-    if (myList == null) return SizedBox();
+    if (myList == null) return const SizedBox();
 
-    List<Poi> poiList = myList.poiList;
-    TextEditingController textEditingController = TextEditingController();
+    final poiList = myList.poiList;
 
-    // TODO capire qui
-    if (myList.note.isNotEmpty) {
-      textEditingController.text = myList.note;
+    if (_textEditingController.text != myList.note) {
+      _textEditingController.text = myList.note;
     }
 
     return Scaffold(
@@ -40,17 +73,12 @@ class ListPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MainPageTitle(text: myList.name.toTitleCase()),
+
             SizedBox(
               height: 50,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  MyActionChip(
-                    title: "Search",
-                    icon: Icons.search,
-                    onTap: () {},
-                  ),
-
                   const SizedBox(width: 4),
                   MyActionChip(title: "Map", icon: Icons.map, onTap: () {}),
 
@@ -62,77 +90,73 @@ class ListPage extends ConsumerWidget {
                           ? Icons.visibility_off
                           : Icons.visibility,
                       selected: !myList.isArchived,
-                      onSelected: (v) => updateListVisibility(!v, ref),
+                      onSelected: (v) => updateListVisibility(!v),
                       selectedColor: Colors.green,
                     ),
                   ],
 
-                  if (myList.note.isEmpty) ...[
+                  if (myList.note.isEmpty && !showNote) ...[
                     const SizedBox(width: 4),
                     MyActionChip(
                       title: "Add note",
                       icon: Icons.playlist_add,
-                      onTap: () {},
+                      onTap: addNoteOnTap,
                     ),
                   ],
                 ],
               ),
             ),
 
-            if (myList.note.isNotEmpty) ...[
+            if (myList.note.isNotEmpty || showNote) ...[
               const SizedBox(height: 16),
-              Container(
-                width: double.infinity, // tutta la larghezza possibile
-                decoration: BoxDecoration(
-                  border: BoxBorder.all(color: Colors.grey.shade900),
-                ),
+              SizedBox(
+                width: double.infinity,
                 child: TextField(
-                  controller: textEditingController,
-                  decoration: const InputDecoration(
-                    hintText: 'Aggiungi una nota..',
-                    border: OutlineInputBorder(),
+                  focusNode: _focusNode,
+                  controller: _textEditingController,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: Colors.white38, width: 0.7),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: Colors.white10, width: 0.5),
+                    ),
                   ),
-                  onSubmitted: (newValue) =>
-                      updateListNoteField(newValue, myList, ref),
-                  onTapOutside: (event) {
-                    updateListNoteField(
-                      textEditingController.text,
-                      myList,
-                      ref,
-                    );
+                  onSubmitted: (value) => updateListNoteField(value, myList),
+                  onTapOutside: (_) {
+                    updateListNoteField(_textEditingController.text, myList);
                     FocusScope.of(context).unfocus();
                   },
                 ),
               ),
             ],
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             Expanded(
               child: poiList.isNotEmpty
                   ? ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
                       itemCount: poiList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Poi poi = poiList[index];
+                      separatorBuilder: (_, __) => const SizedBox(height: 6),
+                      itemBuilder: (context, index) {
+                        final poi = poiList[index];
                         return PoiCard(
                           poi: poi,
                           onTap: () {
                             ref.read(selectedPoiProvider.notifier).state = poi;
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => PoiDetailPage(poi: poi),
+                                builder: (_) => PoiDetailPage(poi: poi),
                               ),
                             );
                           },
                         );
                       },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(height: 6);
-                      },
                     )
-                  : Center(child: Text("Empty list")),
+                  : const Center(child: Text("Empty list")),
             ),
           ],
         ),
@@ -140,14 +164,24 @@ class ListPage extends ConsumerWidget {
     );
   }
 
-  Future<void> updateListVisibility(bool value, WidgetRef ref) async {
+  Future<void> updateListVisibility(bool value) async {
     await ref
         .read(selectedListControllerProvider.notifier)
         .setListVisibility(value);
-    ref.read(listsControllerProvider.notifier).refresh();
+    ref.invalidate(listsControllerProvider);
   }
 
-  void updateListNoteField(String newValue, MyList myList, WidgetRef ref) {
+  void addNoteOnTap() {
+    setState(() {
+      showNote = true;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+  }
+
+  void updateListNoteField(String newValue, MyList myList) {
     myList.note = newValue;
     ref.read(listRepositoryProvider).save(myList);
   }

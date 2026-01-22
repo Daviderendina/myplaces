@@ -17,7 +17,7 @@ class SavedPageController extends AsyncNotifier<List<MyList>> {
   Future<void> refresh() async {
     state = const AsyncLoading();
     try {
-      final lists = await _repository.getAll();
+      final lists = _repository.getAll();
       state = AsyncData(lists);
     } catch (e, st) {
       state = AsyncError(e, st);
