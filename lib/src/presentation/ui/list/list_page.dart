@@ -34,17 +34,13 @@ class _ListPageState extends ConsumerState<ListPage> {
     _textEditingController = TextEditingController();
     _focusNode = FocusNode();
 
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus && _textEditingController.text.trim().isEmpty) {
-        setState(() {
-          showNote = false;
-        });
-      } else {
-        ref
-            .read(selectedListControllerProvider.notifier)
-            .updateNote(_textEditingController.text.trim());
-      }
-    });
+    // _focusNode.addListener(() {
+    //   if (!_focusNode.hasFocus && _textEditingController.text.trim().isEmpty) {
+    //     setState(() {
+    //       showNote = false;
+    //     });
+    //   }
+    // });
   }
 
   @override
@@ -89,8 +85,8 @@ class _ListPageState extends ConsumerState<ListPage> {
                       icon: myList.isArchived
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      selected: !myList.isArchived,
-                      onSelected: (v) => updateListVisibility(!v),
+                      selected: myList.isArchived,
+                      onSelected: (v) => updateListVisibility(v),
                       selectedColor: Colors.green,
                     ),
                   ],
@@ -124,9 +120,9 @@ class _ListPageState extends ConsumerState<ListPage> {
                       borderSide: BorderSide(color: Colors.white10, width: 0.5),
                     ),
                   ),
-                  onSubmitted: (value) => updateListNoteField(value, myList),
+                  onSubmitted: updateListNoteField,
                   onTapOutside: (_) {
-                    updateListNoteField(_textEditingController.text, myList);
+                    updateListNoteField(_textEditingController.text);
                     FocusScope.of(context).unfocus();
                   },
                 ),
@@ -181,8 +177,12 @@ class _ListPageState extends ConsumerState<ListPage> {
     });
   }
 
-  void updateListNoteField(String newValue, MyList myList) {
-    myList.note = newValue;
-    ref.read(listRepositoryProvider).save(myList);
+  void updateListNoteField(String value) {
+    if (!_focusNode.hasFocus && value.trim().isEmpty) {
+      setState(() {
+        showNote = false;
+      });
+    }
+    ref.read(selectedListControllerProvider.notifier).updateNote(value.trim());
   }
 }
