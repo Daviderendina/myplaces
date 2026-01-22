@@ -23,7 +23,7 @@ class PoiDetailOnMap extends ConsumerStatefulWidget {
 class PoiDetailOnMapState extends ConsumerState<PoiDetailOnMap> {
   @override
   Widget build(BuildContext context) {
-    List<MyList> allDefinedLists = ref.read(myListRepositoryProvider).getAll();
+    List<MyList> allDefinedLists = ref.read(listRepositoryProvider).getAll();
     Poi poi = widget.poi;
 
     return Container(

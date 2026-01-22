@@ -9,7 +9,7 @@ class SavedPageController extends AsyncNotifier<List<MyList>> {
 
   @override
   Future<List<MyList>> build() async {
-    _repository = ref.read(myListRepositoryProvider);
+    _repository = ref.read(listRepositoryProvider);
 
     return _repository.getAll();
   }
@@ -29,7 +29,6 @@ class SavedPageController extends AsyncNotifier<List<MyList>> {
 
     try {
       MyList created = await _repository.save(newList);
-      // print("Created list with id ${created.id}");
       state = AsyncData([...current, created]);
     } catch (e) {
       // print("Error adding list: $e");

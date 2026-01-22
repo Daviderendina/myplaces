@@ -44,6 +44,22 @@ class MyApp extends ConsumerWidget {
         backgroundColor: Colors.grey.shade900,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
+      dividerColor: Colors.transparent, // rimuove linee tra le tile
+      expansionTileTheme: ExpansionTileThemeData(
+        backgroundColor: Colors.transparent,
+        collapsedBackgroundColor: Colors.transparent,
+        //tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+        childrenPadding: EdgeInsets.zero,
+        collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      ),
     );
+    //
+    // return ThemeData.dark(useMaterial3: true).copyWith(
+    //   dialogTheme: DialogThemeData(
+    //     backgroundColor: Colors.grey.shade900,
+    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    //   ),
+    // );
   }
 }

@@ -8,6 +8,7 @@ import 'package:myplaces/service/list_service.dart';
 import 'package:myplaces/service/poi_search_service.dart';
 import 'package:myplaces/service/poi_service.dart';
 import 'package:myplaces/src/presentation/controller/common/poi/selected_poi_controller.dart';
+import 'package:myplaces/src/presentation/controller/common/selected_list_controller.dart';
 import 'package:myplaces/src/presentation/controller/map/map_page_controller.dart';
 import 'package:myplaces/src/presentation/controller/map/map_page_state.dart';
 import 'package:myplaces/src/presentation/controller/map/mysearchbar_controller.dart';
@@ -31,6 +32,11 @@ final selectedPoiControllerProvider =
       (ref) => SelectedPoiController(null, ref.read(poiRepositoryProvider)),
     );
 
+final selectedListControllerProvider =
+    StateNotifierProvider<SelectedListController, MyList?>(
+      (ref) => SelectedListController(null, ref.read(listRepositoryProvider)),
+    );
+
 final listsControllerProvider =
     AsyncNotifierProvider<SavedPageController, List<MyList>>(
       SavedPageController.new,
@@ -51,10 +57,9 @@ final appInitProvider = FutureProvider<void>((ref) async {
 
 // States provider
 final selectedPoiProvider = StateProvider<Poi?>((ref) => null);
-final selectedListProvider = StateProvider<MyList?>((ref) => null);
 
 final myListsProvider = StateNotifierProvider<MyListsNotifier, List<MyList>>(
-  (ref) => MyListsNotifier(ref.read(myListRepositoryProvider)),
+  (ref) => MyListsNotifier(ref.read(listRepositoryProvider)),
 );
 
 // Repository
@@ -64,7 +69,7 @@ final poiRepositoryProvider = Provider<PoiRepository>(
     ref.read(poiServiceProvider),
   ),
 );
-final myListRepositoryProvider = Provider<ListRepository>(
+final listRepositoryProvider = Provider<ListRepository>(
   (ref) => ListRepository(ref.read(listServiceProvider)),
 );
 final configRepositoryProvider = Provider<ConfigRepository>(

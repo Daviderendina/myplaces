@@ -31,7 +31,7 @@ class AddListDefaultButtonsState extends ConsumerState<AddListDefaultButtons> {
       children: widget.lists.map((myList) {
         bool selected = poiListsId.contains(myList.id);
 
-        ref.read(myListRepositoryProvider).getAll();
+        ref.read(listRepositoryProvider).getAll();
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,

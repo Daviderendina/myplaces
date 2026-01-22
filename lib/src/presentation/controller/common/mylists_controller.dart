@@ -11,7 +11,7 @@ class MyListsController extends AsyncNotifier<List<MyList>> {
 
   @override
   Future<List<MyList>> build() async {
-    _repository = ref.read(myListRepositoryProvider);
+    _repository = ref.read(listRepositoryProvider);
 
     return _repository.getAll();
   }

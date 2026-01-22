@@ -8,7 +8,7 @@ import 'package:myplaces/providers.dart';
 import '../../../../components/common/main_page_title.dart';
 import '../../../../components/saved_page/card_mylist_custom.dart';
 import '../../../../components/saved_page/card_mylist_default.dart';
-import '../../../../pages/list_page.dart';
+import '../list/list_page.dart';
 
 class SavedPage extends ConsumerStatefulWidget {
   const SavedPage({super.key});
@@ -131,7 +131,7 @@ class SavedPageState extends ConsumerState<SavedPage> {
     MyList myList,
   ) {
     return () {
-      ref.read(selectedListProvider.notifier).state = myList;
+      ref.read(selectedListControllerProvider.notifier).selectNewList(myList);
 
       Navigator.of(
         context,

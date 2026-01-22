@@ -13,12 +13,29 @@ class MyList {
   @Backlink('lists')
   final ToMany<Poi> poiList = ToMany();
 
-  MyList({required String name, this.isDefault = false, this.note = "", this.isArchived = false})
-    : name = name.toLowerCase();
+  MyList({
+    required String name,
+    this.isDefault = false,
+    this.note = "",
+    this.isArchived = false,
+  }) : name = name.toLowerCase();
 
   String get displayName => name.toTitleCase();
 
   void setId(int id) {
     this.id = id;
+  }
+
+  MyList copyWith({String? name, String? note, bool? isArchived}) {
+    final copy = MyList(
+      name: name ?? this.name,
+      isDefault: isDefault,
+      note: note ?? this.note,
+      isArchived: isArchived ?? this.isArchived,
+    );
+    copy.id = id;
+    copy.poiList.addAll(poiList);
+
+    return copy;
   }
 }

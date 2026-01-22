@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/models/my_list.dart';
-import 'package:myplaces/pages/list_page.dart';
+import 'package:myplaces/src/presentation/ui/list/list_page.dart';
 import 'package:myplaces/providers.dart';
 
 import '../../models/list_element.dart';

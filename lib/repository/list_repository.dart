@@ -12,6 +12,8 @@ class ListRepository {
 
   List<MyList> getAllDefaultLists() => _service.getAllDefaultLists();
 
+  MyList? getById(int id) => _service.getById(id);
+
   Future<MyList> save(MyList myList) => _service.save(myList);
 
   void delete(MyList myList) => _service.deleteList(myList);
