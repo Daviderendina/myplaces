@@ -5,8 +5,8 @@ import 'package:material_floating_search_bar_plus/material_floating_search_bar_p
 import 'package:myplaces/src/presentation/ui/map/poi_bottom_sheet.dart';
 import 'package:myplaces/src/tools/logger.dart';
 
-import '../../../../../models/poi.dart';
-import '../../../../../providers.dart';
+import '../../../../../src/domain/poi.dart';
+import '../../../providers.dart';
 import 'mysearchbar.dart';
 
 // TODO quando si cambia pagina bisogna fare il clean della mappa!!

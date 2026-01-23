@@ -1,8 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:myplaces/mapper/poi_mapper.dart';
-import 'package:myplaces/models/poi.dart';
-import 'package:myplaces/models/poi_category.dart';
+import 'package:myplaces/src/domain/poi.dart';
+import 'package:myplaces/src/domain/poi_category.dart';
 
 void main() {
   group('PoiMapper', () {
@@ -24,7 +23,7 @@ void main() {
         },
       };
 
-      final poi = PoiMapper.mapPoiFromPhoton(photonExample);
+      final poi = Poi.fromJson(photonExample);
 
       expect(poi.id, '12345');
       expect(poi.name, 'La Pergola');
@@ -51,7 +50,7 @@ void main() {
         },
       };
 
-      final poi = PoiMapper.mapPoiFromPhoton(photonExample);
+      final poi = Poi.fromJson(photonExample);
 
       expect(poi.id, '54321');
       expect(poi.name, 'Unknown Place');
@@ -66,7 +65,7 @@ void main() {
     test('returns Poi.empty() if response is invalid', () {
       final invalidResponse = {"invalid": "data"};
 
-      final poi = PoiMapper.mapPoiFromPhoton(invalidResponse);
+      final poi = Poi.fromJson(invalidResponse);
 
       expect(poi.isEmpty(), true);
       expect(poi.id, '');
@@ -89,7 +88,7 @@ void main() {
         },
       };
 
-      final poi = PoiMapper.mapPoiFromPhoton(photonExample);
+      final poi = Poi.fromJson(photonExample);
 
       expect(poi.category, PoiCategory.unknown);
     });

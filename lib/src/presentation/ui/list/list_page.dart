@@ -1,19 +1,12 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:myplaces/components/list_page/poi_card.dart';
-import 'package:myplaces/extension/title_case_extension.dart';
-import 'package:myplaces/models/my_list.dart';
-import 'package:myplaces/models/poi_image.dart';
-import 'package:myplaces/src/presentation/ui/poi_detail/poi_detail_page.dart';
-import 'package:myplaces/providers.dart';
+import 'package:myplaces/src/presentation/ui/poi/poi_card.dart';
+import 'package:myplaces/src/providers.dart';
 
-import '../../../../components/common/main_page_title.dart';
-import '../../../../models/poi.dart';
+import '../../../tools/extension/title_case_extension.dart';
 import '../common/chips.dart';
+import '../common/main_page_title.dart';
+import '../poi/poi_detail_page.dart';
 
 class ListPage extends ConsumerStatefulWidget {
   const ListPage({super.key});

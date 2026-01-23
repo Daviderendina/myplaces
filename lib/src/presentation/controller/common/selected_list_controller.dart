@@ -1,13 +1,11 @@
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:myplaces/repository/list_repository.dart';
-import 'package:myplaces/repository/poi_repository.dart';
-import 'package:myplaces/src/tools/logger.dart';
+import 'package:myplaces/src/data/list_repository.dart';
 
-import '../../../../../../models/poi.dart';
-import '../../../../../models/my_list.dart';
+import '../../../../../../src/domain/poi.dart';
+import '../../../domain/my_list.dart';
 
 class SelectedListController extends StateNotifier<MyList?> {
-  final ListRepository repository;
+  final ListService repository;
 
   SelectedListController(super._state, this.repository);
 

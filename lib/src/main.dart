@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myplaces/pages/root_page.dart';
-import 'package:myplaces/providers.dart';
+import 'package:myplaces/src/presentation/ui/root/root_page.dart';
+import 'package:myplaces/src/providers.dart';
 
 import '../objectbox.g.dart';
 

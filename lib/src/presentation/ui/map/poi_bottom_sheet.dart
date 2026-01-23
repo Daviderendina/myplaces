@@ -1,12 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myplaces/providers.dart';
-import 'package:myplaces/src/presentation/ui/common/poi/poi_button_list.dart';
+import 'package:myplaces/src/providers.dart';
 
-import '../poi_detail/poi_detail_page.dart';
-import '../../../../../models/poi.dart';
+import '../poi/poi_button_list.dart';
+import '../poi/poi_detail_page.dart';
+import '../../../../../src/domain/poi.dart';
 
 class PoiBottomSheet extends ConsumerWidget {
   const PoiBottomSheet({super.key});

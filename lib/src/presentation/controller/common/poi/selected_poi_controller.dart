@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:myplaces/repository/poi_repository.dart';
+import 'package:myplaces/src/application/poi_service.dart';
 import 'package:myplaces/src/tools/logger.dart';
 
-import '../../../../../../models/poi.dart';
-import '../../../../../models/my_list.dart';
+import '../../../../../../src/domain/poi.dart';
+import '../../../../domain/my_list.dart';
 
 class SelectedPoiController extends StateNotifier<Poi?> {
-  final PoiRepository repository;
+  final PoiService repository;
 
   SelectedPoiController(super._state, this.repository);
 

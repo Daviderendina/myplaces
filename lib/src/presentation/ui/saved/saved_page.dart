@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myplaces/components/common/main_page_padding.dart';
-import 'package:myplaces/components/common/main_page_subtitle.dart';
-import 'package:myplaces/models/my_list.dart';
-import 'package:myplaces/providers.dart';
+import 'package:myplaces/src/presentation/ui/common/main_page_padding.dart';
+import 'package:myplaces/src/presentation/ui/common/main_page_subtitle.dart';
+import 'package:myplaces/src/domain/my_list.dart';
+import 'package:myplaces/src/providers.dart';
 
-import '../../../../components/common/main_page_title.dart';
-import '../../../../components/saved_page/card_mylist_custom.dart';
-import '../../../../components/saved_page/card_mylist_default.dart';
+import '../common/main_page_title.dart';
+import 'card_mylist_custom.dart';
+import 'card_mylist_default.dart';
 import '../list/list_page.dart';
 
 class SavedPage extends ConsumerStatefulWidget {

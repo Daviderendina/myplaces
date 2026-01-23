@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../models/poi.dart';
-import '../../../../../providers.dart';
+import '../../../../../src/domain/poi.dart';
+import '../../../providers.dart';
 
 class SearchBarController extends AsyncNotifier<List<Poi>> {
   @override
@@ -19,7 +19,7 @@ class SearchBarController extends AsyncNotifier<List<Poi>> {
 
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () => ref.read(poiRepositoryProvider).search(query),
+      () => ref.read(poiServiceProvider).search(query),
     );
     // TODO gestire error
   }
