@@ -20,7 +20,12 @@ class RootPageState extends ConsumerState<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = [MapPage(), SavedPage(), ProfilePage()];
+    final List<Widget> pages = [
+      MapPage(),
+      SavedPage(),
+      ProfilePage(),
+      ProfilePage(),
+    ];
 
     return PopScope(
       canPop: false,
@@ -46,10 +51,10 @@ class RootPageState extends ConsumerState<RootPage> {
             Align(
               alignment: AlignmentGeometry.bottomCenter,
               child: Container(
-                margin: EdgeInsets.only(bottom: 20),
-                height: 70,
-                width: 290,
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                margin: EdgeInsets.only(bottom: 15),
+                height: 65,
+                width: 340,
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   color: Color(0xff212329),
                   borderRadius: BorderRadius.circular(16),
@@ -58,9 +63,8 @@ class RootPageState extends ConsumerState<RootPage> {
                   color: Colors.grey.shade600,
                   activeColor: Color(0xff907AE6),
                   tabBackgroundColor: Color(0xff907AE6).withAlpha(45),
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  // padding interno alla label, deve essere 0 per le non selezionate e alto per le selezionate
-                  tabBorderRadius: 22,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  tabBorderRadius: 10,
                   iconSize: 32,
                   haptic: true,
                   gap: 10,
@@ -75,6 +79,13 @@ class RootPageState extends ConsumerState<RootPage> {
                     GButton(
                       icon: Icons.bookmark_border_outlined,
                       text: "Saved",
+                      backgroundColor: Color(0x3cf6cf71),
+                      iconActiveColor: Color(0xdcf6cf71),
+                      textColor: Color(0xdcf6cf71),
+                    ),
+                    GButton(
+                      icon: Icons.travel_explore,
+                      text: "Trips",
                       backgroundColor: Color(0x3cf6cf71),
                       iconActiveColor: Color(0xdcf6cf71),
                       textColor: Color(0xdcf6cf71),
