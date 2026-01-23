@@ -5,10 +5,8 @@ import 'package:myplaces/components/common/my_subtitle.dart';
 import 'package:myplaces/components/common/my_title.dart';
 import 'package:myplaces/components/common/note_box.dart';
 import 'package:myplaces/extension/title_case_extension.dart';
-import 'package:myplaces/repository/poi_repository.dart';
 import 'package:myplaces/src/presentation/ui/common/poi/poi_button_list.dart';
 
-import '../../../../functions/select_list_page/select_list_page.dart';
 import '../../../../models/my_list.dart';
 import '../../../../models/poi.dart';
 import '../../../../models/poi_image.dart';
@@ -32,16 +30,11 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
       'https://picsum.photos/id/30/800/600',
     ];
 
-    final List<MyList> allDefinedLists = ref.watch(myListsProvider);
-    final poi = ref.watch(selectedPoiProvider);
+    final poi = ref.watch(selectedPoiControllerProvider);
 
     if (poi == null) return SizedBox();
 
     poi.setImages(images.map(((i) => PoiImage(thumbnail: i))).toList());
-
-    List<MyList> defaultLists = allDefinedLists
-        .where((l) => l.isDefault)
-        .toList();
 
     return Scaffold(
       body: Stack(

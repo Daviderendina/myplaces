@@ -11,7 +11,7 @@ class SelectListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final allDefinedLists = ref.watch(myListsProvider);
-    final poi = ref.watch(selectedPoiProvider);
+    final poi = ref.watch(selectedPoiControllerProvider);
 
     if (poi == null) return SizedBox();
 
@@ -108,7 +108,9 @@ class SelectListPage extends ConsumerWidget {
     Poi updatedPoi = await repo.togglePoiInList(poi, myList);
 
     // Update providers
-    ref.read(selectedPoiProvider.notifier).state = updatedPoi.copy();
+    ref
+        .read(selectedPoiControllerProvider.notifier)
+        .selectNewPoi(updatedPoi.copy());
     ref.read(myListsProvider.notifier).refresh(); // TODO non funziona!!!!
   }
 }

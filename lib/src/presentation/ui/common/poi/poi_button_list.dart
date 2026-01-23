@@ -38,7 +38,7 @@ class PoiButtonList extends ConsumerWidget {
         ActionChip(
           backgroundColor: Colors.lightBlue.withAlpha(30),
           onPressed: () {
-            ref.read(selectedPoiProvider.notifier).state = poi;
+            ref.read(selectedPoiControllerProvider.notifier).selectNewPoi(poi!);
             Navigator.of(
               context,
             ).push(MaterialPageRoute(builder: (context) => SelectListPage()));

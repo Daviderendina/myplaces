@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/pages/root_page.dart';
 import 'package:myplaces/providers.dart';
 
-import 'objectbox.g.dart';
+import '../objectbox.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,18 +48,10 @@ class MyApp extends ConsumerWidget {
       expansionTileTheme: ExpansionTileThemeData(
         backgroundColor: Colors.transparent,
         collapsedBackgroundColor: Colors.transparent,
-        //tilePadding: const EdgeInsets.symmetric(horizontal: 16),
         childrenPadding: EdgeInsets.zero,
         collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
     );
-    //
-    // return ThemeData.dark(useMaterial3: true).copyWith(
-    //   dialogTheme: DialogThemeData(
-    //     backgroundColor: Colors.grey.shade900,
-    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    //   ),
-    // );
   }
 }

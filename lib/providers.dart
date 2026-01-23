@@ -56,7 +56,6 @@ final appInitProvider = FutureProvider<void>((ref) async {
 });
 
 // States provider
-final selectedPoiProvider = StateProvider<Poi?>((ref) => null);
 
 final myListsProvider = StateNotifierProvider<MyListsNotifier, List<MyList>>(
   (ref) => MyListsNotifier(ref.read(listRepositoryProvider)),

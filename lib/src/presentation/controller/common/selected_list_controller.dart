@@ -29,4 +29,8 @@ class SelectedListController extends StateNotifier<MyList?> {
     MyList updatedList = state!.copyWith(note: note);
     state = await repository.save(updatedList);
   }
+
+  Future<void> deletePoiFromList(Poi poi) async {
+    // TODO implementare!!!
+  }
 }
