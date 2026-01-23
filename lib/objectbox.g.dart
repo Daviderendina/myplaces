@@ -14,9 +14,9 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'models/my_list.dart';
-import 'models/poi.dart';
-import 'models/poi_image.dart';
+import 'src/domain/my_list.dart';
+import 'src/domain/poi.dart';
+import 'src/domain/poi_image.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -235,7 +235,7 @@ Future<obx.Store> openStore({
   );
 }
 
-/// Returns the ObjectBox model definition for this project for use with
+/// Returns the ObjectBox domain definition for this project for use with
 /// [obx.Store.new].
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
