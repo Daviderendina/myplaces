@@ -51,12 +51,13 @@ class RootPageState extends ConsumerState<RootPage> {
             Align(
               alignment: AlignmentGeometry.bottomCenter,
               child: Container(
-                margin: EdgeInsets.only(bottom: 15),
+                margin: EdgeInsets.only(bottom: 18),
                 height: 65,
-                width: 340,
+                width: 370,
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
-                  color: Color(0xff212329),
+                  color: Colors.black.withAlpha(210),
+                  //Color(0xff212329).withAlpha(240),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: GNav(

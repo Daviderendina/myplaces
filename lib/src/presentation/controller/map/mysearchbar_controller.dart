@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../src/domain/poi.dart';
 import '../../../providers.dart';
+import '../../../tools/logger.dart';
 
 class SearchBarController extends AsyncNotifier<List<Poi>> {
   @override
@@ -12,6 +13,7 @@ class SearchBarController extends AsyncNotifier<List<Poi>> {
   }
 
   Future<void> search(String query) async {
+    logger.info("Start searching for query: $query");
     if (query.isEmpty) {
       state = AsyncValue.data([]);
       return;
@@ -21,6 +23,7 @@ class SearchBarController extends AsyncNotifier<List<Poi>> {
     state = await AsyncValue.guard(
       () => ref.read(poiServiceProvider).search(query),
     );
+    logger.info("Updated state: $state");
     // TODO gestire error
   }
 }

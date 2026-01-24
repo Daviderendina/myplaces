@@ -44,7 +44,9 @@ class MyApp extends ConsumerWidget {
         backgroundColor: Colors.grey.shade900,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
+
       dividerColor: Colors.transparent, // rimuove linee tra le tile
+
       expansionTileTheme: ExpansionTileThemeData(
         backgroundColor: Colors.transparent,
         collapsedBackgroundColor: Colors.transparent,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../domain/poi.dart';
+import '../tools/logger.dart';
 
 class PoiSearchService {
   static const String _baseUrl = 'https://photon.komoot.io/api';
@@ -9,7 +10,7 @@ class PoiSearchService {
   Future<List<Poi>> search(String query) async {
     final String queryParam = "lang=en&q=$query";
     final uri = Uri.parse('$_baseUrl?$queryParam');
-    // print("Invoking ${uri.toString()}");
+    logger.info("Invoking ${uri.toString()}");
 
     final response = await http.get(
       uri,
@@ -17,22 +18,21 @@ class PoiSearchService {
     );
 
     if (response.statusCode != 200) {
-      // print(response.reasonPhrase);
+      logger.warn("Error: ${response.reasonPhrase}");
       throw Exception('HTTP ${response.statusCode}');
     }
 
     final body = jsonDecode(response.body) as Map<String, dynamic>;
     final List features = body['features'];
-    // print("Received ${features.length} responses: $features");
+    logger.info("Received ${features.length} responses");
 
     List<Poi> result = features
         .map((f) => Poi.fromJson(f))
         .where(filterByType)
         .toList();
 
-    //TODO logger.info("Search result: ${result.map((p) => p.toString()).toList()}");
+    logger.info("Mapped ${result.length} responses to Poi");
 
-    // print("Filtered out ${features.length - result.length} poi");
     return result;
   }
 

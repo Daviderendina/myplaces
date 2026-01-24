@@ -70,6 +70,28 @@ class MapPage extends ConsumerWidget {
             // Scuro ni TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', subdomains: ['a','b','c','d'], userAgentPackageName: 'com.example.app', )
           ],
         ),
+
+        Positioned(
+          top: 55,
+          right: 65,
+          child: Container(
+            height: 54,
+            width: 54,
+            decoration: BoxDecoration(
+              color: Colors.teal.withAlpha(190),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.filter_list_outlined,
+                color: Colors.white,
+                size: 23,
+              ),
+            ),
+          ),
+        ),
+
         MySearchBar(
           searchBarController: searchBarController,
           onResultTap: (r) => showPoiOnMap(context, ref, r),

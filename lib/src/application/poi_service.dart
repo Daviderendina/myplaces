@@ -2,6 +2,7 @@ import 'package:myplaces/src/data/poi_repository.dart';
 
 import '../domain/my_list.dart';
 import '../domain/poi.dart';
+import '../tools/logger.dart';
 import 'poi_search_service.dart';
 
 class PoiService {
@@ -11,6 +12,7 @@ class PoiService {
   PoiService(this._searchService, this._poiRepository);
 
   Future<List<Poi>> search(String query) {
+    logger.info("Searching for query: $query");
     return _searchService.search(query);
   }
 
