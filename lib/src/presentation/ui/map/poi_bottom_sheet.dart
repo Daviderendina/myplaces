@@ -113,9 +113,10 @@ class PoiBottomSheet extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             IconButton(
+                              // TODO aggiornare riverpod
                               onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => PoiDetailPage(poi: poi),
+                                  builder: (_) => PoiDetailPage(),
                                 ),
                               ),
                               icon: Icon(Icons.fullscreen),

@@ -12,9 +12,7 @@ import '../../../providers.dart';
 import '../common/my_subtitle.dart';
 
 class PoiDetailPage extends ConsumerStatefulWidget {
-  final Poi poi;
-
-  const PoiDetailPage({super.key, required this.poi});
+  const PoiDetailPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => PoiDetailPageState();

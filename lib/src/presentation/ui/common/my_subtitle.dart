@@ -10,7 +10,7 @@ class MySubtitle extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontSize: 24,
+        fontSize: 34,
         fontWeight: FontWeight.w400,
         letterSpacing: 1.2,
         color: Colors.white,

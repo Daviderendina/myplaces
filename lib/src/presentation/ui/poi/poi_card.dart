@@ -51,7 +51,9 @@ class PoiCard extends StatelessWidget {
                   ),
                   child: Icon(poi.category.icon, color: Colors.white, size: 24),
                 ),
+
                 SizedBox(width: 14),
+
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
@@ -66,6 +68,8 @@ class PoiCard extends StatelessWidget {
                           Text(
                             poi.name,
                             textAlign: TextAlign.left,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               height: 1.2,
                               fontSize: 19,
@@ -77,6 +81,8 @@ class PoiCard extends StatelessWidget {
                           Text(
                             poi.getDisplayAreaName(),
                             textAlign: TextAlign.left,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               height: 1.2,
                               fontSize: 14,

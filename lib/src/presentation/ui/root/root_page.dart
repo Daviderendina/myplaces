@@ -111,7 +111,7 @@ class RootPageState extends ConsumerState<RootPage> {
   }
 
   void changePage(int index) {
-    if (this.selectedIndex == 0) {
+    if (selectedIndex == 0) {
       // map page
       ref.read(mapPageControllerProvider.notifier).clearMap();
     }

@@ -3,6 +3,7 @@ import 'package:myplaces/src/data/list_repository.dart';
 
 import '../../../../../../src/domain/poi.dart';
 import '../../../domain/my_list.dart';
+import '../../../tools/logger.dart';
 
 class SelectedListController extends StateNotifier<MyList?> {
   final ListService repository;
@@ -24,8 +25,10 @@ class SelectedListController extends StateNotifier<MyList?> {
   }
 
   Future<void> updateNote(String note) async {
+    logger.info("Updating note: $note");
     MyList updatedList = state!.copyWith(note: note);
     state = await repository.save(updatedList);
+    logger.info("Saved note, new state: $state");
   }
 
   Future<void> deletePoiFromList(Poi poi) async {

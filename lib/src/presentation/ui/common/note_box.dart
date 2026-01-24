@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class NoteBox extends StatelessWidget {
   final String actualNote;
   final ValueChanged<String> onSubmitted;
+  final FocusNode? focusNode;
 
   const NoteBox({
     super.key,
     required this.actualNote,
     required this.onSubmitted,
+    this.focusNode,
   });
 
   @override
@@ -19,7 +21,11 @@ class NoteBox extends StatelessWidget {
       textEditingController.text = actualNote;
     }
     return TextField(
+      cursorColor: Colors.white,
+      enableInteractiveSelection: false,
+
       controller: textEditingController,
+      focusNode: focusNode,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.white24),
@@ -32,6 +38,7 @@ class NoteBox extends StatelessWidget {
       ),
       onSubmitted: onSubmitted,
       onTapOutside: (_) {
+        print("!!!!!!!!!!!!!!!!!!");
         onSubmitted(textEditingController.text);
         FocusScope.of(context).unfocus();
       },
