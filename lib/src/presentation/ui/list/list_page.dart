@@ -15,8 +15,8 @@ import '../../../domain/poi.dart';
 import '../../../tools/extension/title_case_extension.dart';
 import '../../../tools/logger.dart';
 import '../common/circular_icon_button.dart';
-import '../common/my_subtitle.dart';
 import '../poi/poi_detail_page.dart';
+import 'circular_flag_poi_marker.dart';
 
 class ListPage extends ConsumerStatefulWidget {
   const ListPage({super.key});
@@ -96,24 +96,9 @@ class _ListPageState extends ConsumerState<ListPage> {
                         MarkerLayer(
                           markers: [
                             ...myList.poiList.map(
-                              (poi) => Marker(
-                                point: poi.coordinates,
-                                child: GestureDetector(
-                                  onTap: () => openPoiDetailPage(poi, ref),
-                                  child: Container(
-                                    width: 4,
-                                    height: 4,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black12),
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: Colors.black.withAlpha(180),
-                                    ),
-                                    child: CountryFlag.fromCountryCode(
-                                      poi.countrycode ?? '',
-                                      theme: const ImageTheme(shape: Circle()),
-                                    ), //Icon(Icons.star),
-                                  ),
-                                ),
+                              (poi) => CircularFlagPoiMarker.build(
+                                poi: poi,
+                                onTap: () => openPoiDetailPage(poi, ref),
                               ),
                             ),
                           ],
