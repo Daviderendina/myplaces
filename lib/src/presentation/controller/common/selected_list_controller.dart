@@ -34,4 +34,15 @@ class SelectedListController extends StateNotifier<MyList?> {
   Future<void> deletePoiFromList(Poi poi) async {
     // TODO implementare!!!
   }
+
+  Future<void> updateListEmoji(String? newEmoji) async {
+    if (newEmoji == null) {
+      logger.warn("updateListEmoji - Passed null emoji");
+    } else {
+      logger.info("Updating emoji of ${state?.id} with: $newEmoji");
+      MyList updatedList = state!.copyWith(emoji: newEmoji);
+      repository.save(updatedList);
+      state = updatedList;
+    }
+  }
 }

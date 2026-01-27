@@ -38,4 +38,18 @@ class ListsController extends AsyncNotifier<List<MyList>> {
   void removeList(MyList myList) async {
     _repository.delete(myList);
   }
+
+  void updateList(MyList myList) {
+    // TODO non mi piace troppo questo metodo
+    state = const AsyncLoading();
+    int index = state.requireValue.indexWhere((l) => l.id == myList.id);
+    print('INDEXXX: $index');
+
+    if (index != -1) {
+      // crea una copia della lista per aggiornare lo stato in modo sicuro
+      final newList = List<MyList>.from(state.requireValue);
+      newList[index] = myList;
+      state = AsyncData(newList);
+    }
+  }
 }

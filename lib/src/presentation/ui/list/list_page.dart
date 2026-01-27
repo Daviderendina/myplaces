@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +13,9 @@ import '../../../domain/my_list.dart';
 import '../../../domain/poi.dart';
 import '../../../tools/extension/title_case_extension.dart';
 import '../../../tools/logger.dart';
+import '../common/circular_emoji_button.dart';
 import '../common/circular_icon_button.dart';
+import '../common/select_emoji_dialog.dart';
 import '../poi/poi_detail_page.dart';
 import 'circular_flag_poi_marker.dart';
 
@@ -63,6 +64,17 @@ class _ListPageState extends ConsumerState<ListPage> {
               children: [
                 Row(
                   children: [
+                    CircularEmojiButton(
+                      emoji: myList.emoji,
+                      onPressed: () async {
+                        String? result = await showEmojiPickerDialog(context);
+                        await ref
+                            .read(selectedListControllerProvider.notifier)
+                            .updateListEmoji(result);
+                        // TODO qui deve aggiornare anche la lista precedente
+                      },
+                    ),
+                    SizedBox(width: 5),
                     MainPageSubtitle(text: myList.name.toTitleCase()),
                     Spacer(),
                     if (myList.note.isEmpty && !showNote)

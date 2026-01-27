@@ -31,10 +31,8 @@ class CardMylistCustom extends ConsumerWidget {
                 SizedBox(
                   width: 48,
                   height: 48,
-                  child: Icon(
-                    Icons.question_mark, //TODO listElement.icon,
-                    color: Colors.white, //TODOlistElement.color.withAlpha(250),
-                    size: 34,
+                  child: Center(
+                    child: Text(myList.emoji, style: TextStyle(fontSize: 26)),
                   ),
                 ),
                 SizedBox(width: 14),

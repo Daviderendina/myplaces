@@ -30,9 +30,10 @@ class CardMylistDefault extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   color: Color(0xffd39e1d), //TODO sistemare
-                  shape: BoxShape.circle,
+                  borderRadius: BorderRadius.circular(24),
+                  //shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.question_mark, color: Colors.white, size: 32),
+                child: Text(myList.emoji, style: TextStyle(fontSize: 22)),
               ),
               SizedBox(height: 12),
               Text(

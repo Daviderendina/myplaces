@@ -6,6 +6,7 @@ import '../tools/extension/title_case_extension.dart';
 @Entity()
 class MyList {
   int id = 0; // TODO rename in obxId
+  String emoji;
   String name;
   bool isDefault;
   String note;
@@ -16,6 +17,7 @@ class MyList {
 
   MyList({
     required String name,
+    this.emoji = '🚩',
     this.isDefault = false,
     this.note = "",
     this.isArchived = false,
@@ -27,11 +29,17 @@ class MyList {
     this.id = id;
   }
 
-  MyList copyWith({String? name, String? note, bool? isArchived}) {
+  MyList copyWith({
+    String? name,
+    String? note,
+    String? emoji,
+    bool? isArchived,
+  }) {
     final copy = MyList(
       name: name ?? this.name,
       isDefault: isDefault,
       note: note ?? this.note,
+      emoji: emoji ?? this.emoji,
       isArchived: isArchived ?? this.isArchived,
     );
     copy.id = id;

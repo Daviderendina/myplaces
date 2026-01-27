@@ -101,10 +101,9 @@ class PoiCard extends StatelessWidget {
         ),
         children: [
           SizedBox(
-            height: 160,
-            width: double.infinity,
+            height: 130,
+            //width: double.infinity,
             child: SizedBox(
-              height: 160,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: poi.images.length,
@@ -112,7 +111,6 @@ class PoiCard extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final poiImage = poi.images[index];
                   return Container(
-                    width: 260,
                     margin: const EdgeInsets.symmetric(horizontal: 5.0),
                     decoration: BoxDecoration(
                       color: Colors.transparent,
@@ -122,7 +120,7 @@ class PoiCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       child: Image.network(
                         poiImage.thumbnail ?? "",
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
                   );
