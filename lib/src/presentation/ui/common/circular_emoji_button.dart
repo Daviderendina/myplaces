@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CircularEmojiButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String emoji;
+  final bool isActive;
 
   const CircularEmojiButton({
     super.key,
-    required this.onPressed,
+    this.onPressed,
     required this.emoji,
+    this.isActive = true,
   });
 
   @override
@@ -26,7 +28,13 @@ class CircularEmojiButton extends StatelessWidget {
           minimumSize: Size(38, 38),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-        child: Text(emoji, style: TextStyle(fontSize: 22)),
+        child: Text(
+          emoji,
+          style: TextStyle(
+            fontSize: 22,
+            color: Colors.white.withAlpha(isActive ? 255 : 70),
+          ),
+        ),
       ),
     );
   }

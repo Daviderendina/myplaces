@@ -4,6 +4,7 @@ import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/providers.dart';
 
 import '../../../domain/poi.dart';
+import '../common/circular_emoji_button.dart';
 
 class SelectListPage extends ConsumerWidget {
   const SelectListPage({super.key});
@@ -36,12 +37,11 @@ class SelectListPage extends ConsumerWidget {
                       child: Material(
                         borderRadius: BorderRadius.circular(8),
                         child: InkWell(
-                          borderRadius: BorderRadius.circular(8),
                           onTap: () => onListClick(ref, myList, poi),
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
-                              vertical: 6,
+                              vertical: 10,
                             ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,23 +49,22 @@ class SelectListPage extends ConsumerWidget {
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(40),
-                                    color: listBelongsToPoi
-                                        ? Colors.amber.withAlpha(40)
-                                        : Colors.grey.withAlpha(40),
+                                    // color: listBelongsToPoi
+                                    //     ? Colors.amber.withAlpha(40)
+                                    //     : Colors.grey.withAlpha(40),
                                   ),
                                   child: SizedBox(
                                     width: 40,
                                     height: 40,
-                                    child: Icon(
-                                      Icons.question_mark,
-                                      color: listBelongsToPoi
-                                          ? Colors.amber
-                                          : Colors.grey,
-                                      size: 24,
+                                    child: CircularEmojiButton(
+                                      emoji: myList.emoji,
+                                      isActive: listBelongsToPoi,
                                     ),
                                   ),
                                 ),
+
                                 SizedBox(width: 24),
+
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,

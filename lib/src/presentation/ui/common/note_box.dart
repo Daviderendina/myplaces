@@ -23,17 +23,33 @@ class NoteBox extends StatelessWidget {
     return TextField(
       cursorColor: Colors.white,
       enableInteractiveSelection: false,
+      maxLines: 3,
+      minLines: 1,
 
       controller: textEditingController,
       focusNode: focusNode,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white24),
+          borderSide: BorderSide(color: Colors.white12),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white24),
+          borderSide: BorderSide(color: Colors.white12),
           borderRadius: BorderRadius.circular(10),
+        ),
+
+        prefixIcon: const Icon(
+          Icons.note_alt_outlined,
+          color: Colors.white70,
+          size: 20,
+        ),
+        prefixIconConstraints: const BoxConstraints(
+          minWidth: 48,
+          minHeight: 40,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 14,
         ),
       ),
       onSubmitted: onSubmitted,

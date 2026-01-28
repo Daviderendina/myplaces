@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:myplaces/src/tools/extension/title_case_extension.dart';
 
-final EdgeInsetsGeometry chipPadding = EdgeInsetsGeometry.symmetric(
-  horizontal: 5,
+final EdgeInsetsGeometry chipPadding = const EdgeInsets.symmetric(
+  horizontal: 12,
+  vertical: 6,
 );
-final OutlinedBorder chipBorder = const StadiumBorder();
+final OutlinedBorder chipBorder = RoundedRectangleBorder(
+  borderRadius: BorderRadius.circular(10),
+);
 final Color color = Colors.white70;
 final TextStyle textStyle = TextStyle(
-  fontSize: 12,
+  fontSize: 18,
   fontWeight: FontWeight.w400,
   color: color,
 );
-final double iconSize = 16;
+final double iconSize = 20;
 
 class MyActionChip extends StatelessWidget {
   final String title;
@@ -27,13 +31,20 @@ class MyActionChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ActionChip(
-      label: Text(title, style: textStyle),
-      avatar: Icon(icon, color: color, size: iconSize),
+      label: Text(
+        title.toTitleCase(),
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: color,
+        ),
+      ),
+      avatar: Icon(icon, color: color, size: 19),
       onPressed: onTap,
       elevation: 0,
       pressElevation: 0,
       shape: chipBorder,
-      padding: chipPadding,
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
     );
   }
 }
