@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../config/default_lists.dart';
+import '../../../tools/logger.dart';
 import '../list/select_list_page.dart';
 import '../../../providers.dart';
 import '../../../domain/my_list.dart';
@@ -10,6 +12,8 @@ class PoiButtonList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    logger.debug(">>> Loading PoiButtonList widget");
+
     return ref
         .watch(listsControllerProvider)
         .when(
@@ -24,15 +28,18 @@ class PoiButtonList extends ConsumerWidget {
 
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 4,
               children: [
-                ...defaultLists.map((list) {
+                ...defaultLists.map((myList) {
+                  DefaultListType type = DefaultListType.fromName(myList.name);
+
                   return IconButton(
-                    onPressed: () => controller.triggerPoiToList(poi, list),
+                    onPressed: () => controller.triggerPoiToList(poi, myList),
                     icon: Icon(
-                      Icons.question_mark_outlined,
+                      type.icon,
                       size: 30,
-                      color: controller.poiBelongToList(poi!, list)
-                          ? Colors.amber
+                      color: controller.poiBelongToList(poi!, myList)
+                          ? type.color
                           : Colors.grey,
                     ),
                   );
@@ -41,11 +48,8 @@ class PoiButtonList extends ConsumerWidget {
                 SizedBox(width: 15),
 
                 ActionChip(
-                  backgroundColor: Colors.lightBlue.withAlpha(30),
+                  backgroundColor: Colors.yellow.withAlpha(30),
                   onPressed: () {
-                    ref
-                        .read(selectedPoiControllerProvider.notifier)
-                        .selectNewPoi(poi!);
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => SelectListPage()),
                     );
@@ -57,11 +61,11 @@ class PoiButtonList extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w400,
-                        color: Colors.lightBlue.shade200,
+                        color: Colors.yellow.shade800,
                       ),
                     ),
                   ),
-                  avatar: Icon(Icons.add, color: Colors.lightBlue.shade200),
+                  avatar: Icon(Icons.add, color: Colors.yellow.shade800),
                   elevation: 0,
                   pressElevation: 0,
                   shape: const StadiumBorder(

@@ -31,7 +31,7 @@ class PoiService {
     return _poiRepository.getById(id);
   }
 
-  Future<Poi> togglePoiInList(Poi poi, MyList myList) async {
+  Poi togglePoiInList(Poi poi, MyList myList) {
     bool listBelongToPoi = poi.lists.any((l) => l.id == myList.id);
     if (listBelongToPoi) {
       poi.lists.removeWhere((l) => l.id == myList.id);
@@ -39,6 +39,7 @@ class PoiService {
       poi.lists.add(myList);
     }
 
-    return await save(poi);
+    save(poi);
+    return poi;
   }
 }

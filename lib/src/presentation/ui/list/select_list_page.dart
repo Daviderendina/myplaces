@@ -115,8 +115,9 @@ class SelectListPage extends ConsumerWidget {
   }
 
   void onListClick(WidgetRef ref, MyList myList, Poi poi) async {
+    // TODO qui funziona perchè aggiorna direttamente lui il notifier quando ha finito, ma non dovrebbe essere fatto cosi!!!
     final repo = ref.read(poiServiceProvider);
-    Poi updatedPoi = await repo.togglePoiInList(poi, myList);
+    Poi updatedPoi = repo.togglePoiInList(poi, myList);
 
     // Update providers
     ref

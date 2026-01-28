@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:myplaces/src/domain/poi.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -11,6 +12,9 @@ class MyList {
   bool isDefault;
   String note;
   bool isArchived; // TODO rinominare in hidden
+
+  @Transient()
+  IconData? icon;
 
   @Backlink('lists')
   final ToMany<Poi> poiList = ToMany();

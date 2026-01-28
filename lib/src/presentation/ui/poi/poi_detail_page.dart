@@ -129,7 +129,7 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
             Spacer(),
 
             Padding(
-              padding: const EdgeInsets.only(bottom: 16, left: 5, right: 5),
+              padding: const EdgeInsets.only(bottom: 16),
               child: PoiButtonList(),
             ),
           ],

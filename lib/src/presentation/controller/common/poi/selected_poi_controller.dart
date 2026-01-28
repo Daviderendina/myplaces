@@ -6,19 +6,22 @@ import '../../../../../../src/domain/poi.dart';
 import '../../../../domain/my_list.dart';
 
 class SelectedPoiController extends StateNotifier<Poi?> {
-  final PoiService repository;
+  final PoiService _service;
 
-  SelectedPoiController(super._state, this.repository);
+  SelectedPoiController(super._state, this._service);
 
   Future<void> selectNewPoi(Poi poi) async {
     logger.info("Selecting poi: ${poi.name} / ${poi.id}");
 
-    state = await repository.getById(poi.id) ?? poi;
+    state = await _service.getById(poi.id) ?? poi;
     logger.info("Selected poi: ${poi.name} / ${poi.id}");
   }
 
-  Future<void> triggerPoiToList(Poi poi, MyList myList) async {
-    state = await repository.togglePoiInList(poi, myList);
+  void triggerPoiToList(Poi poi, MyList myList) {
+    Poi result = _service.togglePoiInList(poi, myList);
+    // TODO non so mi sembra fragile come metodo. per ora pero funzioa
+    selectNewPoi(result);
+    logger.info("Toggled poi in list: ${poi.name} in list ${myList.name}");
   }
 
   bool poiBelongToList(Poi poi, MyList list) {
@@ -27,6 +30,6 @@ class SelectedPoiController extends StateNotifier<Poi?> {
 
   Future<void> updateNote(String value) async {
     state = state!.copy(note: value);
-    repository.save(state!);
+    _service.save(state!);
   }
 }
