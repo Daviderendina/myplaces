@@ -126,11 +126,11 @@ class _ListPageState extends ConsumerState<ListPage> {
                   const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
-                    child: NoteBox(
-                      actualNote: myList.note,
-                      focusNode: _focusNode,
-                      onSubmitted: updateListNoteField,
-                    ),
+                    // child: NoteBox(
+                    //   actualNote: myList.note,
+                    //   focusNode: _focusNode,
+                    //   onSubmitted: updateListNoteField,
+                    // ),
                   ),
                 ],
 

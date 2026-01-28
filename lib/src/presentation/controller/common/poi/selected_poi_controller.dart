@@ -24,4 +24,9 @@ class SelectedPoiController extends StateNotifier<Poi?> {
   bool poiBelongToList(Poi poi, MyList list) {
     return poi.lists.any((l) => l.id == list.id);
   }
+
+  Future<void> updateNote(String value) async {
+    state = state!.copy(note: value);
+    repository.save(state!);
+  }
 }

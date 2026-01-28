@@ -19,13 +19,13 @@ final double iconSize = 20;
 class MyActionChip extends StatelessWidget {
   final String title;
   final IconData icon;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const MyActionChip({
     super.key,
     required this.title,
     required this.icon,
-    required this.onTap,
+    this.onTap,
   });
 
   @override
@@ -43,6 +43,31 @@ class MyActionChip extends StatelessWidget {
       onPressed: onTap,
       elevation: 0,
       pressElevation: 0,
+      shape: chipBorder,
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+    );
+  }
+}
+
+class MyChip extends StatelessWidget {
+  final String title;
+  final IconData icon;
+
+  const MyChip({super.key, required this.title, required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      label: Text(
+        title.toTitleCase(),
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: color,
+        ),
+      ),
+      avatar: Icon(icon, color: color, size: 19),
+      elevation: 0,
       shape: chipBorder,
       padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
     );

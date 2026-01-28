@@ -3,61 +3,47 @@ import 'package:flutter/material.dart';
 
 class NoteBox extends StatelessWidget {
   final String actualNote;
-  final ValueChanged<String> onSubmitted;
-  final FocusNode? focusNode;
+  final VoidCallback onTap;
 
-  const NoteBox({
-    super.key,
-    required this.actualNote,
-    required this.onSubmitted,
-    this.focusNode,
-  });
+  const NoteBox({super.key, required this.actualNote, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController textEditingController = TextEditingController();
-
-    if (actualNote.isNotEmpty) {
-      textEditingController.text = actualNote;
-    }
-    return TextField(
-      cursorColor: Colors.white,
-      enableInteractiveSelection: false,
-      maxLines: 3,
-      minLines: 1,
-
-      controller: textEditingController,
-      focusNode: focusNode,
-      decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white12),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white12),
-          borderRadius: BorderRadius.circular(10),
-        ),
-
-        prefixIcon: const Icon(
-          Icons.note_alt_outlined,
-          color: Colors.white70,
-          size: 20,
-        ),
-        prefixIconConstraints: const BoxConstraints(
-          minWidth: 48,
-          minHeight: 40,
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 14,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white.withAlpha(10)),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.sticky_note_2_outlined,
+                  color: Colors.white.withAlpha(180),
+                  size: 24,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    actualNote,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.5,
+                      color: Colors.white.withAlpha(180),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
-      onSubmitted: onSubmitted,
-      onTapOutside: (_) {
-        print("!!!!!!!!!!!!!!!!!!");
-        onSubmitted(textEditingController.text);
-        FocusScope.of(context).unfocus();
-      },
     );
   }
 }

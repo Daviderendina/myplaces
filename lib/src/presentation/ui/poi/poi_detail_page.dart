@@ -13,6 +13,7 @@ import '../../../providers.dart';
 import '../common/chips.dart';
 import '../common/circular_icon_button.dart';
 import '../common/my_subtitle.dart';
+import '../common/note_dialog.dart';
 
 class PoiDetailPage extends ConsumerStatefulWidget {
   const PoiDetailPage({super.key});
@@ -49,7 +50,7 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(18),
                   child: SizedBox(
-                    height: 400,
+                    height: 420,
                     child: Image.network(
                       'https://media.istockphoto.com/id/635758088/photo/sunrise-at-the-eiffel-tower-in-paris-along-the-seine.jpg?s=612x612&w=0&k=20&c=rdy3aU1CDyh66mPyR5AAc1yJ0yEameR_v2vOXp2uuMM=',
                       fit: BoxFit.cover,
@@ -68,18 +69,19 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
 
                 // TODO fare unico widget con il circularflag, e forse fare un widget unico circolare per tutti! che prende size SMALL MEDIUM LARGE e imposta delle dimensioni di default
                 // DEVO fare una sorta di widget padre e tanti widget che utilizzano quello TODO
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: CircularIconButton(
-                    icon: Icons.playlist_add,
-                    onPressed: () {}, // TODO
+                if (poi.note.isEmpty)
+                  Positioned(
+                    right: 8,
+                    top: 8,
+                    child: CircularIconButton(
+                      icon: Icons.playlist_add,
+                      onPressed: () => openNoteDialog(poi.note),
+                    ),
                   ),
-                ),
               ],
             ),
 
-            SizedBox(height: 24),
+            SizedBox(height: 28),
             Text(
               poi.name,
               style: const TextStyle(
@@ -102,32 +104,30 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
             Row(
               spacing: 8,
               children: [
-                MyActionChip(
-                  title: poi.categoryName,
-                  icon: poi.category.icon,
-                  onTap: () {},
-                ),
+                MyChip(title: poi.categoryName, icon: poi.category.icon),
                 MyActionChip(title: "Phone", icon: Icons.phone, onTap: () {}),
                 MyActionChip(title: "Website", icon: Icons.web, onTap: () {}),
               ],
             ),
 
             SizedBox(height: 16),
+
             Text(
-              maxLines: 4,
+              maxLines: poi.note.isNotEmpty ? 2 : 4,
+              overflow: TextOverflow.ellipsis,
               "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi conLorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi con",
               style: TextStyle(color: Colors.grey.shade500, fontSize: 16),
             ),
 
             SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: NoteBox(
+
+            if (poi.note.isNotEmpty)
+              NoteBox(
                 actualNote: poi.note,
-                onSubmitted: (value) => updatePoiNoteField(value, poi, ref),
+                onTap: () => openNoteDialog(poi.note),
               ),
-            ),
             Spacer(),
+
             Padding(
               padding: const EdgeInsets.only(bottom: 16, left: 5, right: 5),
               child: PoiButtonList(),
@@ -151,10 +151,11 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
     );
   }
 
-  void updatePoiNoteField(String newValue, Poi poi, WidgetRef ref) {
-    poi.note = newValue;
-    ref.read(poiServiceProvider).save(poi);
-    // TODO serve un provider anche per la pagina myLisy che viene quindi aggiornata da questa!!! Altrimenti non si aggiornala schermata
-    ref.read(listsControllerProvider.notifier).refresh();
+  void openNoteDialog(String actualValue) {
+    showNoteDialog(
+      context,
+      actualValue,
+      (val) => ref.read(selectedPoiControllerProvider.notifier).updateNote(val),
+    );
   }
 }
