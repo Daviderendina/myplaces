@@ -6,6 +6,7 @@ import '../../../domain/my_list.dart';
 import '../../../tools/logger.dart';
 
 class SelectedListController extends StateNotifier<MyList?> {
+  // TODO le modifiche qui devono avere effetto anche sul provider princiaple!! oppure fare un provider unico
   final ListService repository;
 
   SelectedListController(super._state, this.repository);
@@ -35,14 +36,17 @@ class SelectedListController extends StateNotifier<MyList?> {
     // TODO implementare!!!
   }
 
-  Future<void> updateListEmoji(String? newEmoji) async {
-    if (newEmoji == null) {
-      logger.warn("updateListEmoji - Passed null emoji");
-    } else {
-      logger.info("Updating emoji of ${state?.id} with: $newEmoji");
-      MyList updatedList = state!.copyWith(emoji: newEmoji);
-      repository.save(updatedList);
-      state = updatedList;
-    }
+  Future<void> updateList({
+    String? newEmoji,
+    bool? isHidden,
+    String? name,
+  }) async {
+    MyList updatedList = state!.copyWith(
+      emoji: newEmoji,
+      isArchived: isHidden,
+      name: name,
+    );
+    repository.save(updatedList);
+    state = updatedList;
   }
 }

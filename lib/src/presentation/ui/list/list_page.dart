@@ -5,7 +5,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart' hide Circle;
 import 'package:myplaces/src/presentation/ui/common/main_page_subtitle.dart';
-import 'package:myplaces/src/presentation/ui/common/note_box.dart';
 import 'package:myplaces/src/presentation/ui/poi/poi_card.dart';
 import 'package:myplaces/src/providers.dart';
 
@@ -15,9 +14,12 @@ import '../../../tools/extension/title_case_extension.dart';
 import '../../../tools/logger.dart';
 import '../common/circular_emoji_button.dart';
 import '../common/circular_icon_button.dart';
-import '../common/select_emoji_dialog.dart';
+import '../common/note_box.dart';
+import '../common/note_dialog.dart';
+import '../common/my_emoji_picker.dart';
 import '../poi/poi_detail_page.dart';
 import 'circular_flag_poi_marker.dart';
+import 'edit_list_dialog.dart';
 
 class ListPage extends ConsumerStatefulWidget {
   const ListPage({super.key});
@@ -66,24 +68,21 @@ class _ListPageState extends ConsumerState<ListPage> {
                   children: [
                     CircularEmojiButton(
                       emoji: myList.emoji,
-                      onPressed: () async {
-                        String? result = await showEmojiPickerDialog(context);
-                        await ref
-                            .read(selectedListControllerProvider.notifier)
-                            .updateListEmoji(result);
-                        // TODO qui deve aggiornare anche la lista precedente
-                      },
+                      // TODO cambiare con un widget di sola visualizzazione
                     ),
                     SizedBox(width: 5),
                     MainPageSubtitle(text: myList.name.toTitleCase()),
                     Spacer(),
-                    if (myList.note.isEmpty && !showNote)
+                    if (myList.note.isEmpty)
                       CircularIconButton(
                         icon: Icons.playlist_add,
-                        onPressed: addNoteOnTap,
+                        onPressed: () => openNoteDialog(myList.note),
                       ),
                     SizedBox(width: 2),
-                    CircularIconButton(icon: Icons.settings, onPressed: () {}),
+                    CircularIconButton(
+                      icon: Icons.edit,
+                      onPressed: () => showEditListFullDialog(context),
+                    ),
                   ],
                 ),
 
@@ -120,21 +119,15 @@ class _ListPageState extends ConsumerState<ListPage> {
                   ),
                 ),
 
-                SizedBox(height: 15),
+                SizedBox(height: 30),
 
-                if (myList.note.isNotEmpty || showNote) ...[
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    // child: NoteBox(
-                    //   actualNote: myList.note,
-                    //   focusNode: _focusNode,
-                    //   onSubmitted: updateListNoteField,
-                    // ),
+                if (myList.note.isNotEmpty)
+                  NoteBox(
+                    actualNote: myList.note,
+                    onTap: () => openNoteDialog(myList.note),
                   ),
-                ],
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
 
                 Expanded(
                   child: poiList.isNotEmpty
@@ -175,16 +168,6 @@ class _ListPageState extends ConsumerState<ListPage> {
         .read(selectedListControllerProvider.notifier)
         .setListVisibility(value);
     ref.invalidate(listsControllerProvider);
-  }
-
-  void addNoteOnTap() {
-    setState(() {
-      showNote = true;
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-    });
   }
 
   void calculateMapPosition(MyList myList) {
@@ -253,11 +236,12 @@ class _ListPageState extends ConsumerState<ListPage> {
     ref.read(selectedListControllerProvider.notifier).updateNote(value.trim());
   }
 
-  // TODO usare questi metodi per size dinamica dei poi
-  // double markerSizeFromZoom(double zoom) {
-  //   return (pow(1.2, zoom - 10) * 6).clamp(6.0, 28.0);
-  // }
-  // double borderWidthFromZoom(double zoom) {
-  //   return (zoom / 20).clamp(0.5, 2.5);
-  // }
+  void openNoteDialog(String actualValue) {
+    showNoteDialog(
+      context,
+      actualValue,
+      (val) =>
+          ref.read(selectedListControllerProvider.notifier).updateNote(val),
+    );
+  }
 }
