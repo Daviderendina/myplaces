@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myplaces/src/domain/my_list.dart';
 
+import '../../../domain/default_lists.dart';
+import 'visual_symbol_visualizer.dart';
+
 class CardMylistDefault extends StatelessWidget {
   final MyList myList;
   final VoidCallback onTap;
@@ -29,11 +32,26 @@ class CardMylistDefault extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: Color(0xffd39e1d), //TODO sistemare
-                  borderRadius: BorderRadius.circular(24),
+                  color: Colors.yellow.shade800.withAlpha(210),
+                  //TODO sistemare, piu che altro in caso farlo colorato bisogna capire da dove prendere il colore
+                  borderRadius: BorderRadius.circular(22),
                   //shape: BoxShape.circle,
                 ),
-                child: Text(myList.emoji, style: TextStyle(fontSize: 22)),
+                child: SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Center(
+                      child: VisualSymbolVisualizer(
+                        symbol: myList.visualSymbol,
+                        forceWhite: true,
+                      ),
+                    ),
+                  ),
+                  // child: CircularEmojiButton(
+                  //   emoji: myList.emoji,
+                  //   isActive: listBelongsToPoi,
+                  // ),
+                ),
               ),
               SizedBox(height: 12),
               Text(

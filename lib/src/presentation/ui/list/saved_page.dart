@@ -6,8 +6,8 @@ import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/providers.dart';
 
 import '../common/main_page_title.dart';
-import 'card_mylist_custom.dart';
-import 'card_mylist_default.dart';
+import '../list/card_mylist_custom.dart';
+import '../list/card_mylist_default.dart';
 import '../list/list_page.dart';
 
 class SavedPage extends ConsumerStatefulWidget {
@@ -39,6 +39,7 @@ class SavedPageState extends ConsumerState<SavedPage> {
 
                 SizedBox(height: 20),
 
+                // TODO questa logica del default va spostata da qui! non è il widget a decidere cosa è default e cosa no
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: myLists

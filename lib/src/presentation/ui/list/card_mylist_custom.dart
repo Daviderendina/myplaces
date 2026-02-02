@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/providers.dart';
 
+import 'visual_symbol_visualizer.dart';
+
 class CardMylistCustom extends ConsumerWidget {
   final MyList myList;
   final VoidCallback onTap;
@@ -31,8 +33,9 @@ class CardMylistCustom extends ConsumerWidget {
                 SizedBox(
                   width: 48,
                   height: 48,
-                  child: Center(
-                    child: Text(myList.emoji, style: TextStyle(fontSize: 26)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: VisualSymbolVisualizer(symbol: myList.visualSymbol),
                   ),
                 ),
                 SizedBox(width: 14),

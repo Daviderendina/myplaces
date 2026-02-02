@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/domain/my_list.dart';
+import 'package:myplaces/src/presentation/ui/list/visual_symbol_visualizer.dart';
 import 'package:myplaces/src/providers.dart';
 
 import '../../../domain/poi.dart';
-import '../common/circular_emoji_button.dart';
 
 class SelectListPage extends ConsumerWidget {
   const SelectListPage({super.key});
@@ -54,12 +54,21 @@ class SelectListPage extends ConsumerWidget {
                                     //     : Colors.grey.withAlpha(40),
                                   ),
                                   child: SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child: CircularEmojiButton(
-                                      emoji: myList.emoji,
-                                      isActive: listBelongsToPoi,
+                                    width: 35,
+                                    height: 35,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4),
+                                      child: Center(
+                                        child: VisualSymbolVisualizer(
+                                          symbol: myList.visualSymbol,
+                                          colored: listBelongsToPoi,
+                                        ),
+                                      ),
                                     ),
+                                    // child: CircularEmojiButton(
+                                    //   emoji: myList.emoji,
+                                    //   isActive: listBelongsToPoi,
+                                    // ),
                                   ),
                                 ),
 

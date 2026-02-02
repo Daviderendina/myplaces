@@ -12,11 +12,11 @@ import '../../../domain/my_list.dart';
 import '../../../domain/poi.dart';
 import '../../../tools/extension/title_case_extension.dart';
 import '../../../tools/logger.dart';
-import '../common/circular_emoji_button.dart';
 import '../common/circular_icon_button.dart';
-import '../common/note_box.dart';
-import '../common/note_dialog.dart';
+import '../common/note/note_box.dart';
+import '../common/note/note_dialog.dart';
 import '../common/my_emoji_picker.dart';
+import 'visual_symbol_visualizer.dart';
 import '../poi/poi_detail_page.dart';
 import 'circular_flag_poi_marker.dart';
 import 'edit_list_dialog.dart';
@@ -66,9 +66,21 @@ class _ListPageState extends ConsumerState<ListPage> {
               children: [
                 Row(
                   children: [
-                    CircularEmojiButton(
-                      emoji: myList.emoji,
-                      // TODO cambiare con un widget di sola visualizzazione
+                    SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Center(
+                          child: VisualSymbolVisualizer(
+                            symbol: myList.visualSymbol,
+                          ),
+                        ),
+                      ),
+                      // child: CircularEmojiButton(
+                      //   emoji: myList.emoji,
+                      //   isActive: listBelongsToPoi,
+                      // ),
                     ),
                     SizedBox(width: 5),
                     MainPageSubtitle(text: myList.name.toTitleCase()),

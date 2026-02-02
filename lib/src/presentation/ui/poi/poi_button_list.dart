@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../config/default_lists.dart';
+import '../../../domain/default_lists.dart';
 import '../../../tools/logger.dart';
+import '../list/visual_symbol_visualizer.dart';
 import '../list/select_list_page.dart';
 import '../../../providers.dart';
 import '../../../domain/my_list.dart';
@@ -31,16 +32,21 @@ class PoiButtonList extends ConsumerWidget {
               spacing: 4,
               children: [
                 ...defaultLists.map((myList) {
-                  DefaultListType type = DefaultListType.fromName(myList.name);
-
                   return IconButton(
-                    onPressed: () => controller.triggerPoiToList(poi, myList),
-                    icon: Icon(
-                      type.icon,
-                      size: 30,
-                      color: controller.poiBelongToList(poi!, myList)
-                          ? type.color
-                          : Colors.grey,
+                    onPressed: () => controller.triggerPoiToList(poi!, myList),
+                    icon: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: Center(
+                        child: VisualSymbolVisualizer(
+                          symbol: myList.visualSymbol,
+                          //colored: listBelongsToPoi,
+                        ),
+                      ),
+                      // child: CircularEmojiButton(
+                      //   emoji: myList.emoji,
+                      //   isActive: listBelongsToPoi,
+                      // ),
                     ),
                   );
                 }),

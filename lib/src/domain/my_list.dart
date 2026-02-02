@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:myplaces/src/domain/default_lists.dart';
 import 'package:myplaces/src/domain/poi.dart';
+import 'package:myplaces/src/domain/visual_symbol.dart';
 import 'package:objectbox/objectbox.dart';
 
 import '../tools/extension/title_case_extension.dart';
@@ -50,5 +53,15 @@ class MyList {
     copy.poiList.addAll(poiList);
 
     return copy;
+  }
+}
+
+extension MyListIconVisualizer on MyList {
+  VisualSymbol get visualSymbol {
+    if (isDefault) {
+      DefaultListType type = DefaultListType.fromName(name);
+      return VisualSymbol.icon(type.icon, type.color);
+    }
+    return VisualSymbol.emoji(emoji);
   }
 }

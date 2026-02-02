@@ -5,8 +5,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:myplaces/src/presentation/ui/profile/profile_page.dart';
 import 'package:myplaces/src/providers.dart';
 
+import '../list/saved_page.dart';
 import '../map/map_page.dart';
-import '../saved/saved_page.dart';
 
 class RootPage extends ConsumerStatefulWidget {
   const RootPage({super.key});
