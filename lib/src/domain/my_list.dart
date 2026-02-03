@@ -54,6 +54,11 @@ class MyList {
 
     return copy;
   }
+
+  @override
+  String toString() {
+    return 'MyList{id: $id, name: "$name", emoji: "$emoji", isDefault: $isDefault, isArchived: $isArchived, note: "$note", poiCount: ${poiList.length}}';
+  }
 }
 
 extension MyListIconVisualizer on MyList {

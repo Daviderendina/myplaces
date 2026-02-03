@@ -1,5 +1,6 @@
 import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/application/list_service.dart';
+import 'package:myplaces/src/tools/logger.dart';
 
 import '../domain/poi.dart';
 
@@ -15,22 +16,26 @@ class ListService {
     return getAll().where((l) => l.isDefault).toList();
   }
 
-  MyList? getById(int id) => _service.getById(id);
+  Future<MyList?> getById(int id) => _service.getById(id);
 
-  Future<MyList> save(MyList myList) {
-    MyList? myListSaved = getById(myList.id);
+  Future<MyList> save(MyList myList) async {
+    logger.info('Saving MyList: $myList');
+
+    MyList? myListSaved = await getById(myList.id);
 
     if (myListSaved != null) {
-      // Update the existing record
       myList.id = myListSaved.id;
     }
 
     bool nameAlreadyExists = myListSaved == null && listExists(myList);
     if (nameAlreadyExists) {
+      logger.warn('Cannot save MyList: name "${myList.name}" already exists');
       return Future.error("Name is already present");
     }
 
-    return _service.save(myList);
+    MyList result = await _service.save(myList);
+    logger.info('MyList saved, result: $result');
+    return result;
   }
 
   void delete(MyList myList) => _service.deleteList(myList);

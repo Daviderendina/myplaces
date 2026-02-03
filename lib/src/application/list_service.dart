@@ -17,7 +17,7 @@ class ListRepository {
     return newList;
   }
 
-  MyList? getById(int id) {
+  Future<MyList?> getById(int id) async {
     return _box.query(MyList_.id.equals(id)).build().findFirst();
   }
 

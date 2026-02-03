@@ -103,46 +103,68 @@ class _ListPageState extends ConsumerState<ListPage> {
                 ),
                 SizedBox(height: 26),
 
-                SizedBox(
-                  height: 200,
-                  width: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: FlutterMap(
-                      mapController: _mapController,
-                      options: const MapOptions(initialZoom: 5),
-                      children: [
-                        TileLayer(
-                          urlTemplate:
-                              'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
-                          subdomains: const ['a', 'b', 'c', 'd'],
-                          userAgentPackageName: 'it.drendina.myplaces',
+                Row(
+                  children: [
+                    Expanded(
+                      flex: myList.note.isEmpty ? 9 : 7,
+                      child: SizedBox(
+                        height: 200,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: FlutterMap(
+                            mapController: _mapController,
+                            options: const MapOptions(initialZoom: 5),
+                            children: [
+                              TileLayer(
+                                urlTemplate:
+                                    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+                                subdomains: const ['a', 'b', 'c', 'd'],
+                                userAgentPackageName: 'it.drendina.myplaces',
+                              ),
+                              MarkerLayer(
+                                markers: [
+                                  ...myList.poiList.map(
+                                    (poi) => CircularFlagPoiMarker.build(
+                                      poi: poi,
+                                      onTap: () => openPoiDetailPage(poi, ref),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
+                      ),
+                    ),
 
-                        MarkerLayer(
-                          markers: [
-                            ...myList.poiList.map(
-                              (poi) => CircularFlagPoiMarker.build(
-                                poi: poi,
-                                onTap: () => openPoiDetailPage(poi, ref),
+                    const SizedBox(width: 8),
+
+                    Expanded(
+                      flex: myList.note.isEmpty ? 1 : 3,
+                      child: myList.note.isEmpty
+                          ? InkWell(
+                              onTap: () => openNoteDialog(myList.note),
+                              child: Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withAlpha(10),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Icon(Icons.edit_note),
+                              ),
+                            )
+                          : SizedBox(
+                              height: 200,
+                              child: NoteBox(
+                                actualNote: myList.note,
+                                onTap: () => openNoteDialog(myList.note),
                               ),
                             ),
-                          ],
-                        ),
-                      ],
                     ),
-                  ),
+                  ],
                 ),
 
-                SizedBox(height: 30),
-
-                if (myList.note.isNotEmpty)
-                  NoteBox(
-                    actualNote: myList.note,
-                    onTap: () => openNoteDialog(myList.note),
-                  ),
-
-                const SizedBox(height: 25),
+                const SizedBox(height: 35),
 
                 MainPageSubtitle(text: "Places"),
                 const SizedBox(height: 10),
@@ -190,6 +212,11 @@ class _ListPageState extends ConsumerState<ListPage> {
                                 poi: poi,
                                 onTap: () => openPoiDetailPage(poi, ref),
                                 onDismissed: () {
+                                  ref
+                                      .read(
+                                        selectedListControllerProvider.notifier,
+                                      )
+                                      .deletePoiFromList(poi);
                                   // ref
                                   //     .read(
                                   //       selectedListControllerProvider.notifier,
@@ -210,14 +237,6 @@ class _ListPageState extends ConsumerState<ListPage> {
         ],
       ),
     );
-  }
-
-  // TODO tutti questi metodi vanno in un controller ad hoc!!!
-  Future<void> updateListVisibility(bool value) async {
-    await ref
-        .read(selectedListControllerProvider.notifier)
-        .setListVisibility(value);
-    ref.invalidate(listsControllerProvider);
   }
 
   void calculateMapPosition(MyList myList) {

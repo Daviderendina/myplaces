@@ -17,60 +17,84 @@ class PoiCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Stack(
-        children: [
-          // Background image
-          Positioned.fill(
-            child: Image.network(
-              'https://thumbs.dreamstime.com/b/lights-downtown-manhattan-skyline-night-new-york-city-pink-blue-duotone-colors-color-effect-232331555.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
+    return Dismissible(
+      key: ValueKey(poi.id),
+      direction: DismissDirection.startToEnd,
+      background: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.red.withAlpha(190),
+        ),
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Icon(Icons.delete, color: Colors.white),
+      ),
+      onDismissed: (direction) {
+        onDismissed.call();
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: Stack(
+            children: [
+              // Background image
+              Positioned.fill(
+                child: Image.network(
+                  'https://thumbs.dreamstime.com/b/lights-downtown-manhattan-skyline-night-new-york-city-pink-blue-duotone-colors-color-effect-232331555.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
 
-          // Optional overlay (per leggibilità testo)
-          Positioned.fill(
-            child: Container(color: Colors.black.withOpacity(0.35)),
-          ),
+              // Optional overlay (per leggibilità testo)
+              Positioned.fill(
+                child: Container(color: Colors.black.withOpacity(0.35)),
+              ),
 
-          // Content
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+              // Content
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 14,
+                  horizontal: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      poi.name,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        // TODO bello questo modo per i testi!!!
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          poi.name,
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                // TODO bello questo modo per i testi!!!
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        Spacer(),
+                        SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CountryFlag.fromCountryCode(
+                            poi.countrycode ?? '',
+                            theme: const ImageTheme(shape: Circle()),
+                          ),
+                        ),
+                      ],
                     ),
-                    Spacer(),
-                    SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CountryFlag.fromCountryCode(
-                        poi.countrycode ?? '',
-                        theme: const ImageTheme(shape: Circle()),
-                      ),
+                    Text(
+                      poi.getDisplayAreaName(),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
                     ),
                   ],
                 ),
-                Text(
-                  poi.getDisplayAreaName(),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
 

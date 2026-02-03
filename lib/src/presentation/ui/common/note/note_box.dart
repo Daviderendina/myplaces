@@ -18,23 +18,26 @@ class NoteBox extends StatelessWidget {
           decoration: BoxDecoration(color: Colors.white.withAlpha(10)),
           child: Padding(
             padding: const EdgeInsets.all(14),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.sticky_note_2_outlined,
-                  color: Colors.white.withAlpha(180),
-                  size: 24,
+                Center(
+                  child: Icon(
+                    Icons.sticky_note_2_outlined,
+                    color: Colors.white.withAlpha(180),
+                    size: 16,
+                  ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(height: 10),
                 Expanded(
                   child: Text(
                     actualNote,
-                    maxLines: 3,
+                    maxLines: 8,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 14.5,
+                      height: 1.2,
+                      fontSize: 14,
                       color: Colors.white.withAlpha(180),
                     ),
                   ),
