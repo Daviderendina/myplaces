@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:myplaces/src/data/list_repository.dart';
+import 'package:myplaces/src/providers.dart';
 
 import '../../../../../../src/domain/poi.dart';
 import '../../../domain/my_list.dart';
@@ -49,9 +50,9 @@ class SelectedListController extends StateNotifier<MyList?> {
     await repository.save(state!);
 
     // repository.save(updatedList);
-    // TODO non devo aggiornare altri??? Sicuramente ho un places in meno quindi si
+    // TODO non devo aggiornare altri - quello delle liste intendo??? Sicuramente ho un places in meno quindi si
 
-    state = state!;
+    state = await repository.getById(state!.id);
   }
 
   Future<void> updateList({

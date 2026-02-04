@@ -166,7 +166,7 @@ class _ListPageState extends ConsumerState<ListPage> {
 
                 const SizedBox(height: 35),
 
-                MainPageSubtitle(text: "Places"),
+                MainPageSubtitle(text: "Places ${myList.poiList.length}"),
                 const SizedBox(height: 10),
 
                 Expanded(
@@ -211,19 +211,15 @@ class _ListPageState extends ConsumerState<ListPage> {
                               return PoiCard(
                                 poi: poi,
                                 onTap: () => openPoiDetailPage(poi, ref),
-                                onDismissed: () {
-                                  ref
+                                onDismissed: () async {
+                                  await ref
                                       .read(
                                         selectedListControllerProvider.notifier,
                                       )
                                       .deletePoiFromList(poi);
-                                  // ref
-                                  //     .read(
-                                  //       selectedListControllerProvider.notifier,
-                                  //     )
-                                  //     .deletePoiFromList();
-                                  // TODO cancello dalla lista
-                                  // TODO refresh del provider prima
+                                  ref
+                                      .read(listsControllerProvider.notifier)
+                                      .refresh(); // TODO ha senso farlo qui o meglio tenere la dipendenza dentro riverpod?
                                 },
                               );
                             },
@@ -304,6 +300,7 @@ class _ListPageState extends ConsumerState<ListPage> {
       });
     }
     ref.read(selectedListControllerProvider.notifier).updateNote(value.trim());
+    ref.read(listsControllerProvider.notifier).refresh();
   }
 
   void openNoteDialog(String actualValue) {

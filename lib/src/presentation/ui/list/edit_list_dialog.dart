@@ -34,16 +34,17 @@ class _EditListScreenState extends ConsumerState<EditListFullDialog> {
     super.dispose();
   }
 
-  void _save() {
+  Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
-    ref
+    await ref
         .read(selectedListControllerProvider.notifier)
         .updateList(
           newEmoji: selectedEmoji,
           isHidden: hiddenList,
           name: _controller.text,
         );
-    Navigator.pop(context);
+    await ref.read(listsControllerProvider.notifier).refresh();
+    Navigator.of(context).pop();
   }
 
   @override
