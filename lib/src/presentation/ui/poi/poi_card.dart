@@ -41,10 +41,7 @@ class PoiCard extends StatelessWidget {
             children: [
               // Background image
               Positioned.fill(
-                child: Image.network(
-                  'https://thumbs.dreamstime.com/b/lights-downtown-manhattan-skyline-night-new-york-city-pink-blue-duotone-colors-color-effect-232331555.jpg',
-                  fit: BoxFit.cover,
-                ),
+                child: Image.asset(poi.category.asset, fit: BoxFit.cover),
               ),
 
               // Optional overlay (per leggibilità testo)

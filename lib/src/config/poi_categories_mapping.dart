@@ -31,15 +31,6 @@ final poiCategoriesMapping = {
   "amenity|restaurant": PoiCategory.food,
   "craft|bakery": PoiCategory.food,
 
-  "building|stadium": PoiCategory.sport,
-  "building|sports_centre": PoiCategory.sport,
-
-  "highway|trailhead": PoiCategory.hiking,
-  "highway|via_ferrata": PoiCategory.hiking,
-  "route|hiking": PoiCategory.hiking,
-  "tourism|alpine_hut": PoiCategory.hiking,
-  "tourism|wilderness_hut": PoiCategory.hiking,
-
   "amenity|parking": PoiCategory.parking,
   "amenity|parking_space": PoiCategory.parking,
   "building|parking": PoiCategory.parking,
@@ -57,6 +48,9 @@ final poiCategoriesMapping = {
   "building|temple": PoiCategory.buildingReligious,
   "amenity|place_of_worship": PoiCategory.buildingReligious,
 
+  "building|stadium": PoiCategory.sport,
+  "building|sports_centre": PoiCategory.sport,
+
   "natural|arete": PoiCategory.mountain,
   "natural|peak": PoiCategory.mountain,
   "natural|ridge": PoiCategory.mountain,
@@ -65,6 +59,12 @@ final poiCategoriesMapping = {
   "natural|sinkhole": PoiCategory.mountain,
   "natural|valley": PoiCategory.mountain,
   "natural|volcano": PoiCategory.mountain,
+
+  "highway|trailhead": PoiCategory.hiking,
+  "highway|via_ferrata": PoiCategory.hiking,
+  "route|hiking": PoiCategory.hiking,
+  "tourism|alpine_hut": PoiCategory.hiking,
+  "tourism|wilderness_hut": PoiCategory.hiking,
   "": PoiCategory.other,
   "": PoiCategory.other,
   "": PoiCategory.other,
