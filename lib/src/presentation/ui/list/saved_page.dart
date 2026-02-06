@@ -8,7 +8,8 @@ import 'package:myplaces/src/providers.dart';
 import '../common/main_page_title.dart';
 import '../list/card_mylist_custom.dart';
 import '../list/card_mylist_default.dart';
-import '../list/list_page.dart';
+import '../list/list_detail_page.dart';
+import 'list_information_full_dialog.dart';
 
 class SavedPage extends ConsumerStatefulWidget {
   const SavedPage({super.key});
@@ -65,7 +66,10 @@ class SavedPageState extends ConsumerState<SavedPage> {
                         style: TextStyle(color: Colors.white54),
                       ),
                       avatar: Icon(Icons.add, color: Colors.white54),
-                      onPressed: () => openNewListDialog(context, ref),
+                      onPressed: () => showListInformationFullDialog(
+                        context,
+                        ListInformationAction.CREATE,
+                      ),
                       elevation: 0,
                       pressElevation: 0,
                       shape: const StadiumBorder(

@@ -21,7 +21,7 @@ import '../common/note/note_dialog.dart';
 import 'visual_symbol_visualizer.dart';
 import '../poi/poi_detail_page.dart';
 import 'circular_flag_poi_marker.dart';
-import 'edit_list_dialog.dart';
+import 'list_information_full_dialog.dart';
 
 class ListPage extends ConsumerStatefulWidget {
   const ListPage({super.key});
@@ -70,7 +70,10 @@ class _ListPageState extends ConsumerState<ListPage> {
             SizedBox(width: 2),
             IconButton(
               icon: Icon(Icons.settings, size: 20),
-              onPressed: () => showEditListFullDialog(context),
+              onPressed: () => showListInformationFullDialog(
+                context,
+                ListInformationAction.EDIT,
+              ),
             ),
           ],
         ],
