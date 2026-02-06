@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart' hide Circle;
 import 'package:myplaces/src/presentation/ui/common/main_page_subtitle.dart';
 import 'package:myplaces/src/presentation/ui/common/my_subtitle.dart';
+import 'package:myplaces/src/presentation/ui/list/select_list_page.dart';
 import 'package:myplaces/src/presentation/ui/poi/poi_card.dart';
 import 'package:myplaces/src/providers.dart';
 
@@ -211,7 +212,7 @@ class _ListPageState extends ConsumerState<ListPage> {
                               return PoiCard(
                                 poi: poi,
                                 onTap: () => openPoiDetailPage(poi, ref),
-                                onDismissed: () async {
+                                onSwipeLeft: () async {
                                   await ref
                                       .read(
                                         selectedListControllerProvider.notifier,
@@ -220,6 +221,18 @@ class _ListPageState extends ConsumerState<ListPage> {
                                   ref
                                       .read(listsControllerProvider.notifier)
                                       .refresh(); // TODO ha senso farlo qui o meglio tenere la dipendenza dentro riverpod?
+                                },
+                                onSwipeRight: () {
+                                  ref
+                                      .read(
+                                        selectedPoiControllerProvider.notifier,
+                                      )
+                                      .selectNewPoi(poi);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => SelectListPage(),
+                                    ),
+                                  );
                                 },
                               );
                             },
