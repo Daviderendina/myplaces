@@ -144,46 +144,6 @@ class SavedPageState extends ConsumerState<SavedPage> {
     };
   }
 
-  Future openNewListDialog(BuildContext context, WidgetRef ref) {
-    final nameController =
-        TextEditingController(); // <- controller per il TextField
-
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Create New List"),
-        content: TextField(
-          controller: nameController, // <-- qui
-          autofocus: true,
-          decoration: const InputDecoration(
-            labelText: 'List name',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context), // chiudi senza valore
-            child: const Text("Cancel"),
-          ),
-          FilledButton(
-            onPressed: () {
-              final name = nameController.text.trim(); // <-- prendi il testo
-              if (name.isEmpty) return; // non permettere save vuoto
-
-              final newList = MyList(name: name);
-              ref
-                  .read(listsControllerProvider.notifier)
-                  .addList(
-                    newList,
-                  ); // TODO gestire qui onError, devo mostrare il toast se la lista esiste gia - Se faccio in una page dedicata lo mostro direttamente sulla toast
-              // TODO sarebbe carino mostrare un elemento in piu nella lista con loading!
-
-              Navigator.pop(context); // chiudi il dialog
-            },
-            child: const Text("Save"),
-          ),
-        ],
-      ),
-    );
-  }
+  // TODO gestire onError sulla creazione di una lista, devo mostrare il toast se la lista esiste gia - Se faccio in una page dedicata lo mostro direttamente sulla toast
+  // TODO sarebbe carino mostrare un elemento in piu nella lista con loading!
 }

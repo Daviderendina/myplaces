@@ -26,19 +26,24 @@ class CardMylistCustom extends ConsumerWidget {
           borderRadius: BorderRadius.circular(8),
           onTap: onTap,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            padding: const EdgeInsets.only(
+              left: 18,
+              top: 10,
+              bottom: 10,
+              right: 4,
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 48,
-                  height: 48,
+                  width: 50,
+                  height: 50,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: VisualSymbolVisualizer(symbol: myList.visualSymbol),
                   ),
                 ),
-                SizedBox(width: 14),
+                SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -47,19 +52,19 @@ class CardMylistCustom extends ConsumerWidget {
                       myList.displayName,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        height: 1.2,
-                        fontSize: 18,
+                        height: 1.3,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         fontFamily: "Poppins",
                       ),
                     ),
                     Text(
-                      "${myList.poiList.length} places${myList.isArchived ? " · hidden" : ""}",
+                      "${myList.poiList.length} places",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         height: 1.2,
-                        fontSize: 14,
+                        fontSize: 15,
                         color: Colors.white70,
                         fontFamily: "Poppins",
                       ),
@@ -68,6 +73,10 @@ class CardMylistCustom extends ConsumerWidget {
                 ),
                 Spacer(),
 
+                if (myList.isArchived)
+                  Icon(Icons.visibility_off_outlined, color: Colors.white54),
+
+                SizedBox(width: 4),
                 PopupMenuButton<String>(
                   onSelected: (value) {
                     if (value == "edit") {
