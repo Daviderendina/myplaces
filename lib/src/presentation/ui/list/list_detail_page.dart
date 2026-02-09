@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart' hide Circle;
 import 'package:myplaces/src/presentation/ui/common/main_page_subtitle.dart';
 import 'package:myplaces/src/presentation/ui/common/my_subtitle.dart';
 import 'package:myplaces/src/presentation/ui/list/select_list_page.dart';
+import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 import 'package:myplaces/src/presentation/ui/poi/poi_card.dart';
 import 'package:myplaces/src/providers.dart';
 
@@ -18,9 +19,9 @@ import '../common/circular_icon_button.dart';
 import '../common/my_title.dart';
 import '../common/note/note_box.dart';
 import '../common/note/note_dialog.dart';
+import '../map/markers.dart';
 import 'visual_symbol_visualizer.dart';
 import '../poi/poi_detail_page.dart';
-import 'circular_flag_poi_marker.dart';
 import 'list_information_full_dialog.dart';
 
 class ListPage extends ConsumerStatefulWidget {
@@ -115,27 +116,18 @@ class _ListPageState extends ConsumerState<ListPage> {
                         height: 200,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                          child: FlutterMap(
-                            mapController: _mapController,
-                            options: const MapOptions(initialZoom: 5),
-                            children: [
-                              TileLayer(
-                                urlTemplate:
-                                    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
-                                subdomains: const ['a', 'b', 'c', 'd'],
-                                userAgentPackageName: 'it.drendina.myplaces',
-                              ),
-                              MarkerLayer(
-                                markers: [
-                                  ...myList.poiList.map(
+                          child: MapView(
+                            controller: _mapController,
+                            markerBuilder: () {
+                              return myList.poiList
+                                  .map<Marker>(
                                     (poi) => CircularFlagPoiMarker.build(
                                       poi: poi,
                                       onTap: () => openPoiDetailPage(poi, ref),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  )
+                                  .toList();
+                            },
                           ),
                         ),
                       ),

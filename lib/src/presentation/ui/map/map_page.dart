@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
+import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 import 'package:myplaces/src/presentation/ui/map/poi_bottom_sheet.dart';
 import 'package:myplaces/src/tools/logger.dart';
 
 import '../../../../../src/domain/poi.dart';
 import '../../../providers.dart';
+import 'markers.dart';
 import 'mysearchbar.dart';
 
 // TODO quando si cambia pagina bisogna fare il clean della mappa!!
@@ -28,47 +30,20 @@ class MapPage extends ConsumerWidget {
 
     return Stack(
       children: [
-        FlutterMap(
-          mapController: mapController,
-          options: const MapOptions(initialZoom: 5),
-          children: [
-            // https://github.com/CartoDB/basemap-styles?tab=readme-ov-file
-            // https://basemaps.cartocdn.com/#9/43.2069/11.1354
-
-            // ALIDADE DARK - ho api rate quindi per ora tengo altro
-            // urlTemplate:
-            //     'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key={api_key}',
-            // additionalOptions: {
-            //   "api_key": "3140b6e5-c3bd-4e46-9f53-6e482e3eab45",
-            // },
-            TileLayer(
-              urlTemplate:
-                  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
-              subdomains: const ['a', 'b', 'c', 'd'],
-              userAgentPackageName: 'it.drendina.myplaces',
-            ),
-
-            MarkerLayer(
-              markers: [
-                if (poi != null && state.showPoiMarker)
-                  Marker(
-                    point: poi.coordinates,
-                    child: GestureDetector(
-                      onTap: () => showPoiModal(context),
-                      child: Icon(
-                        Icons.location_pin,
-                        color: Colors.red,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-
-            //  Stadia.AlidadeSmoothDark - 3140b6e5-c3bd-4e46-9f53-6e482e3eab45
-            //TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', subdomains: ['a','b','c','d'], userAgentPackageName: 'com.example.app', )// si inchioda        TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', subdomains: const ['a', 'b', 'c', 'd'], userAgentPackageName: 'com.example.app', )
-            // Scuro ni TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', subdomains: ['a','b','c','d'], userAgentPackageName: 'com.example.app', )
-          ],
+        MapView(
+          controller: mapController,
+          markerBuilder: () {
+            if (poi != null && state.showPoiMarker) {
+              return [
+                SelectedPoiMarker.build(
+                  poi: poi,
+                  onTap: () => showPoiModal(context),
+                ),
+              ];
+            } else {
+              return []; //TODO prendere la lista
+            }
+          },
         ),
 
         Positioned(

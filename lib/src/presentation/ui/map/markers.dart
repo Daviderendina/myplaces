@@ -27,3 +27,15 @@ class CircularFlagPoiMarker {
     );
   }
 }
+
+class SelectedPoiMarker {
+  static Marker build({required Poi poi, required VoidCallback onTap}) {
+    return Marker(
+      point: poi.coordinates,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Icon(Icons.location_pin, color: Colors.red, size: 40),
+      ),
+    );
+  }
+}

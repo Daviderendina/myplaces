@@ -1,18 +1,13 @@
-import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myplaces/src/presentation/ui/common/my_title.dart';
 import 'package:myplaces/src/presentation/ui/common/note/note_box.dart';
-import 'package:myplaces/src/presentation/ui/list/circular_flag_poi_marker.dart';
 import '../../../tools/extension/title_case_extension.dart';
 import 'package:myplaces/src/presentation/ui/poi/poi_button_list.dart';
 
-import '../../../../src/domain/poi.dart';
 import '../../../../src/domain/poi_image.dart';
 import '../../../providers.dart';
 import '../common/chips.dart';
 import '../common/circular_icon_button.dart';
-import '../common/my_subtitle.dart';
 import '../common/note/note_dialog.dart';
 
 class PoiDetailPage extends ConsumerStatefulWidget {
