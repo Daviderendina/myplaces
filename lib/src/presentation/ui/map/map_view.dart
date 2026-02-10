@@ -1,46 +1,118 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 typedef MarkerBuilder = List<Marker> Function();
 
-class MapView extends StatelessWidget {
+class MapView extends StatefulWidget {
   final MapController controller;
   final MarkerBuilder markerBuilder;
+  final LatLng? initialCenter;
+  final double? initialZoom;
 
   const MapView({
     super.key,
     required this.controller,
     required this.markerBuilder,
+    this.initialCenter,
+    this.initialZoom,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return FlutterMap(
-      mapController: controller,
-      options: const MapOptions(initialZoom: 5),
-      children: [
-        // https://github.com/CartoDB/basemap-styles?tab=readme-ov-file
-        // https://basemaps.cartocdn.com/#9/43.2069/11.1354
+  State<MapView> createState() => _MapViewState();
+}
 
-        // ALIDADE DARK - ho api rate quindi per ora tengo altro
-        // urlTemplate:
-        //     'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key={api_key}',
-        // additionalOptions: {
-        //   "api_key": "3140b6e5-c3bd-4e46-9f53-6e482e3eab45",
-        // },
+class _MapViewState extends State<MapView> {
+  static const double _defaultZoom = 5;
+  bool _mapReady = false;
+  List<LatLng> _lastPoints = [];
+
+  @override
+  Widget build(BuildContext context) {
+    final markers = widget.markerBuilder();
+    _maybeFitMap(markers);
+
+    return FlutterMap(
+      mapController: widget.controller,
+      options: MapOptions(
+        initialZoom: widget.initialZoom ?? _defaultZoom,
+        initialCenter: widget.initialCenter ?? LatLng(0, 0),
+        onMapReady: () {
+          if (widget.initialCenter == null) {
+            _mapReady = true;
+            Future.microtask(() {
+              _maybeFitMap(markers, force: true);
+            });
+          }
+        },
+      ),
+      children: [
         TileLayer(
           urlTemplate:
               'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
           subdomains: const ['a', 'b', 'c', 'd'],
           userAgentPackageName: 'it.drendina.myplaces',
         ),
-
-        MarkerLayer(markers: markerBuilder()),
-
-        //  Stadia.AlidadeSmoothDark - 3140b6e5-c3bd-4e46-9f53-6e482e3eab45
-        //TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', subdomains: ['a','b','c','d'], userAgentPackageName: 'com.example.app', )// si inchioda        TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', subdomains: const ['a', 'b', 'c', 'd'], userAgentPackageName: 'com.example.app', )
-        // Scuro ni TileLayer( urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', subdomains: ['a','b','c','d'], userAgentPackageName: 'com.example.app', )
+        MarkerLayer(markers: markers),
       ],
     );
+  }
+
+  void _maybeFitMap(List<Marker> markers, {bool force = false}) {
+    if (!_mapReady) return;
+
+    final points = markers.map((m) => m.point).toList();
+
+    if (!force && _samePoints(points, _lastPoints)) return;
+
+    _lastPoints = points;
+
+    Future.microtask(() {
+      _fitToPoints(points);
+    });
+  }
+
+  bool _samePoints(List<LatLng> a, List<LatLng> b) {
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
+
+  void _fitToPoints(List<LatLng> points) {
+    if (points.isEmpty) return;
+
+    if (points.length == 1) {
+      widget.controller.move(points.first, _defaultZoom);
+      return;
+    }
+
+    final bounds = _boundsFromPoints(points);
+
+    widget.controller.fitCamera(
+      CameraFit.bounds(
+        bounds: bounds,
+        padding: const EdgeInsets.all(48),
+        maxZoom: 16,
+      ),
+    );
+  }
+
+  LatLngBounds _boundsFromPoints(List<LatLng> points) {
+    var minLat = points.first.latitude;
+    var maxLat = points.first.latitude;
+    var minLng = points.first.longitude;
+    var maxLng = points.first.longitude;
+
+    for (final p in points.skip(1)) {
+      minLat = min(minLat, p.latitude);
+      maxLat = max(maxLat, p.latitude);
+      minLng = min(minLng, p.longitude);
+      maxLng = max(maxLng, p.longitude);
+    }
+
+    return LatLngBounds(LatLng(minLat, minLng), LatLng(maxLat, maxLng));
   }
 }

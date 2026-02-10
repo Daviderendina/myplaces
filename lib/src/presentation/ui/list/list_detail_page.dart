@@ -5,7 +5,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart' hide Circle;
 import 'package:myplaces/src/presentation/ui/common/main_page_subtitle.dart';
-import 'package:myplaces/src/presentation/ui/common/my_subtitle.dart';
 import 'package:myplaces/src/presentation/ui/list/select_list_page.dart';
 import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 import 'package:myplaces/src/presentation/ui/poi/poi_card.dart';
@@ -15,7 +14,6 @@ import '../../../domain/my_list.dart';
 import '../../../domain/poi.dart';
 import '../../../tools/extension/title_case_extension.dart';
 import '../../../tools/logger.dart';
-import '../common/circular_icon_button.dart';
 import '../common/my_title.dart';
 import '../common/note/note_box.dart';
 import '../common/note/note_dialog.dart';
@@ -55,7 +53,7 @@ class _ListPageState extends ConsumerState<ListPage> {
     if (myList == null) return const SizedBox();
     final poiList = myList.poiList;
 
-    calculateMapPosition(myList);
+    //calculateMapPosition(myList); TODO è questa chiamata che spacca la mappa!!!
 
     return Scaffold(
       appBar: AppBar(
@@ -170,33 +168,6 @@ class _ListPageState extends ConsumerState<ListPage> {
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
 
-                          // GRIGLIA
-                          // child: GridView.builder(
-                          //   physics: const BouncingScrollPhysics(),
-                          //   itemCount: poiList.length,
-                          //   gridDelegate:
-                          //       const SliverGridDelegateWithFixedCrossAxisCount(
-                          //         crossAxisCount: 2, // 2 colonne
-                          //         mainAxisSpacing: 6, // spacing verticale
-                          //         crossAxisSpacing: 6, // spacing orizzontale
-                          //         childAspectRatio:
-                          //             3 /
-                          //             2, // rapporto larghezza/altezza della card (modifica a piacere)
-                          //       ),
-                          //   itemBuilder: (context, index) {
-                          //     final poi = poiList[index];
-                          //     return PoiCard(
-                          //       poi: poi,
-                          //       onTap: () => openPoiDetailPage(poi, ref),
-                          //       onDismissed: () {
-                          //         // TODO cancello dalla lista
-                          //         // TODO refresh del provider prima
-                          //       },
-                          //     );
-                          //   },
-                          // ),
-                          //
-                          // LISTA
                           child: ListView.separated(
                             physics: const BouncingScrollPhysics(),
                             itemCount: poiList.length,
@@ -241,54 +212,6 @@ class _ListPageState extends ConsumerState<ListPage> {
         ],
       ),
     );
-  }
-
-  void calculateMapPosition(MyList myList) {
-    LatLngBounds boundsFromPoints(Iterable<LatLng> points) {
-      final iterator = points.iterator;
-
-      if (!iterator.moveNext()) {
-        throw ArgumentError('points must not be empty');
-      }
-
-      var minLat = iterator.current.latitude;
-      var maxLat = iterator.current.latitude;
-      var minLng = iterator.current.longitude;
-      var maxLng = iterator.current.longitude;
-
-      while (iterator.moveNext()) {
-        final p = iterator.current;
-        minLat = min(minLat, p.latitude);
-        maxLat = max(maxLat, p.latitude);
-        minLng = min(minLng, p.longitude);
-        maxLng = max(maxLng, p.longitude);
-      }
-
-      return LatLngBounds(LatLng(minLat, minLng), LatLng(maxLat, maxLng));
-    }
-
-    final points = myList.poiList.map((l) => l.coordinates).toList();
-    final LatLngBounds? newBounds = myList.poiList.length >= 2
-        ? boundsFromPoints(points)
-        : null;
-    if (newBounds != null && newBounds != _lastBounds) {
-      _lastBounds = newBounds;
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _mapController.fitCamera(
-          CameraFit.bounds(
-            bounds: newBounds,
-            padding: const EdgeInsets.all(48),
-            maxZoom: 16,
-          ),
-        );
-      });
-    }
-    if (myList.poiList.length == 1) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _mapController.move(points.first, 15);
-      });
-    }
   }
 
   void openPoiDetailPage(Poi poi, WidgetRef ref) {
