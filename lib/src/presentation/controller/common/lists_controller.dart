@@ -50,7 +50,7 @@ class ListsController extends AsyncNotifier<List<MyList>> {
       newList[index] = myList;
       state = AsyncData(newList);
 
-      _repository.save(myList); // TODO mettere qui?
+      _repository.save(myList);
     }
   }
 }

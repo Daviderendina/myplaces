@@ -7,15 +7,19 @@ class MyTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontSize: 44,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 1.2,
-        color: Colors.white,
-        decorationColor: Color(0xff907AE6),
-        decorationThickness: 2,
+    return Expanded(
+      child: Text(
+        text,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(
+          fontSize: 44,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 1.2,
+          color: Colors.white,
+          decorationColor: Color(0xff907AE6),
+          decorationThickness: 2,
+        ),
       ),
     );
   }

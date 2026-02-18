@@ -30,7 +30,7 @@ class CardMylistCustom extends ConsumerWidget {
               left: 18,
               top: 10,
               bottom: 10,
-              right: 4,
+              right: 18,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,82 +38,87 @@ class CardMylistCustom extends ConsumerWidget {
                 SizedBox(
                   width: 50,
                   height: 50,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: VisualSymbolVisualizer(symbol: myList.visualSymbol),
-                  ),
+                  child: VisualSymbolVisualizer(symbol: myList.visualSymbol),
                 ),
                 SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      myList.displayName,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        height: 1.3,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontFamily: "Poppins",
-                      ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 240),
+                  child: Flexible(
+                    fit: FlexFit.loose,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          myList.displayName,
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            height: 1.3,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                        Text(
+                          "${myList.poiList.length} places",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            height: 1.2,
+                            fontSize: 15,
+                            color: Colors.white70,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "${myList.poiList.length} places",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        height: 1.2,
-                        fontSize: 15,
-                        color: Colors.white70,
-                        fontFamily: "Poppins",
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                Spacer(),
 
+                Spacer(),
                 if (myList.isArchived)
                   Icon(Icons.visibility_off_outlined, color: Colors.white54),
 
-                SizedBox(width: 4),
-                PopupMenuButton<String>(
-                  onSelected: (value) {
-                    if (value == "edit") {
-                      // codice edit
-                    } else if (value == "delete") {
-                      ref
-                          .read(listsControllerProvider.notifier)
-                          .removeList(myList);
-                      ref
-                          .read(listsControllerProvider.notifier)
-                          .refresh(); // TODO perchè qui refresh??
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: "edit",
-                      child: Row(
-                        children: const [
-                          Icon(Icons.edit),
-                          SizedBox(width: 10),
-                          Text("Edit"),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "delete",
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
-                          Icon(Icons.delete),
-                          SizedBox(width: 10),
-                          Text("Delete"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                // SizedBox(width: 4),
+                // PopupMenuButton<String>(
+                //   onSelected: (value) {
+                //     if (value == "edit") {
+                //       // codice edit
+                //     } else if (value == "delete") {
+                //       ref
+                //           .read(listsControllerProvider.notifier)
+                //           .removeList(myList);
+                //       ref
+                //           .read(listsControllerProvider.notifier)
+                //           .refresh(); // TODO perchè qui refresh??
+                //     }
+                //   },
+                //   itemBuilder: (context) => [
+                //     PopupMenuItem(
+                //       value: "edit",
+                //       child: Row(
+                //         children: const [
+                //           Icon(Icons.edit),
+                //           SizedBox(width: 10),
+                //           Text("Edit"),
+                //         ],
+                //       ),
+                //     ),
+                //     PopupMenuItem(
+                //       value: "delete",
+                //       child: Row(
+                //         crossAxisAlignment: CrossAxisAlignment.end,
+                //         children: const [
+                //           Icon(Icons.delete),
+                //           SizedBox(width: 10),
+                //           Text("Delete"),
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
