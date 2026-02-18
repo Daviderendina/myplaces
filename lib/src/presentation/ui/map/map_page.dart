@@ -5,6 +5,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 import 'package:myplaces/src/presentation/ui/map/poi_bottom_sheet.dart';
+import 'package:myplaces/src/presentation/ui/map/select_visible_lists_popup_item.dart';
+import 'package:myplaces/src/presentation/ui/map/select_visible_lists_button.dart';
 import 'package:myplaces/src/tools/logger.dart';
 
 import '../../../../../src/domain/poi.dart';
@@ -33,10 +35,9 @@ class MapPage extends ConsumerWidget {
 
     return Stack(
       children: [
-        // TODO all'inizio devo dargli una posizione e zoom predefiniti a queste
         MapView(
           controller: mapController,
-          initialCenter: LatLng(43, 12.5),
+          initialCenter: LatLng(44, 12.6),
           initialZoom: 5.55,
           markerBuilder: () {
             if (poi != null && state.showPoiMarker) {
@@ -56,51 +57,12 @@ class MapPage extends ConsumerWidget {
           },
         ),
 
-        Positioned(
-          top: 55,
-          right: 65,
-          child: Container(
-            height: 54,
-            width: 54,
-            decoration: BoxDecoration(
-              color: Colors.teal.withAlpha(190),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.filter_list_outlined,
-                color: Colors.white,
-                size: 23,
-              ),
-            ),
-          ),
-        ),
+        Positioned(top: 55, right: 65, child: SelectVisibleListsButton()),
 
         MySearchBar(
           searchBarController: searchBarController,
           onResultTap: (r) => showPoiOnMap(context, ref, r),
         ),
-
-        // Center(
-        //   child: IconButton(
-        //     onPressed: () {
-        //       showPoiBottomSheet(
-        //         Poi(
-        //           name: "Parigi",
-        //           city: "Paris",
-        //           country: "France",
-        //           countrycode: "FR",
-        //           province: "Paris",
-        //           id: "12",
-        //           coordinates: LatLng(15, 15),
-        //           categoryName: PoiCategory.city.name,
-        //         ),
-        //       );
-        //     },
-        //     icon: FlutterLogo(),
-        //   ),
-        // ),
       ],
     );
   }
@@ -136,16 +98,21 @@ class MapPage extends ConsumerWidget {
     List<MyList> lists,
     WidgetRef ref,
   ) {
+    logger.info(
+      "Showing lists on map: ${lists.where((l) => l.visibleOnMap).map((l) => l.name).toList()}",
+    );
+
     return lists
-    //.where((l) => l.isDefault) //TODO sistemare il filtro
-    .expand((list) {
-      return list.poiList.map((poi) {
-        return ListPoiMarker.build(
-          myList: list,
-          poi: poi,
-          onTap: () => showPoiOnMap(context, ref, poi),
-        );
-      });
-    }).toList();
+        .where((l) => l.visibleOnMap) //TODO spostare da qui il filtro
+        .expand((list) {
+          return list.poiList.map((poi) {
+            return ListPoiMarker.build(
+              myList: list,
+              poi: poi,
+              onTap: () => showPoiOnMap(context, ref, poi),
+            );
+          });
+        })
+        .toList();
   }
 }

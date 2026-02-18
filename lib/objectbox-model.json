@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:2564830902377691936",
-      "lastPropertyId": "6:4847033849380505213",
+      "lastPropertyId": "7:858671661022931556",
       "name": "MyList",
       "properties": [
         {
@@ -38,6 +38,11 @@
           "id": "6:4847033849380505213",
           "name": "emoji",
           "type": 9
+        },
+        {
+          "id": "7:858671661022931556",
+          "name": "visibleOnMap",
+          "type": 1
         }
       ],
       "relations": []

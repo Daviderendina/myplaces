@@ -6,6 +6,8 @@ import 'package:myplaces/src/providers.dart';
 import '../../../domain/my_list.dart';
 import '../common/my_emoji_picker.dart';
 
+//TODO anche da default devo poter cambiare qualche flag qui dentro
+
 class ListInformationFullDialog extends ConsumerStatefulWidget {
   final ListInformationAction action;
 
@@ -22,6 +24,8 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
 
   String? selectedEmoji;
   late bool hiddenList;
+  late bool visibleOnMap;
+  late bool isDefault;
 
   @override
   void initState() {
@@ -29,9 +33,13 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
     MyList? myList = widget.action == ListInformationAction.CREATE
         ? null
         : ref.read(selectedListControllerProvider);
+
     _controller = TextEditingController(text: myList?.name ?? '');
+
+    isDefault = myList?.isDefault == true;
     selectedEmoji = myList?.emoji;
     hiddenList = myList?.isArchived ?? false;
+    visibleOnMap = myList?.visibleOnMap ?? false;
   }
 
   @override
@@ -45,16 +53,26 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
 
     String name = _controller.text;
     bool isHidden = hiddenList;
+    bool isVisibleOnMap = visibleOnMap;
     String emoji = selectedEmoji!;
 
     if (widget.action == ListInformationAction.CREATE) {
-      final newList = MyList(name: name, emoji: emoji, isArchived: isHidden);
+      final newList = MyList(
+        name: name,
+        emoji: emoji,
+        isArchived: isHidden,
+        visibleOnMap: isVisibleOnMap,
+      );
       ref.read(listsControllerProvider.notifier).addList(newList);
     } else if (widget.action == ListInformationAction.EDIT) {
       await ref
           .read(selectedListControllerProvider.notifier)
-          .updateList(newEmoji: emoji, isHidden: isHidden, name: name);
-      await ref.read(listsControllerProvider.notifier).refresh();
+          .updateList(
+            newEmoji: emoji,
+            isHidden: isHidden,
+            name: name,
+            visibleOnMap: isVisibleOnMap,
+          );
     }
 
     Navigator.of(context).pop();
@@ -92,6 +110,7 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                   controller: _controller,
                   cursorColor: Colors.white,
                   enableInteractiveSelection: false,
+                  enabled: !isDefault,
 
                   decoration: InputDecoration(
                     errorStyle: TextStyle(color: Colors.red.withAlpha(200)),
@@ -121,97 +140,121 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                   validator: (v) => v == null || v.isEmpty ? 'Required' : null,
                 ),
 
+                if (!isDefault) ...[
+                  SizedBox(height: 40),
+                  MySubtitle(text: "Hidden list"),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 300,
+                        child: Text(
+                          "If activated the list will be hide from the saved page",
+                          maxLines: 2,
+                        ),
+                      ),
+                      Spacer(),
+                      Switch(
+                        value: hiddenList,
+                        onChanged: (value) => setState(() {
+                          hiddenList = value;
+                        }),
+                      ),
+                    ],
+                  ),
+                ],
+
                 SizedBox(height: 40),
 
-                MySubtitle(text: "Hidden list"),
+                MySubtitle(text: "Visible on map"),
                 Row(
                   children: [
                     SizedBox(
                       width: 300,
                       child: Text(
-                        "If activated, the lists will be hide from the saved page",
+                        "Control the visibility of the poi on the primary map for this list",
                         maxLines: 2,
                       ),
                     ),
                     Spacer(),
                     Switch(
-                      value: hiddenList,
+                      value: visibleOnMap,
                       onChanged: (value) => setState(() {
-                        hiddenList = value;
+                        visibleOnMap = value;
                       }),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 40),
-
-                Row(
-                  spacing: 22,
-                  children: [
-                    MySubtitle(text: "Select an emoji"),
-                    Text(
-                      selectedEmoji ?? '',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                FormField<String>(
-                  autovalidateMode: AutovalidateMode.disabled,
-                  initialValue: selectedEmoji,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Emoji not selected';
-                    }
-                    return null;
-                  },
-                  builder: (FormFieldState<String> field) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: field.hasError
-                                    ? Colors.red.withAlpha(200)
-                                    : Colors.white12,
+                if (!isDefault) ...[
+                  SizedBox(height: 40),
+                  Row(
+                    spacing: 22,
+                    children: [
+                      MySubtitle(text: "Select an emoji"),
+                      Text(
+                        selectedEmoji ?? '',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  FormField<String>(
+                    autovalidateMode: AutovalidateMode.disabled,
+                    initialValue: selectedEmoji,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Emoji not selected';
+                      }
+                      return null;
+                    },
+                    builder: (FormFieldState<String> field) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: field.hasError
+                                      ? Colors.red.withAlpha(200)
+                                      : Colors.white12,
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: MyEmojiPicker(
-                                onEmojiSelected: (emoji) {
-                                  setState(() {
-                                    selectedEmoji = emoji;
-                                  });
-                                  field.didChange(selectedEmoji);
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 5),
-                        if (field.hasError)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 22),
-                            child: Text(
-                              field.errorText!,
-                              style: TextStyle(
-                                color: Colors.red.withAlpha(200),
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                height:
-                                    1.2, // line height simile al TextFormField
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: MyEmojiPicker(
+                                  onEmojiSelected: (emoji) {
+                                    setState(() {
+                                      selectedEmoji = emoji;
+                                    });
+                                    field.didChange(selectedEmoji);
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                      ],
-                    );
-                  },
-                ),
+
+                          const SizedBox(height: 5),
+                          if (field.hasError)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 22),
+                              child: Text(
+                                field.errorText!,
+                                style: TextStyle(
+                                  color: Colors.red.withAlpha(200),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  height:
+                                      1.2, // line height simile al TextFormField
+                                ),
+                              ),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
               ],
             ),
           ),

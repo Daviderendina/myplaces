@@ -7,13 +7,19 @@ import 'package:myplaces/src/providers.dart';
 import '../../../../../../src/domain/poi.dart';
 import '../../../domain/my_list.dart';
 import '../../../tools/logger.dart';
+import 'lists_controller.dart';
 
 class SelectedListController extends StateNotifier<MyList?> {
   // TODO questo modo di gestire le modifiche forse va applicato anche agli altri casi????
   // TODO le modifiche qui devono avere effetto anche sul provider princiaple!! oppure fare un provider unico
   final ListService repository;
+  final ListsController allListsController;
 
-  SelectedListController(super._state, this.repository);
+  SelectedListController(
+    super._state,
+    this.repository,
+    this.allListsController,
+  );
 
   Future<void> selectNewList(MyList myList) async {
     logger.info("Selecting list with id ${myList.id}");
@@ -36,6 +42,8 @@ class SelectedListController extends StateNotifier<MyList?> {
     state = await repository.getById(state!.id);
 
     logger.info("Saved note, new state: $state");
+
+    allListsController.refresh();
   }
 
   Future<void> deletePoiFromList(Poi poi) async {
@@ -53,18 +61,24 @@ class SelectedListController extends StateNotifier<MyList?> {
     // TODO non devo aggiornare altri - quello delle liste intendo??? Sicuramente ho un places in meno quindi si
 
     state = await repository.getById(state!.id);
+
+    allListsController.refresh();
   }
 
   Future<void> updateList({
     String? newEmoji,
     bool? isHidden,
+    bool? visibleOnMap,
     String? name,
   }) async {
     if (newEmoji != null) state!.emoji = newEmoji;
     if (isHidden != null) state!.isArchived = isHidden;
+    if (visibleOnMap != null) state!.visibleOnMap = visibleOnMap;
     if (name != null) state!.name = name.toLowerCase();
 
     await repository.save(state!);
     state = state!;
+
+    allListsController.refresh();
   }
 }

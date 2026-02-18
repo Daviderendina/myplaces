@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 2564830902377691936),
     name: 'MyList',
-    lastPropertyId: const obx_int.IdUid(6, 4847033849380505213),
+    lastPropertyId: const obx_int.IdUid(7, 858671661022931556),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -61,6 +61,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(6, 4847033849380505213),
         name: 'emoji',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 858671661022931556),
+        name: 'visibleOnMap',
+        type: 1,
         flags: 0,
       ),
     ],
@@ -279,13 +285,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final nameOffset = fbb.writeString(object.name);
         final noteOffset = fbb.writeString(object.note);
         final emojiOffset = fbb.writeString(object.emoji);
-        fbb.startTable(7);
+        fbb.startTable(8);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addBool(2, object.isDefault);
         fbb.addOffset(3, noteOffset);
         fbb.addBool(4, object.isArchived);
         fbb.addOffset(5, emojiOffset);
+        fbb.addBool(6, object.visibleOnMap);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -313,12 +320,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
           12,
           false,
         );
+        final visibleOnMapParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          false,
+        );
         final object = MyList(
           name: nameParam,
           emoji: emojiParam,
           isDefault: isDefaultParam,
           note: noteParam,
           isArchived: isArchivedParam,
+          visibleOnMap: visibleOnMapParam,
         )..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
         obx_int.InternalToManyAccess.setRelInfo<MyList>(
           object.poiList,
@@ -533,6 +547,11 @@ class MyList_ {
   /// See [MyList.emoji].
   static final emoji = obx.QueryStringProperty<MyList>(
     _entities[0].properties[5],
+  );
+
+  /// See [MyList.visibleOnMap].
+  static final visibleOnMap = obx.QueryBooleanProperty<MyList>(
+    _entities[0].properties[6],
   );
 }
 

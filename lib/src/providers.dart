@@ -34,7 +34,11 @@ final selectedPoiControllerProvider =
 
 final selectedListControllerProvider =
     StateNotifierProvider<SelectedListController, MyList?>(
-      (ref) => SelectedListController(null, ref.read(listServiceProvider)),
+      (ref) => SelectedListController(
+        null,
+        ref.read(listServiceProvider),
+        ref.read(listsControllerProvider.notifier),
+      ),
     );
 
 final listsControllerProvider =

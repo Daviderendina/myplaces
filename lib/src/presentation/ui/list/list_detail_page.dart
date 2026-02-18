@@ -65,16 +65,15 @@ class _ListPageState extends ConsumerState<ListPage> {
               icon: Icon(Icons.playlist_add, size: 20),
               onPressed: () => openNoteDialog(myList.note),
             ),
-          if (!myList.isDefault) ...[
-            SizedBox(width: 2),
-            IconButton(
-              icon: Icon(Icons.settings, size: 20),
-              onPressed: () => showListInformationFullDialog(
-                context,
-                ListInformationAction.EDIT,
-              ),
+         
+          SizedBox(width: 2),
+          IconButton(
+            icon: Icon(Icons.settings, size: 20),
+            onPressed: () => showListInformationFullDialog(
+              context,
+              ListInformationAction.EDIT,
             ),
-          ],
+          ),
         ],
       ),
       backgroundColor: Colors.transparent,
@@ -184,9 +183,6 @@ class _ListPageState extends ConsumerState<ListPage> {
                                         selectedListControllerProvider.notifier,
                                       )
                                       .deletePoiFromList(poi);
-                                  ref
-                                      .read(listsControllerProvider.notifier)
-                                      .refresh(); // TODO ha senso farlo qui o meglio tenere la dipendenza dentro riverpod?
                                 },
                                 onSwipeRight: () {
                                   ref
@@ -231,7 +227,7 @@ class _ListPageState extends ConsumerState<ListPage> {
       });
     }
     ref.read(selectedListControllerProvider.notifier).updateNote(value.trim());
-    ref.read(listsControllerProvider.notifier).refresh();
+    //ref.read(listsControllerProvider.notifier).refresh();
   }
 
   void openNoteDialog(String actualValue) {

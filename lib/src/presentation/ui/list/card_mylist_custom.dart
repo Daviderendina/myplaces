@@ -85,7 +85,9 @@ class CardMylistCustom extends ConsumerWidget {
                       ref
                           .read(listsControllerProvider.notifier)
                           .removeList(myList);
-                      ref.read(listsControllerProvider.notifier).refresh();
+                      ref
+                          .read(listsControllerProvider.notifier)
+                          .refresh(); // TODO perchè qui refresh??
                     }
                   },
                   itemBuilder: (context) => [

@@ -37,7 +37,15 @@ class _MapViewState extends State<MapView> {
       mapController: widget.controller,
       options: MapOptions(
         initialZoom: widget.initialZoom ?? _defaultZoom,
+        minZoom: 3,
         initialCenter: widget.initialCenter ?? LatLng(0, 0),
+        cameraConstraint: CameraConstraint.contain(
+          bounds: LatLngBounds(const LatLng(-85, -180), const LatLng(85, 180)),
+        ),
+        interactionOptions: const InteractionOptions(
+          flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+          pinchZoomThreshold: 1.5,
+        ),
         onMapReady: () {
           if (widget.initialCenter == null) {
             _mapReady = true;

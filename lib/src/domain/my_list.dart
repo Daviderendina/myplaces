@@ -15,6 +15,7 @@ class MyList {
   bool isDefault;
   String note;
   bool isArchived; // TODO rinominare in hidden
+  bool visibleOnMap;
 
   @Transient()
   IconData? icon;
@@ -28,19 +29,21 @@ class MyList {
     this.isDefault = false,
     this.note = "",
     this.isArchived = false,
+    this.visibleOnMap = false,
   }) : name = name.toLowerCase();
 
   String get displayName => name.toTitleCase();
 
-  void setId(int id) {
-    this.id = id;
-  }
+  void setVisibleOnMap(bool visibleOnMap) => this.visibleOnMap = visibleOnMap;
+
+  void setId(int id) => this.id = id;
 
   MyList copyWith({
     String? name,
     String? note,
     String? emoji,
     bool? isArchived,
+    bool? visibleOnMap,
   }) {
     final copy = MyList(
       name: name ?? this.name,
@@ -48,6 +51,7 @@ class MyList {
       note: note ?? this.note,
       emoji: emoji ?? this.emoji,
       isArchived: isArchived ?? this.isArchived,
+      visibleOnMap: visibleOnMap ?? this.visibleOnMap,
     );
     copy.id = id;
     copy.poiList.addAll(poiList);
@@ -57,7 +61,7 @@ class MyList {
 
   @override
   String toString() {
-    return 'MyList{id: $id, name: "$name", emoji: "$emoji", isDefault: $isDefault, isArchived: $isArchived, note: "$note", poiCount: ${poiList.length}}';
+    return 'MyList{id: $id, name: "$name", emoji: "$emoji", isDefault: $isDefault, isArchived: $isArchived, visibleOnMap: $visibleOnMap ,note: "$note", poiCount: ${poiList.length}}';
   }
 }
 
