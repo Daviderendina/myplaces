@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/providers.dart';
+import 'package:myplaces/src/tools/logger.dart';
 
 import '../../../data/list_repository.dart';
 
@@ -36,6 +37,7 @@ class ListsController extends AsyncNotifier<List<MyList>> {
   }
 
   void removeList(MyList myList) async {
+    logger.info("Deleting list: $myList");
     _repository.delete(myList);
   }
 

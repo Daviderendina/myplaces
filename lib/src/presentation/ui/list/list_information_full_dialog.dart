@@ -4,6 +4,7 @@ import 'package:myplaces/src/presentation/ui/common/my_subtitle.dart';
 import 'package:myplaces/src/providers.dart';
 
 import '../../../domain/my_list.dart';
+import '../../../tools/logger.dart';
 import '../common/my_emoji_picker.dart';
 
 //TODO anche da default devo poter cambiare qualche flag qui dentro
@@ -27,10 +28,12 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
   late bool visibleOnMap;
   late bool isDefault;
 
+  late MyList? myList;
+
   @override
   void initState() {
     super.initState();
-    MyList? myList = widget.action == ListInformationAction.CREATE
+    myList = widget.action == ListInformationAction.CREATE
         ? null
         : ref.read(selectedListControllerProvider);
 
@@ -82,6 +85,8 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         title: Text(
           widget.action == ListInformationAction.CREATE
               ? 'Create List'
@@ -250,6 +255,88 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                                 ),
                               ),
                             ),
+
+                          const SizedBox(height: 20),
+
+                          if (widget.action == ListInformationAction.EDIT &&
+                              myList != null)
+                            PopupMenuItem(
+                              value: "delete",
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 24,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.shade900,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Text(
+                                    "DELETE",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onTap: () async {
+                                final result = await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    title: const Text("Confirm Deletion"),
+                                    content: const Text(
+                                      "Are you sure you want to delete this list?",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(false),
+                                        child: const Text(
+                                          "CANCEL",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red.shade900,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            ),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "CONFIRM",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                // Se l’utente ha confermato, esegui la cancellazione
+                                if (result == true && context.mounted) {
+                                  logger.info(
+                                    "Confirmed cancellation of: $myList",
+                                  );
+                                  ref
+                                      .read(listsControllerProvider.notifier)
+                                      .removeList(myList!);
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                            ),
+
+                          const SizedBox(height: 20),
                         ],
                       );
                     },
