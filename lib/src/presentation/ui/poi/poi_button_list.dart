@@ -9,7 +9,9 @@ import '../../../providers.dart';
 import '../../../domain/my_list.dart';
 
 class PoiButtonList extends ConsumerWidget {
-  const PoiButtonList({super.key});
+  final bool isBig;
+
+  const PoiButtonList({super.key, this.isBig = true});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,24 +31,23 @@ class PoiButtonList extends ConsumerWidget {
 
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 4,
+              spacing: isBig ? 4 : 0,
               children: [
                 ...defaultLists.map((myList) {
                   return IconButton(
-                    onPressed: () => controller.triggerPoiToList(poi!, myList),
+                    onPressed: () => controller.triggerPoiToList(poi, myList),
                     icon: SizedBox(
-                      height: 30,
-                      width: 30,
+                      height: isBig ? 30 : 28,
+                      width: isBig ? 30 : 28,
                       child: Center(
                         child: VisualSymbolVisualizer(
                           symbol: myList.visualSymbol,
-                          //colored: listBelongsToPoi,
+                          colored: poi!.lists
+                              .map((l) => l.id)
+                              .toList()
+                              .contains(myList.id),
                         ),
                       ),
-                      // child: CircularEmojiButton(
-                      //   emoji: myList.emoji,
-                      //   isActive: listBelongsToPoi,
-                      // ),
                     ),
                   );
                 }),
@@ -61,11 +62,11 @@ class PoiButtonList extends ConsumerWidget {
                     );
                   },
                   label: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(isBig ? 8 : 6),
                     child: Text(
                       "Add to list",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: isBig ? 20 : 18,
                         fontWeight: FontWeight.w400,
                         color: Colors.yellow.shade800,
                       ),

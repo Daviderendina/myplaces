@@ -5,7 +5,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 import 'package:myplaces/src/presentation/ui/map/poi_bottom_sheet.dart';
-import 'package:myplaces/src/presentation/ui/map/select_visible_lists_popup_item.dart';
 import 'package:myplaces/src/presentation/ui/map/select_visible_lists_button.dart';
 import 'package:myplaces/src/tools/logger.dart';
 
@@ -40,6 +39,30 @@ class MapPage extends ConsumerWidget {
           initialCenter: LatLng(44, 12.6),
           initialZoom: 5.55,
           markerBuilder: () {
+            return lists.when(
+              data: (data) {
+                List<Marker> markers = buildShowedListsMarkers(
+                  context,
+                  data,
+                  ref,
+                );
+                if (poi != null &&
+                    state.showPoiMarker &&
+                    markers.where((l) => l.point == poi.coordinates).isEmpty) {
+                  markers.add(
+                    SelectedPoiMarker.build(
+                      poi: poi,
+                      onTap: () => showPoiModal(context),
+                    ),
+                  );
+                }
+
+                return markers;
+              },
+              loading: () => [],
+              error: (_, _) => [],
+            );
+
             if (poi != null && state.showPoiMarker) {
               return [
                 SelectedPoiMarker.build(
@@ -85,11 +108,24 @@ class MapPage extends ConsumerWidget {
   }
 
   Future<void> showPoiModal(BuildContext context) async {
-    await showModalBottomSheet(
+    await showDialog(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => PoiBottomSheet(),
+      barrierColor: Colors.transparent,
+      builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 95),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 21),
+              child: Material(
+                color: Colors.transparent,
+                child: PoiBottomSheet(),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 

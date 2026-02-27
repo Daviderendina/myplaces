@@ -53,11 +53,10 @@ class RootPageState extends ConsumerState<RootPage> {
               child: Container(
                 margin: EdgeInsets.only(bottom: 18),
                 height: 65,
-                width: 370,
+                width: 384,
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(210),
-                  //Color(0xff212329).withAlpha(240),
+                  color: Colors.black.withAlpha(220),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: GNav(
