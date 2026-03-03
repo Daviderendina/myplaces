@@ -43,37 +43,34 @@ class CardMylistCustom extends ConsumerWidget {
                 SizedBox(width: 20),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 240),
-                  child: Flexible(
-                    fit: FlexFit.loose,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          myList.displayName,
-                          textAlign: TextAlign.left,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            height: 1.3,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontFamily: "Poppins",
-                          ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        myList.displayName,
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          height: 1.3,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontFamily: "Poppins",
                         ),
-                        Text(
-                          "${myList.poiList.length} places",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            height: 1.2,
-                            fontSize: 15,
-                            color: Colors.white70,
-                            fontFamily: "Poppins",
-                          ),
+                      ),
+                      Text(
+                        "${myList.poiList.length} places",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          height: 1.2,
+                          fontSize: 15,
+                          color: Colors.white70,
+                          fontFamily: "Poppins",
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
 

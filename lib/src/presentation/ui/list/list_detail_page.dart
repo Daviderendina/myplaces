@@ -86,6 +86,7 @@ class _ListPageState extends ConsumerState<ListPage> {
               spacing: 12,
               children: [
                 MyTitle(text: myList.name.toTitleCase()),
+                Spacer(),
                 SizedBox(
                   width: 40,
                   height: 40,

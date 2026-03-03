@@ -260,28 +260,7 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
 
                           if (widget.action == ListInformationAction.EDIT &&
                               myList != null)
-                            PopupMenuItem(
-                              value: "delete",
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 24,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red.shade900,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: const Text(
-                                    "DELETE",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            GestureDetector(
                               onTap: () async {
                                 final result = await showDialog<bool>(
                                   context: context,
@@ -322,7 +301,6 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                                   ),
                                 );
 
-                                // Se l’utente ha confermato, esegui la cancellazione
                                 if (result == true && context.mounted) {
                                   logger.info(
                                     "Confirmed cancellation of: $myList",
@@ -334,6 +312,26 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                                   Navigator.of(context).pop();
                                 }
                               },
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 24,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.shade900,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Text(
+                                    "DELETE",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
 
                           const SizedBox(height: 20),

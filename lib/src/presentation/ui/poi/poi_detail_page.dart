@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/presentation/ui/common/note/note_box.dart';
@@ -18,12 +19,16 @@ class PoiDetailPage extends ConsumerStatefulWidget {
 }
 
 class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
+  int _currentImageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     final images = [
-      'https://picsum.photos/id/20/800/600',
-      'https://picsum.photos/id/10/800/600',
-      'https://picsum.photos/id/30/800/600',
+      'https://picsum.photos/800/600',
+      'https://picsum.photos/200',
+      'https://picsum.photos/800/600',
+      'https://picsum.photos/400/600',
+      'https://picsum.photos/800/600',
     ];
 
     final poi = ref.watch(selectedPoiControllerProvider);
@@ -41,18 +46,83 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
             SizedBox(height: 38),
 
             Stack(
+              alignment: Alignment.bottomCenter,
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(18),
-                  child: SizedBox(
-                    height: 420,
-                    child: Image.network(
-                      'https://media.istockphoto.com/id/635758088/photo/sunrise-at-the-eiffel-tower-in-paris-along-the-seine.jpg?s=612x612&w=0&k=20&c=rdy3aU1CDyh66mPyR5AAc1yJ0yEameR_v2vOXp2uuMM=',
-                      fit: BoxFit.cover,
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 420,
+                      viewportFraction: 1.0,
+                      enlargeCenterPage: false,
+                      autoPlay: false,
+                      pageSnapping: true,
+
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _currentImageIndex = index;
+                        });
+                      },
                     ),
+                    items: poi.images.map((poiImage) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Image.network(
+                            poiImage.thumbnail ?? '',
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Container(color: Colors.grey.shade900);
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey.shade900,
+                                child: const Icon(
+                                  Icons.broken_image,
+                                  color: Colors.white30,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
 
+                // Indicatori (pallini)
+                if (poi.images.length > 1)
+                  Positioned(
+                    bottom: 12.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: poi.images.asMap().entries.map((entry) {
+                        return Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 4.0,
+                          ),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color:
+                                (Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.white
+                                        : Colors.black)
+                                    .withOpacity(
+                                      _currentImageIndex == entry.key
+                                          ? 0.9
+                                          : 0.4,
+                                    ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+
+                // Bottoni esistenti
                 Positioned(
                   left: 8,
                   top: 8,
@@ -61,9 +131,6 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
-
-                // TODO fare unico widget con il circularflag, e forse fare un widget unico circolare per tutti! che prende size SMALL MEDIUM LARGE e imposta delle dimensioni di default
-                // DEVO fare una sorta di widget padre e tanti widget che utilizzano quello TODO
                 if (poi.note.isEmpty)
                   Positioned(
                     right: 8,
