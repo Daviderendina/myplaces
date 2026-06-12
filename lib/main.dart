@@ -3,15 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/presentation/ui/root/root_page.dart';
 import 'package:myplaces/src/providers.dart';
 
-import '../objectbox.g.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final store = await openStore();
-
+  
   runApp(
     ProviderScope(
-      overrides: [objectBoxStoreProvider.overrideWithValue(store)],
       child: MyApp(),
     ),
   );
@@ -20,20 +16,25 @@ void main() async {
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final init = ref.watch(appInitProvider);
 
     return init.when(
-      loading: () => const CircularProgressIndicator(), // splash screen
-      error: (e, st) => Text('Errore: $e'),
-      data: (_) => MaterialApp(
-        home: MaterialApp(
-          title: 'Flutter Demo',
-          theme: appTheme(),
-          home: const RootPage(),
+      loading: () => const MaterialApp(
+        home: Scaffold(
+          body: Center(child: CircularProgressIndicator()),
         ),
+      ),
+      error: (e, st) => MaterialApp(
+        home: Scaffold(
+          body: Center(child: Text('Errore: $e')),
+        ),
+      ),
+      data: (_) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: appTheme(),
+        home: const RootPage(),
       ),
     );
   }
@@ -45,7 +46,7 @@ class MyApp extends ConsumerWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
 
-      dividerColor: Colors.transparent, // rimuove linee tra le tile
+      dividerColor: Colors.transparent,
 
       expansionTileTheme: ExpansionTileThemeData(
         backgroundColor: Colors.transparent,
