@@ -7,7 +7,7 @@ class RootController extends Notifier<RootState> {
     return RootState(selectedIndex: 0);
   }
 
-  Future<void> changePage(int index) async {
+  Future<void> setIndex(int index) async {
     state = state.copyWith(selectedIndex: index);
   }
 }

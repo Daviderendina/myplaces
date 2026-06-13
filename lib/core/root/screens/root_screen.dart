@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/features/collections/screens/collections_screen.dart';
+import 'package:myplaces/features/trips/screens/trips_screen.dart';
 import '../provider.dart';
 
 class RootScreen extends ConsumerWidget {
@@ -7,29 +9,34 @@ class RootScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var height = MediaQuery.sizeOf(context).height;
+    var width = MediaQuery.sizeOf(context).width;
+
+    // TODO cambiare lo stile delle scritte della barra sotto
     final rootState = ref.watch(rootControllerProvider);
     final controller = ref.read(rootControllerProvider.notifier);
 
-    final bottomNavBarMargin = 24.0;
-
     return Scaffold(
       extendBody: true,
-      body: IndexedStack(
-        index: rootState.selectedIndex,
-        children: const [
-          Center(child: Text('Map Screen')),
-          Center(child: Text('Collections Screen')),
-          Center(child: Text('Trips Screen')),
-          Center(child: Text('Profile Screen')),
-        ],
+      body: Padding(
+        padding: EdgeInsets.only(top: height * 0.03, left: width * 0.05, right: width * 0.05),
+        child: IndexedStack(
+          index: rootState.selectedIndex,
+          children: const [
+            Center(child: Text('Map Screen')),
+            CollectionsScreen(),
+            TripsScreen(),
+            Center(child: Text('Profile Screen')),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.fromLTRB(bottomNavBarMargin, 0, bottomNavBarMargin, bottomNavBarMargin),
+        margin: EdgeInsets.fromLTRB(width * 0.05, 0, width * 0.05, height * 0.03),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: BottomNavigationBar(
             currentIndex: rootState.selectedIndex,
-            onTap: (index) => controller.changePage(index),
+            onTap: (index) => controller.setIndex(index),
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.map_outlined),
@@ -42,8 +49,8 @@ class RootScreen extends ConsumerWidget {
                 label: 'Collections',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.place_outlined),
-                activeIcon: Icon(Icons.place),
+                icon: Icon(Icons.explore_outlined),
+                activeIcon: Icon(Icons.explore),
                 label: 'Trips',
               ),
               BottomNavigationBarItem(

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:myplaces/src/data/list_repository.dart';
+import 'package:myplaces/src/application/list_service.dart';
 import 'package:myplaces/src/providers.dart';
 
 import '../../../../../../src/domain/poi.dart';
@@ -15,11 +15,7 @@ class SelectedListController extends StateNotifier<MyList?> {
   final ListService repository;
   final ListsController allListsController;
 
-  SelectedListController(
-    super._state,
-    this.repository,
-    this.allListsController,
-  );
+  SelectedListController(super._state, this.repository, this.allListsController);
 
   Future<void> selectNewList(MyList myList) async {
     logger.info("Selecting list with id ${myList.id}");
@@ -47,9 +43,7 @@ class SelectedListController extends StateNotifier<MyList?> {
   }
 
   Future<void> deletePoiFromList(Poi poi) async {
-    logger.info(
-      "Deleting poi from MyList(id=${state!.id}): Poi(id=${poi.obxId})",
-    );
+    logger.info("Deleting poi from MyList(id=${state!.id}): Poi(id=${poi.obxId})");
     // final updatedList = state!.copyWith();
     // updatedList.poiList.removeWhere((p) => p.id == poi.id);
 

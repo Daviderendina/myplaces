@@ -34,11 +34,7 @@ class SavedPageState extends ConsumerState<SavedPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 60),
-
                 MainPageTitle(text: "Saved"),
-
-                SizedBox(height: 20),
 
                 // TODO questa logica del default va spostata da qui! non è il widget a decidere cosa è default e cosa no
                 Row(
@@ -107,6 +103,7 @@ class SavedPageState extends ConsumerState<SavedPage> {
                 SizedBox(height: 20),
 
                 Column(
+                  spacing: 6,
                   children: myLists
                       .where((l) => !l.isDefault)
                       .where(

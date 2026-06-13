@@ -2,13 +2,10 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/domain/poi_category.dart';
 import 'package:myplaces/src/domain/poi_image.dart';
-import 'package:objectbox/objectbox.dart';
 
 import '../config/poi_categories_mapping.dart';
 
-@Entity()
 class Poi {
-  @Id(assignable: true)
   int obxId = 0;
 
   final String id;
@@ -19,8 +16,8 @@ class Poi {
   String name;
 
   String? city;
-  String? province; // county?? tipo provincia
-  String? region; // state, cio`e regione
+  String? province; 
+  String? region; 
   String? country;
   String? countrycode;
 
@@ -31,9 +28,9 @@ class Poi {
   double lat;
   double lng;
 
-  ToMany<PoiImage> images = ToMany();
+  List<PoiImage> images = [];
 
-  ToMany<MyList> lists = ToMany();
+  List<MyList> lists = [];
 
   Poi({
     required this.id,
@@ -84,7 +81,7 @@ class Poi {
     return lists.map((l) => l.id).toList().contains(listId);
   }
 
-  void setObxId(int obxId) => obxId = obxId;
+  void setObxId(int obxId) => this.obxId = obxId;
 
   @override
   String toString() {
@@ -93,7 +90,6 @@ class Poi {
 
   factory Poi.fromJson(Map<String, dynamic> json) {
     PoiCategory findCategoryByTypeAndSubtype(String type, String subtype) {
-      // TODO fare un configuration Service???
       return poiCategoriesMapping["$type|$subtype"] ??
           poiCategoriesMapping["$type|*"] ??
           PoiCategory.unknown;
@@ -121,20 +117,14 @@ class Poi {
         lng: geometry['coordinates'][0],
       );
 
-      //logger.info("Mapped poi: $result");
-
       return result;
     } catch (error) {
-      print(error); // TODO
       return Poi.empty();
     }
   }
 }
 
-// TODO: nella ricerca devo mostrare anche i miei elementi se matchano!!!! Altrimenti mi incasino tutte le liste coi doppiooni!!! NB: l' id per i POI e ubnivoco
-
 extension PoiCopy on Poi {
-  /// Crea un clone del Poi. Utile per aggiornare il provider senza invalidarlo.
   Poi copy({
     String? type,
     String? subtype,
@@ -167,11 +157,8 @@ extension PoiCopy on Poi {
       note: note ?? this.note,
     );
 
-    // Copia le immagini e le liste (solo i riferimenti, non duplicare DB)
     clonedPoi.images.addAll(images ?? this.images);
     clonedPoi.lists.addAll(lists ?? this.lists);
-
-    // Mantieni lo stesso obxId se vuoi
     clonedPoi.obxId = this.obxId;
 
     return clonedPoi;

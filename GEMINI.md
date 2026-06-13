@@ -51,7 +51,7 @@ POI a viaggi e raccolta di POI in collezioni tematiche.
 |------------------|-----------------------------------|-------------------------------------------------|
 | UI Framework     | Flutter (SDK stabile più recente) | Null safety abilitato                           |
 | State Management | Riverpod (`AsyncNotifier`)        | Nessun `setState` fuori dai widget leaf         |
-| Modelli          | `freezed` + `json_serializable`   | Immutabilità garantita, `copyWith` generato     |
+| Modelli          | `json_serializable`               | Immutabilità garantita, `copyWith` generato     |
 | Backend / Cloud  | Supabase (piano gratuito, cloud)  | Auth, Database (PostgreSQL), realtime opzionale |
 | Mappe            | `flutter_map` + `latlong2`        | Tile provider: OpenStreetMap (gratuito)         |
 
@@ -199,109 +199,28 @@ lib/
 │
 ├── shared/
 │   ├── widgets/
-│   │   ├── app_button.dart
-│   │   ├── app_text_field.dart
-│   │   ├── error_widget.dart
-│   │   └── loading_overlay.dart
-│   └── providers/
+│   │   ├── ......
+│   └── providers/                      
 │       └── supabase_provider.dart     # provider per SupabaseClient singleton
 │
 └── features/
-    ├── auth/
-    │   ├── data/
-    │   │   ├── datasources/
-    │   │   │   └── auth_remote_datasource.dart
-    │   │   └── repositories/
-    │   │       └── auth_repository_impl.dart
-    │   ├── domain/
-    │   │   ├── models/
-    │   │   │   └── app_user.dart          # freezed
-    │   │   ├── repositories/
-    │   │   │   └── auth_repository.dart   # interfaccia astratta
-    │   │   └── services/
-    │   │       └── auth_service.dart
-    │   └── presentation/
-    │       ├── controllers/
-    │       │   └── auth_controller.dart
-    │       └── screens/
-    │           └── login_screen.dart
-    │
-    ├── trips/
-    │   ├── data/
-    │   │   ├── datasources/
-    │   │   │   └── trips_remote_datasource.dart
-    │   │   └── repositories/
-    │   │       └── trips_repository_impl.dart
-    │   ├── domain/
-    │   │   ├── models/
-    │   │   │   └── trip.dart              # freezed
-    │   │   ├── repositories/
-    │   │   │   └── trips_repository.dart
-    │   │   └── services/
-    │   │       └── trips_service.dart
-    │   └── presentation/
-    │       ├── controllers/
-    │       │   ├── trips_list_controller.dart
-    │       │   └── trip_detail_controller.dart
-    │       └── screens/
-    │           ├── trips_screen.dart
-    │           └── trip_detail_screen.dart
-    │
-    ├── pois/
-    │   ├── data/
-    │   │   ├── datasources/
-    │   │   │   └── pois_remote_datasource.dart
-    │   │   └── repositories/
-    │   │       └── pois_repository_impl.dart
-    │   ├── domain/
-    │   │   ├── models/
-    │   │   │   └── poi.dart               # freezed
-    │   │   ├── repositories/
-    │   │   │   └── pois_repository.dart
-    │   │   └── services/
-    │   │       └── pois_service.dart
-    │   └── presentation/
-    │       ├── controllers/
-    │       │   └── pois_controller.dart
-    │       └── widgets/
-    │           └── poi_marker.dart
-    │
-    ├── map/
-    │   └── presentation/
-    │       ├── controllers/
-    │       │   └── map_controller.dart
-    │       └── screens/
-    │           └── map_screen.dart
-    │
-    ├── collections/
-    │   ├── data/
-    │   │   ├── datasources/
-    │   │   │   └── collections_remote_datasource.dart
-    │   │   └── repositories/
-    │   │       └── collections_repository_impl.dart
-    │   ├── domain/
-    │   │   ├── models/
-    │   │   │   └── collection.dart        # freezed
-    │   │   ├── repositories/
-    │   │   │   └── collections_repository.dart
-    │   │   └── services/
-    │   │       └── collections_service.dart
-    │   └── presentation/
-    │       ├── controllers/
-    │       │   └── collections_controller.dart
-    │       └── screens/
-    │           ├── collections_screen.dart
-    │           └── collection_detail_screen.dart
-    │
-    └── profile/
-        ├── domain/
-        │   └── services/
-        │       └── profile_service.dart
-        └── presentation/
-            ├── controllers/
-            │   └── profile_controller.dart
-            └── screens/
-                └── profile_screen.dart
+    ├── <FEATURE_NAME>>/
+    │   ├── providers.dart -> contiene la definizione dei provider specifici per quella feature
+    │   ├── datasources/
+    │   │   └── ...
+    │   ├── repositories/
+    │   │   └── ...
+    │   ├── models/
+    │   │   └── ...
+    │   ├── services/
+    │   │   └── ...
+    │   ├── controllers/
+    │   │   └── ...
+    │   ├── screens/
+    │   │   └── widgets/ ...
+    │   │   └── ...
+    
+    
 ```
 
 ---
@@ -373,6 +292,7 @@ corrente non compila e non passa i test.**
 
 ### Regole generali per tutto lo sviluppo
 
+- *NON* usare freezed o altro, voglio riverpod puro con AsyncNotifier e state.
 - **Rispetta sempre le regole dei layer** (sezione 3.2). Se hai dubbi su dove mettere del codice,
   torna a rileggere quella sezione.
 - **Genera sempre i test** contestualmente all'implementazione, non alla fine.
@@ -380,8 +300,6 @@ corrente non compila e non passa i test.**
   password).
 - **Non esporre mai tipi Supabase** (es. `PostgrestList`, `User` di supabase) fuori dal layer
   `data/`. Usa sempre i Model del dominio.
-- **Ogni file di Model annotato con `@freezed`** deve essere seguito da
-  `flutter pub run build_runner build --delete-conflicting-outputs`.
 - **Nessun `print()`** nel codice di produzione. Usa un logger o le eccezioni tipizzate.
 - **Commenta solo il perché**, non il cosa. Il codice deve essere auto-esplicativo.
 - **Se una istruzione in questo documento è ambigua**, scegli l'interpretazione più conservativa (

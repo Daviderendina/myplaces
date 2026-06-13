@@ -1,27 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myplaces/src/domain/default_lists.dart';
 import 'package:myplaces/src/domain/poi.dart';
 import 'package:myplaces/src/domain/visual_symbol.dart';
-import 'package:objectbox/objectbox.dart';
 
 import '../tools/extension/title_case_extension.dart';
 
-@Entity()
 class MyList {
-  int id = 0; // TODO rename in obxId
+  int id = 0; 
   String emoji;
   String name;
   bool isDefault;
   String note;
-  bool isArchived; // TODO rinominare in hidden
+  bool isArchived; 
   bool visibleOnMap;
 
-  @Transient()
   IconData? icon;
 
-  @Backlink('lists')
-  final ToMany<Poi> poiList = ToMany();
+  final List<Poi> poiList = [];
 
   MyList({
     required String name,
@@ -62,6 +57,29 @@ class MyList {
   @override
   String toString() {
     return 'MyList{id: $id, name: "$name", emoji: "$emoji", isDefault: $isDefault, isArchived: $isArchived, visibleOnMap: $visibleOnMap ,note: "$note", poiCount: ${poiList.length}}';
+  }
+
+  Map<String, dynamic> toBackupJson() => {
+    'id': id,
+    'emoji': emoji,
+    'name': name,
+    'isDefault': isDefault,
+    'note': note,
+    'isArchived': isArchived,
+    'visibleOnMap': visibleOnMap,
+  };
+
+  factory MyList.fromBackupJson(Map<String, dynamic> json) {
+    final list = MyList(
+      name: json['name'] as String,
+      emoji: json['emoji'] as String,
+      isDefault: json['isDefault'] as bool,
+      note: json['note'] as String,
+      isArchived: json['isArchived'] as bool,
+      visibleOnMap: json['visibleOnMap'] as bool,
+    );
+    list.id = json['id'] as int;
+    return list;
   }
 }
 

@@ -6,6 +6,7 @@ class AppTheme {
     scaffoldBackgroundColor: Colors.white,
     primaryColor: _LightColors().primary,
     textTheme: _textLight,
+    appBarTheme: AppBarTheme(backgroundColor: Colors.transparent),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: _LightColors().primary,
@@ -18,11 +19,11 @@ class AppTheme {
   );
 
   static TextTheme get _textLight => const TextTheme(
-    headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+    headlineLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
     // TODO da rivedere
     headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
     // TODO da rivedere
-    headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
+    headlineSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black),
     // TODO da rivedere
     titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
     // TODO da rivedere

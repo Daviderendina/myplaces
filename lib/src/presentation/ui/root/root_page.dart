@@ -7,6 +7,7 @@ import 'package:myplaces/src/providers.dart';
 
 import '../list/saved_page.dart';
 import '../map/map_page.dart';
+import '../settings/setting_page.dart';
 
 class RootPage extends ConsumerStatefulWidget {
   const RootPage({super.key});
@@ -24,7 +25,7 @@ class RootPageState extends ConsumerState<RootPage> {
       MapPage(),
       SavedPage(),
       ProfilePage(),
-      ProfilePage(),
+      SettingsPage(),
     ];
 
     return PopScope(

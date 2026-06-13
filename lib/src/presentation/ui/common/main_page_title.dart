@@ -9,7 +9,7 @@ class MainPageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
+      padding: const EdgeInsets.only(left: 8.0, top: 60, bottom: 20),
       child: MyTitle(text: text),
     );
   }

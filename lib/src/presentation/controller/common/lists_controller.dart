@@ -3,7 +3,7 @@ import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/providers.dart';
 import 'package:myplaces/src/tools/logger.dart';
 
-import '../../../data/list_repository.dart';
+import '../../../application/list_service.dart';
 
 class ListsController extends AsyncNotifier<List<MyList>> {
   late final ListService _repository;
