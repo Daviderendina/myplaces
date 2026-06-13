@@ -5,6 +5,7 @@ class MainTitledScreen extends StatelessWidget {
   final String? subtitle;
   final Widget child;
   final Widget? action;
+  final Widget? searchBar;
 
   const MainTitledScreen({
     super.key,
@@ -12,11 +13,12 @@ class MainTitledScreen extends StatelessWidget {
     required this.child,
     this.subtitle,
     this.action,
+    this.searchBar,
   });
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.sizeOf(context).height; // TODO fare questo per tutti
+    final height = MediaQuery.sizeOf(context).height;
 
     return SafeArea(
       bottom: false,
@@ -26,7 +28,7 @@ class MainTitledScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(title, style: Theme.of(context).textTheme.headlineLarge),
+              Text(title, style: Theme.of(context).textTheme.titleLarge),
               Spacer(),
               ?action,
             ],
@@ -35,6 +37,7 @@ class MainTitledScreen extends StatelessWidget {
             Text(subtitle!, style: Theme.of(context).textTheme.headlineSmall?.copyWith(height: 1)),
             SizedBox(height: height * 0.03),
           ],
+          if (searchBar != null) ...[searchBar!, SizedBox(height: height * 0.03)],
           Expanded(child: child),
         ],
       ),

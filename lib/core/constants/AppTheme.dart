@@ -16,29 +16,36 @@ class AppTheme {
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: TextStyle(fontSize: 13),
     ),
+    searchBarTheme: SearchBarThemeData(
+      elevation: WidgetStateProperty.all(0),
+      backgroundColor: WidgetStateProperty.all(_LightColors().inputBackgroundColor),
+      constraints: const BoxConstraints(minHeight: 0),
+      shape: WidgetStateProperty.all(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(MainRadius.medium)),
+      ),
+    ),
   );
 
   static TextTheme get _textLight => const TextTheme(
-    headlineLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
-    // TODO da rivedere
-    headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
-    // TODO da rivedere
+    // headlineLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
+    // headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
     headlineSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black),
-    // TODO da rivedere
-    titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
-    // TODO da rivedere
-    titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-    // TODO da rivedere
-    bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black),
-    // TODO da rivedere
-    bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black),
-    // TODO da rivedere
-    labelLarge: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-    ), // TODO da rivedere
+    titleLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
+    // titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+    // bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black),
+    // bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black),
+    // labelLarge: TextStyle(
+    //   fontSize: 14,
+    //   fontWeight: FontWeight.w600,
+    //   color: Colors.black,
+    // ),
   );
+}
+
+class MainRadius {
+  static const double small = 8;
+  static const double medium = 16;
+  static const double large = 24;
 }
 
 abstract class MainColors {
@@ -47,6 +54,8 @@ abstract class MainColors {
   Color get primary;
 
   Color get inactiveItemColor;
+
+  Color get inputBackgroundColor;
 }
 
 class _LightColors extends MainColors {
@@ -57,4 +66,7 @@ class _LightColors extends MainColors {
 
   @override
   Color get inactiveItemColor => Color.fromARGB(100, 205, 205, 205);
+
+  @override
+  Color get inputBackgroundColor => Color.fromARGB(100, 227, 227, 227);
 }

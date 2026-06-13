@@ -292,6 +292,8 @@ corrente non compila e non passa i test.**
 
 ### Regole generali per tutto lo sviluppo
 
+- NON aggiungere margini e padding di tua iniziativa
+- Limitati a fare esattamente quanto ti chiedo
 - *NON* usare freezed o altro, voglio riverpod puro con AsyncNotifier e state.
 - **Rispetta sempre le regole dei layer** (sezione 3.2). Se hai dubbi su dove mettere del codice,
   torna a rileggere quella sezione.
@@ -301,6 +303,7 @@ corrente non compila e non passa i test.**
 - **Non esporre mai tipi Supabase** (es. `PostgrestList`, `User` di supabase) fuori dal layer
   `data/`. Usa sempre i Model del dominio.
 - **Nessun `print()`** nel codice di produzione. Usa un logger o le eccezioni tipizzate.
-- **Commenta solo il perché**, non il cosa. Il codice deve essere auto-esplicativo.
+- **Commenta solo il perché**, non il cosa. Il codice deve essere auto-esplicativo. *NON* commentare
+  il codice
 - **Se una istruzione in questo documento è ambigua**, scegli l'interpretazione più conservativa (
   meno codice, più semplice) e documenta la scelta come commento inline.

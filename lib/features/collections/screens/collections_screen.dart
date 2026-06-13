@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/features/collections/controllers/collections_state.dart';
+import 'package:myplaces/shared/widgets/app_search_bar.dart';
 import 'package:myplaces/shared/widgets/main_titled_screen.dart';
-import '../models/collection.dart';
 import '../providers.dart';
 
 class CollectionsScreen extends ConsumerWidget {
@@ -23,16 +23,20 @@ class CollectionsScreen extends ConsumerWidget {
             ? "${data.displayedCollections.length} collections found"
             : "${data.allCollections.length} collections saved",
       ),
-
       action: IconButton(
         onPressed: () {
-          // TODO add
+          // TODO: Implement add collection
         },
         icon: const Icon(Icons.add_circle_rounded),
       ),
+      searchBar: GenericSearchBar(
+        hintText: 'Cerca collezioni...',
+        onSearch: (query) {
+          ref.read(collectionsControllerProvider.notifier).filter(query);
+        },
+      ),
       child: collectionsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-
         error: (error, stackTrace) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +50,6 @@ class CollectionsScreen extends ConsumerWidget {
             ],
           ),
         ),
-
         data: (CollectionsState collections) {
           if (collections.displayedCollections.isEmpty) {
             return const Center(child: Text('Nessuna collezione trovata.'));
@@ -57,8 +60,7 @@ class CollectionsScreen extends ConsumerWidget {
             itemCount: collections.displayedCollections.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (context, index) {
-              List<Collection> collectionsToDisplay = collections.displayedCollections;
-              final collection = collectionsToDisplay[index];
+              final collection = collections.displayedCollections[index];
 
               return Row(
                 children: [
