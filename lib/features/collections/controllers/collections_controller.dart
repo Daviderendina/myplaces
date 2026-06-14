@@ -36,4 +36,16 @@ class CollectionsController extends AsyncNotifier<CollectionsState> {
       return CollectionsState(allCollections: collections, displayedCollections: collections);
     });
   }
+
+  Future<bool> addCollection(String name) async {
+    final service = ref.read(collectionsServiceProvider);
+    final success = await service.saveCollection(name);
+    
+    if (success) {
+      // Se il salvataggio ha successo, ricarichiamo la lista
+      await refresh();
+    }
+    
+    return success;
+  }
 }

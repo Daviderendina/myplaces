@@ -5,6 +5,7 @@ class AppTheme {
     useMaterial3: true,
     scaffoldBackgroundColor: Colors.white,
     primaryColor: _LightColors().primary,
+    disabledColor: _LightColors().inactiveItemColor,
     textTheme: _textLight,
     appBarTheme: AppBarTheme(backgroundColor: Colors.transparent),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
