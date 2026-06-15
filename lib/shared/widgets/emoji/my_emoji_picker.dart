@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 class MyEmojiPicker extends StatefulWidget {
   final void Function(String emoji)? onEmojiSelected;
+  final double height;
+  final String? initialEmoji;
 
-  const MyEmojiPicker({super.key, this.onEmojiSelected});
+  const MyEmojiPicker({super.key, this.onEmojiSelected, required this.height, this.initialEmoji});
 
   @override
   State<MyEmojiPicker> createState() => _MyEmojiPickerState();
@@ -12,6 +14,13 @@ class MyEmojiPicker extends StatefulWidget {
 
 class _MyEmojiPickerState extends State<MyEmojiPicker> {
   Category selectedCategory = Category.SMILEYS;
+  String? _selectedEmoji;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedEmoji = widget.initialEmoji;
+  }
 
   final Map<Category, IconData> categoryIcons = {
     Category.SMILEYS: Icons.tag_faces,
@@ -34,12 +43,11 @@ class _MyEmojiPickerState extends State<MyEmojiPicker> {
 
   @override
   Widget build(BuildContext context) {
-    // Usiamo LayoutBuilder per adattare il numero di colonne in base allo spazio se vuoi,
-    // ma per ora manteniamo il conteggio fisso e rendiamo la griglia flessibile.
+    var height = MediaQuery.of(context).size.height;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Barra categorie (Altezza fissa intrinseca)
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -68,12 +76,11 @@ class _MyEmojiPickerState extends State<MyEmojiPicker> {
           ),
         ),
 
-        const SizedBox(height: 16),
+        SizedBox(height: height * .025),
 
-        // Griglia emoji - ORA OCCUPA TUTTO LO SPAZIO RIMANENTE
-        Expanded(
+        SizedBox(
+          height: widget.height,
           child: GridView.builder(
-            // GridView.builder è più efficiente di .count per liste lunghe
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 8,
               crossAxisSpacing: 10,
@@ -82,16 +89,20 @@ class _MyEmojiPickerState extends State<MyEmojiPicker> {
             itemCount: emojiList.length,
             itemBuilder: (context, index) {
               final emoji = emojiList[index];
+              final isSelected = _selectedEmoji == emoji;
+
               return InkWell(
                 borderRadius: BorderRadius.circular(8),
                 onTap: () {
-                  if (widget.onEmojiSelected != null) {
-                    widget.onEmojiSelected!(emoji);
-                  } else {
-                    Navigator.pop(context, emoji);
-                  }
+                  setState(() {
+                    _selectedEmoji = emoji;
+                  });
+                  widget.onEmojiSelected?.call(emoji);
                 },
-                child: Center(child: Text(emoji, style: const TextStyle(fontSize: 24))),
+                child: Opacity(
+                  opacity: isSelected ? 1.0 : 0.25,
+                  child: Center(child: Text(emoji, style: TextStyle(fontSize: 24))),
+                ),
               );
             },
           ),

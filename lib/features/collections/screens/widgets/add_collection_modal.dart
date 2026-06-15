@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/shared/widgets/app_button.dart';
-import 'package:myplaces/shared/widgets/app_text_field.dart';
-import '../../../../shared/widgets/my_emoji_picker.dart';
+import 'package:myplaces/shared/widgets/app_snack_bar.dart';
+import 'package:myplaces/shared/widgets/form/app_text_field.dart';
+import 'package:myplaces/shared/widgets/form/generic_form_field.dart';
+import '../../../../shared/widgets/emoji/my_emoji_picker.dart';
 import '../../providers.dart';
 
 class AddCollectionModal extends ConsumerStatefulWidget {
@@ -15,6 +18,7 @@ class AddCollectionModal extends ConsumerStatefulWidget {
 class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
   final _nameController = TextEditingController();
   bool _isSaving = false;
+  String? _selectedEmoji;
 
   @override
   void dispose() {
@@ -23,36 +27,43 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
   }
 
   Future<void> _handleSave() async {
-    final name = _nameController.text.trim();
-    if (name.isEmpty) return;
+    if (!mounted) return;
 
     setState(() => _isSaving = true);
 
-    final success = await ref.read(collectionsControllerProvider.notifier).addCollection(name);
+    String error = validateForm();
+    if (error.isNotEmpty) {
+      AppSnackBar.warn(context, error);
+      setState(() => _isSaving = false);
+      return;
+    }
 
-    if (!mounted) return;
+    String name = _nameController.text.trim();
+
+    final success = await ref.read(collectionsControllerProvider.notifier).addCollection(name);
 
     setState(() => _isSaving = false);
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Collezione salvata con successo!'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      AppSnackBar.success(context, 'Collezione salvata con successo!');
       Navigator.pop(context);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Errore durante il salvataggio'), backgroundColor: Colors.red),
-      );
+      AppSnackBar.error(context, 'Errore durante il salvataggio');
     }
+  }
+
+  String validateForm() {
+    final name = _nameController.text.trim();
+    if (name.isEmpty) return 'Inserisci il nome della collezione';
+
+    if (_selectedEmoji == null) return 'Seleziona un emoji';
+
+    return '';
   }
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    // TODO definire per bene questi spazi per fare una cosa standard su tutta la app
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -66,7 +77,7 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
               IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: AppLayout.getFullscreenModalPadding(context),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -76,16 +87,27 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
                           context,
                         ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 24),
-                      AppTextField(
-                        label: 'NOME COLLEZIONE',
-                        hintText: 'Inserisci un nome...',
+
+                      SizedBox(height: AppLayout.form.getTitleSpacing(context)),
+
+                      TextInputFormField(
+                        label: 'Nome',
+                        hintText: 'Inserisci il nome della collezione',
                         controller: _nameController,
                       ),
-                      Expanded(child: MyEmojiPicker()),
-                      SizedBox(height: height * 0.06),
+
+                      SizedBox(height: AppLayout.form.getFieldSpacing(context)),
+
+                      GenericFormField(
+                        label: "List emoji",
+                        child: MyEmojiPicker(
+                          height: height * .45,
+                          onEmojiSelected: (emoji) => setState(() => _selectedEmoji = emoji),
+                        ),
+                      ),
+
+                      const Spacer(),
                       AppButton(text: 'SALVA', isLoading: _isSaving, onPressed: _handleSave),
-                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
