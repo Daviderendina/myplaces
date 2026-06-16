@@ -15,6 +15,8 @@ class AddCollectionModal extends ConsumerStatefulWidget {
   ConsumerState<AddCollectionModal> createState() => _AddCollectionModalState();
 }
 
+// TODO tutta questa logica la deve tener il controller!!!
+
 class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
   final _nameController = TextEditingController();
   bool _isSaving = false;

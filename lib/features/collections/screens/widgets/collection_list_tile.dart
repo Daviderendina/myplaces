@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myplaces/features/collections/models/collection.dart';
 
+import '../collection_detail_screen.dart';
+
 class CollectionListTile extends StatelessWidget {
   final Collection collection;
 
@@ -18,7 +20,10 @@ class CollectionListTile extends StatelessWidget {
       title: Text(collection.name, style: Theme.of(context).textTheme.titleMedium),
       subtitle: Text('ID: ${collection.id}'),
       onTap: () {
-        // TODO: Navigazione
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CollectionDetailScreen()),
+        ); // TODO mettere su controller della pagina!
       },
     );
   }

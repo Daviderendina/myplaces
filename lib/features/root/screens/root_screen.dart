@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myplaces/features/collections/screens/collections_screen.dart';
+import 'package:myplaces/features/collections/screens/collection_list_screen.dart';
 import 'package:myplaces/features/trips/screens/trips_screen.dart';
 import '../provider.dart';
 

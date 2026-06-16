@@ -4,7 +4,7 @@ import 'package:myplaces/features/collections/controllers/collections_state.dart
 import 'package:myplaces/features/collections/screens/widgets/add_collection_modal.dart';
 import 'package:myplaces/features/collections/screens/widgets/collection_list_tile.dart';
 import 'package:myplaces/shared/widgets/app_search_bar.dart';
-import 'package:myplaces/shared/widgets/main_titled_screen.dart';
+import 'package:myplaces/shared/widgets/layout/main_titled_screen.dart';
 import '../providers.dart';
 
 class CollectionsScreen extends ConsumerWidget {

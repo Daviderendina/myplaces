@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/features/trips/controllers/trips_state.dart';
-import 'package:myplaces/shared/widgets/main_titled_screen.dart';
+import 'package:myplaces/shared/widgets/layout/main_titled_screen.dart';
 import '../providers.dart';
 
 class TripsScreen extends ConsumerWidget {
