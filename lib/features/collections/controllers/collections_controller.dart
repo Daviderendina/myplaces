@@ -2,15 +2,27 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/collection.dart';
 import '../providers.dart';
+import '../services/collections_service.dart';
 import 'collections_state.dart';
 
 class CollectionsController extends AsyncNotifier<CollectionsState> {
+  late final CollectionService _service;
+
   @override
   Future<CollectionsState> build() async {
-    final service = ref.watch(collectionsServiceProvider);
-    final collections = await service.getCollections();
+    _service = ref.read(collectionsServiceProvider);
 
-    return CollectionsState(allCollections: collections, displayedCollections: collections);
+    final initial = await _service.fetchAll();
+
+    ref.listen(collectionsStreamProvider, (_, next) {
+      next.whenData((list) {
+        state = AsyncData(
+          state.value!.copyWith(allCollections: list, displayedCollections: list),
+        ); // TODO qui devo modificare la active query anche?
+      });
+    });
+
+    return CollectionsState(allCollections: initial, displayedCollections: initial);
   }
 
   void filter(String query) {
@@ -26,26 +38,5 @@ class CollectionsController extends AsyncNotifier<CollectionsState> {
 
       state = AsyncData(currentState.copyWith(displayedCollections: filteredList));
     }
-  }
-
-  Future<void> refresh() async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final service = ref.read(collectionsServiceProvider);
-      final collections = await service.getCollections();
-      return CollectionsState(allCollections: collections, displayedCollections: collections);
-    });
-  }
-
-  Future<bool> addCollection(String name) async {
-    final service = ref.read(collectionsServiceProvider);
-    final success = await service.saveCollection(name);
-
-    if (success) {
-      // Se il salvataggio ha successo, ricarichiamo la lista
-      await refresh();
-    }
-
-    return true; //false && success;
   }
 }

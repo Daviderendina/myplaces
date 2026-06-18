@@ -13,7 +13,7 @@ import 'package:myplaces/src/providers.dart';
 import '../../../domain/my_list.dart';
 import '../../../domain/poi.dart';
 import '../../../tools/extension/title_case_extension.dart';
-import '../../../tools/logger.dart';
+import '../../../../logger.dart';
 import '../common/my_title.dart';
 import '../common/note/note_box.dart';
 import '../common/note/note_dialog.dart';
@@ -68,10 +68,7 @@ class _ListPageState extends ConsumerState<ListPage> {
           // SizedBox(width: 2),
           IconButton(
             icon: Icon(Icons.settings, size: 20),
-            onPressed: () => showListInformationFullDialog(
-              context,
-              ListInformationAction.EDIT,
-            ),
+            onPressed: () => showListInformationFullDialog(context, ListInformationAction.EDIT),
           ),
         ],
       ),
@@ -92,11 +89,7 @@ class _ListPageState extends ConsumerState<ListPage> {
                   height: 40,
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Center(
-                      child: VisualSymbolVisualizer(
-                        symbol: myList.visualSymbol,
-                      ),
-                    ),
+                    child: Center(child: VisualSymbolVisualizer(symbol: myList.visualSymbol)),
                   ),
                 ),
               ],
@@ -180,14 +173,10 @@ class _ListPageState extends ConsumerState<ListPage> {
                                   .deletePoiFromList(poi);
                             },
                             onSwipeRight: () {
-                              ref
-                                  .read(selectedPoiControllerProvider.notifier)
-                                  .selectNewPoi(poi);
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => SelectListPage(),
-                                ),
-                              );
+                              ref.read(selectedPoiControllerProvider.notifier).selectNewPoi(poi);
+                              Navigator.of(
+                                context,
+                              ).push(MaterialPageRoute(builder: (context) => SelectListPage()));
                             },
                           );
                         },
@@ -205,9 +194,7 @@ class _ListPageState extends ConsumerState<ListPage> {
     // TODO sembra funzionare male quando lo apro da mappa
     ref.read(selectedPoiControllerProvider.notifier).selectNewPoi(poi);
 
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => PoiDetailPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => PoiDetailPage()));
   }
 
   void updateListNoteField(String value) {
@@ -225,8 +212,7 @@ class _ListPageState extends ConsumerState<ListPage> {
     showNoteDialog(
       context,
       actualValue,
-      (val) =>
-          ref.read(selectedListControllerProvider.notifier).updateNote(val),
+      (val) => ref.read(selectedListControllerProvider.notifier).updateNote(val),
     );
   }
 }

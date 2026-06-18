@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
+import 'package:myplaces/features/collections/controllers/add_collection_controller.dart';
 import 'package:myplaces/shared/widgets/app_button.dart';
 import 'package:myplaces/shared/widgets/app_snack_bar.dart';
 import 'package:myplaces/shared/widgets/form/app_text_field.dart';
 import 'package:myplaces/shared/widgets/form/generic_form_field.dart';
-import '../../../../shared/widgets/emoji/my_emoji_picker.dart';
-import '../../providers.dart';
+import '../../../shared/widgets/emoji/my_emoji_picker.dart';
+import '../providers.dart';
 
 class AddCollectionModal extends ConsumerStatefulWidget {
   const AddCollectionModal({super.key});
@@ -15,12 +16,14 @@ class AddCollectionModal extends ConsumerStatefulWidget {
   ConsumerState<AddCollectionModal> createState() => _AddCollectionModalState();
 }
 
-// TODO tutta questa logica la deve tener il controller!!!
-
 class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
-  final _nameController = TextEditingController();
-  bool _isSaving = false;
-  String? _selectedEmoji;
+  late final TextEditingController _nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+  }
 
   @override
   void dispose() {
@@ -29,43 +32,30 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
   }
 
   Future<void> _handleSave() async {
-    if (!mounted) return;
+    final controller = ref.read(addCollectionControllerProvider.notifier);
 
-    setState(() => _isSaving = true);
+    // Sincronizzo il valore del controller locale con lo stato del Notifier
+    controller.setValues(name: _nameController.text);
 
-    String error = validateForm();
-    if (error.isNotEmpty) {
-      AppSnackBar.warn(context, error);
-      setState(() => _isSaving = false);
+    ValidationStatus validationStatus = controller.validateValues();
+    if (validationStatus.isValid) {
+      final success = await controller.saveCollection();
+
+      if (mounted && success) {
+        AppSnackBar.success(context, 'Collezione salvata con successo!');
+        Navigator.pop(context);
+      }
+    } else {
+      AppSnackBar.warn(context, validationStatus.error!);
       return;
     }
-
-    String name = _nameController.text.trim();
-
-    final success = await ref.read(collectionsControllerProvider.notifier).addCollection(name);
-
-    setState(() => _isSaving = false);
-
-    if (success) {
-      AppSnackBar.success(context, 'Collezione salvata con successo!');
-      Navigator.pop(context);
-    } else {
-      AppSnackBar.error(context, 'Errore durante il salvataggio');
-    }
-  }
-
-  String validateForm() {
-    final name = _nameController.text.trim();
-    if (name.isEmpty) return 'Inserisci il nome della collezione';
-
-    if (_selectedEmoji == null) return 'Seleziona un emoji';
-
-    return '';
   }
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.of(context).size.height;
+    final state = ref.watch(addCollectionControllerProvider);
+    final controller = ref.read(addCollectionControllerProvider.notifier);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -104,12 +94,13 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
                         label: "List emoji",
                         child: MyEmojiPicker(
                           height: height * .45,
-                          onEmojiSelected: (emoji) => setState(() => _selectedEmoji = emoji),
+                          onEmojiSelected: (emoji) => controller.setValues(emoji: emoji),
                         ),
                       ),
 
                       const Spacer(),
-                      AppButton(text: 'SALVA', isLoading: _isSaving, onPressed: _handleSave),
+
+                      AppButton(text: 'SALVA', isLoading: state.isSaving, onPressed: _handleSave),
                     ],
                   ),
                 ),

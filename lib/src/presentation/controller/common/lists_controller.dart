@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/providers.dart';
-import 'package:myplaces/src/tools/logger.dart';
+import 'package:myplaces/logger.dart';
 
 import '../../../application/list_service.dart';
 

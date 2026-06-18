@@ -1,5 +1,5 @@
 import 'package:myplaces/src/domain/my_list.dart';
-import 'package:myplaces/src/tools/logger.dart';
+import 'package:myplaces/logger.dart';
 
 import '../domain/poi.dart';
 import '../data/list_repository.dart';

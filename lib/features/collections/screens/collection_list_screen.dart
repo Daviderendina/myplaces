@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/features/collections/controllers/collections_state.dart';
-import 'package:myplaces/features/collections/screens/widgets/add_collection_modal.dart';
+import 'package:myplaces/features/collections/screens/add_collection_modal.dart';
 import 'package:myplaces/features/collections/screens/widgets/collection_list_tile.dart';
 import 'package:myplaces/shared/widgets/app_search_bar.dart';
 import 'package:myplaces/shared/widgets/layout/main_titled_screen.dart';
@@ -33,7 +33,7 @@ class CollectionsScreen extends ConsumerWidget {
               isScrollControlled: true,
               useSafeArea: true,
               backgroundColor: Colors.transparent,
-              builder: (context) => const AddCollectionModal(),
+              builder: (context) => AddCollectionModal(),
             );
           },
           icon: const Icon(Icons.add_circle_rounded),
@@ -53,7 +53,8 @@ class CollectionsScreen extends ConsumerWidget {
                 Text('Errore: $error'),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () => ref.read(collectionsControllerProvider.notifier).refresh(),
+                  onPressed: () {},
+                  //=> ref.read(collectionsControllerProvider.notifier).refresh(),
                   child: const Text('Riprova'),
                 ),
               ],

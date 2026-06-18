@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../src/domain/poi.dart';
 import '../../../providers.dart';
-import '../../../tools/logger.dart';
+import '../../../../logger.dart';
 
 class SearchBarController extends AsyncNotifier<List<Poi>> {
   @override
@@ -20,9 +20,7 @@ class SearchBarController extends AsyncNotifier<List<Poi>> {
     }
 
     state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () => ref.read(poiServiceProvider).search(query),
-    );
+    state = await AsyncValue.guard(() => ref.read(poiServiceProvider).search(query));
     logger.info("Updated state: $state");
     // TODO gestire error
   }

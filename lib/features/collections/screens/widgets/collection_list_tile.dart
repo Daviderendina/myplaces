@@ -14,7 +14,7 @@ class CollectionListTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
-        backgroundColor: collection.dominantEmojiColor.withAlpha(30),
+        backgroundColor: collection.dominantEmojiColor?.withAlpha(30),
         child: Text(collection.emoji),
       ),
       title: Text(collection.name, style: Theme.of(context).textTheme.titleMedium),

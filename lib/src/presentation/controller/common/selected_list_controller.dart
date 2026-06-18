@@ -6,7 +6,7 @@ import 'package:myplaces/src/providers.dart';
 
 import '../../../../../../src/domain/poi.dart';
 import '../../../domain/my_list.dart';
-import '../../../tools/logger.dart';
+import '../../../../logger.dart';
 import 'lists_controller.dart';
 
 class SelectedListController extends StateNotifier<MyList?> {

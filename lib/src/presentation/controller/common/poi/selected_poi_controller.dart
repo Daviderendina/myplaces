@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:myplaces/src/application/poi_service.dart';
-import 'package:myplaces/src/tools/logger.dart';
+import 'package:myplaces/logger.dart';
 
 import '../../../../../../src/domain/poi.dart';
 import '../../../../domain/my_list.dart';

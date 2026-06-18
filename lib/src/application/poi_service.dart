@@ -2,7 +2,7 @@ import 'package:myplaces/src/data/poi_repository.dart';
 
 import '../domain/my_list.dart';
 import '../domain/poi.dart';
-import '../tools/logger.dart';
+import '../../logger.dart';
 import 'poi_search_service.dart';
 
 class PoiService {

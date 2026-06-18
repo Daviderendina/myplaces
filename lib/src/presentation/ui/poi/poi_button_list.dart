@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/default_lists.dart';
-import '../../../tools/logger.dart';
+import '../../../../logger.dart';
 import '../list/visual_symbol_visualizer.dart';
 import '../list/select_list_page.dart';
 import '../../../providers.dart';
@@ -23,9 +23,7 @@ class PoiButtonList extends ConsumerWidget {
           data: (lists) {
             final poi = ref.watch(selectedPoiControllerProvider);
 
-            List<MyList> defaultLists = lists
-                .where((l) => l.isDefault)
-                .toList();
+            List<MyList> defaultLists = lists.where((l) => l.isDefault).toList();
 
             final controller = ref.read(selectedPoiControllerProvider.notifier);
 
@@ -42,10 +40,7 @@ class PoiButtonList extends ConsumerWidget {
                       child: Center(
                         child: VisualSymbolVisualizer(
                           symbol: myList.visualSymbol,
-                          colored: poi!.lists
-                              .map((l) => l.id)
-                              .toList()
-                              .contains(myList.id),
+                          colored: poi!.lists.map((l) => l.id).toList().contains(myList.id),
                         ),
                       ),
                     ),
@@ -57,9 +52,9 @@ class PoiButtonList extends ConsumerWidget {
                 ActionChip(
                   backgroundColor: Colors.yellow.withAlpha(30),
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SelectListPage()),
-                    );
+                    Navigator.of(
+                      context,
+                    ).push(MaterialPageRoute(builder: (context) => SelectListPage()));
                   },
                   label: Padding(
                     padding: EdgeInsets.all(isBig ? 8 : 6),
@@ -75,9 +70,7 @@ class PoiButtonList extends ConsumerWidget {
                   avatar: Icon(Icons.add, color: Colors.yellow.shade800),
                   elevation: 0,
                   pressElevation: 0,
-                  shape: const StadiumBorder(
-                    side: BorderSide(color: Colors.transparent),
-                  ),
+                  shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
                 ),
               ],

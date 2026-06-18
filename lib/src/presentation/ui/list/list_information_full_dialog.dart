@@ -4,7 +4,7 @@ import 'package:myplaces/src/presentation/ui/common/my_subtitle.dart';
 import 'package:myplaces/src/providers.dart';
 
 import '../../../domain/my_list.dart';
-import '../../../tools/logger.dart';
+import '../../../../logger.dart';
 import '../common/my_emoji_picker.dart';
 
 //TODO anche da default devo poter cambiare qualche flag qui dentro
@@ -15,8 +15,7 @@ class ListInformationFullDialog extends ConsumerStatefulWidget {
   const ListInformationFullDialog({super.key, required this.action});
 
   @override
-  ConsumerState<ListInformationFullDialog> createState() =>
-      _EditListScreenState();
+  ConsumerState<ListInformationFullDialog> createState() => _EditListScreenState();
 }
 
 class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
@@ -87,21 +86,12 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        title: Text(
-          widget.action == ListInformationAction.CREATE
-              ? 'Create List'
-              : 'Edit List',
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
-        ),
+        title: Text(widget.action == ListInformationAction.CREATE ? 'Create List' : 'Edit List'),
+        leading: IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
         actions: [IconButton(icon: const Icon(Icons.check), onPressed: _save)],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Form(
@@ -137,10 +127,7 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                       borderRadius: BorderRadius.circular(8),
                     ),
 
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 14,
-                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                   ),
                   validator: (v) => v == null || v.isEmpty ? 'Required' : null,
                 ),
@@ -196,10 +183,7 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                     spacing: 22,
                     children: [
                       MySubtitle(text: "Select an emoji"),
-                      Text(
-                        selectedEmoji ?? '',
-                        style: const TextStyle(fontSize: 20),
-                      ),
+                      Text(selectedEmoji ?? '', style: const TextStyle(fontSize: 20)),
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -250,16 +234,14 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                                   color: Colors.red.withAlpha(200),
                                   fontSize: 12,
                                   fontWeight: FontWeight.normal,
-                                  height:
-                                      1.2, // line height simile al TextFormField
+                                  height: 1.2, // line height simile al TextFormField
                                 ),
                               ),
                             ),
 
                           const SizedBox(height: 20),
 
-                          if (widget.action == ListInformationAction.EDIT &&
-                              myList != null)
+                          if (widget.action == ListInformationAction.EDIT && myList != null)
                             GestureDetector(
                               onTap: () async {
                                 final result = await showDialog<bool>(
@@ -274,22 +256,18 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                                     ),
                                     actions: [
                                       TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(false),
+                                        onPressed: () => Navigator.of(context).pop(false),
                                         child: const Text(
                                           "CANCEL",
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ),
                                       ElevatedButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(true),
+                                        onPressed: () => Navigator.of(context).pop(true),
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.red.shade900,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
                                         ),
                                         child: const Text(
@@ -302,12 +280,8 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                                 );
 
                                 if (result == true && context.mounted) {
-                                  logger.info(
-                                    "Confirmed cancellation of: $myList",
-                                  );
-                                  ref
-                                      .read(listsControllerProvider.notifier)
-                                      .removeList(myList!);
+                                  logger.info("Confirmed cancellation of: $myList");
+                                  ref.read(listsControllerProvider.notifier).removeList(myList!);
                                   Navigator.of(context).pop();
                                   Navigator.of(context).pop();
                                 }
@@ -315,20 +289,14 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 24,
-                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                                   decoration: BoxDecoration(
                                     color: Colors.red.shade900,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: const Text(
                                     "DELETE",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
+                                    style: TextStyle(color: Colors.white, fontSize: 14),
                                   ),
                                 ),
                               ),
@@ -349,10 +317,7 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
   }
 }
 
-void showListInformationFullDialog(
-  BuildContext context,
-  ListInformationAction action,
-) {
+void showListInformationFullDialog(BuildContext context, ListInformationAction action) {
   Navigator.of(context).push(
     MaterialPageRoute(
       fullscreenDialog: true,
