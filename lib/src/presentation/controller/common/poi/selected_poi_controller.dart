@@ -11,17 +11,13 @@ class SelectedPoiController extends StateNotifier<Poi?> {
   SelectedPoiController(super._state, this._service);
 
   Future<void> selectNewPoi(Poi poi) async {
-    logger.info("Selecting poi: ${poi.name} / ${poi.id}");
-
     state = await _service.getById(poi.id) ?? poi;
-    logger.info("Selected poi: ${poi.name} / ${poi.id}");
   }
 
   void triggerPoiToList(Poi poi, MyList myList) {
     Poi result = _service.togglePoiInList(poi, myList);
     // TODO non so mi sembra fragile come metodo. per ora pero funzioa - funziona perchè i dati mostrati sono sempre consistenti con il DB, ma se il DB va lento si sminchia?
     selectNewPoi(result);
-    logger.info("Toggled poi in list: ${poi.name} in list ${myList.name}");
   }
 
   bool poiBelongToList(Poi poi, MyList list) {

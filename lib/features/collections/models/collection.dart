@@ -1,22 +1,20 @@
-import 'dart:ui';
-
+import 'package:myplaces/features/collections/models/emoji.dart';
 import '../../../core/models/entity.dart';
+import '../../../core/models/poi.dart';
 
 class Collection extends Entity {
   final String name;
-  final String emoji;
-  final Color? dominantEmojiColor;
+  final MyEmoji emoji;
+  final List<Poi> pois;
 
-  // TODO questa deve essere passata usando il metodo delle util quando si fa il salvataggio/modifica della moeji
+  Collection({required super.id, required this.name, required this.emoji, this.pois = const []});
 
-  Collection({required super.id, required this.name, required this.emoji, this.dominantEmojiColor});
-
-  Collection copyWith({String? id, String? name, String? emoji, Color? dominantEmojiColor}) {
+  Collection copyWith({String? id, String? name, MyEmoji? emoji, List<Poi>? pois}) {
     return Collection(
       id: id ?? this.id,
       name: name ?? this.name,
       emoji: emoji ?? this.emoji,
-      dominantEmojiColor: dominantEmojiColor ?? this.dominantEmojiColor,
+      pois: pois ?? this.pois,
     );
   }
 }

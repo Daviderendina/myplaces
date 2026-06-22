@@ -13,7 +13,6 @@ class SearchBarController extends AsyncNotifier<List<Poi>> {
   }
 
   Future<void> search(String query) async {
-    logger.info("Start searching for query: $query");
     if (query.isEmpty) {
       state = AsyncValue.data([]);
       return;
@@ -21,7 +20,6 @@ class SearchBarController extends AsyncNotifier<List<Poi>> {
 
     state = const AsyncLoading();
     state = await AsyncValue.guard(() => ref.read(poiServiceProvider).search(query));
-    logger.info("Updated state: $state");
     // TODO gestire error
   }
 }

@@ -37,7 +37,6 @@ class ListsController extends AsyncNotifier<List<MyList>> {
   }
 
   void removeList(MyList myList) async {
-    logger.info("Deleting list: $myList");
     _repository.delete(myList);
     refresh();
   }

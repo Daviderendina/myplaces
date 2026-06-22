@@ -198,7 +198,6 @@ class _ListPageState extends ConsumerState<ListPage> {
   }
 
   void updateListNoteField(String value) {
-    logger.info("Invoked updateListNoteField with value: $value");
     if (!_focusNode.hasFocus && value.trim().isEmpty) {
       setState(() {
         showNote = false;

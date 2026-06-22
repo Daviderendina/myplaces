@@ -280,7 +280,6 @@ class _EditListScreenState extends ConsumerState<ListInformationFullDialog> {
                                 );
 
                                 if (result == true && context.mounted) {
-                                  logger.info("Confirmed cancellation of: $myList");
                                   ref.read(listsControllerProvider.notifier).removeList(myList!);
                                   Navigator.of(context).pop();
                                   Navigator.of(context).pop();

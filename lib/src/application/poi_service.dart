@@ -12,7 +12,6 @@ class PoiService {
   PoiService(this._searchService, this._poiRepository);
 
   Future<List<Poi>> search(String query) {
-    logger.info("Searching for query: $query");
     return _searchService.search(query);
   }
 

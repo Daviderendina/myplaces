@@ -15,8 +15,6 @@ class PoiButtonList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    logger.debug(">>> Loading PoiButtonList widget");
-
     return ref
         .watch(listsControllerProvider)
         .when(

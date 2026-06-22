@@ -19,8 +19,6 @@ class ListService {
   Future<MyList?> getById(int id) => _service.getById(id);
 
   Future<MyList> save(MyList myList) async {
-    logger.info('Saving MyList: $myList');
-
     MyList? myListSaved = await getById(myList.id);
 
     if (myListSaved != null) {
@@ -29,12 +27,10 @@ class ListService {
 
     bool nameAlreadyExists = myListSaved == null && listExists(myList);
     if (nameAlreadyExists) {
-      logger.warn('Cannot save MyList: name "${myList.name}" already exists');
       return Future.error("Name is already present");
     }
 
     MyList result = await _service.save(myList);
-    logger.info('MyList saved, result: $result');
     return result;
   }
 

@@ -18,17 +18,14 @@ class RootScreen extends ConsumerWidget {
 
     return Scaffold(
       extendBody: true,
-      body: Padding(
-        padding: EdgeInsets.only(top: height * 0.03, left: width * 0.05, right: width * 0.05),
-        child: IndexedStack(
-          index: rootState.selectedIndex,
-          children: const [
-            Center(child: Text('Map Screen')),
-            CollectionsScreen(),
-            TripsScreen(),
-            Center(child: Text('Profile Screen')),
-          ],
-        ),
+      body: IndexedStack(
+        index: rootState.selectedIndex,
+        children: const [
+          Center(child: Text('Map Screen')),
+          CollectionsScreen(),
+          TripsScreen(),
+          Center(child: Text('Profile Screen')),
+        ],
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.fromLTRB(width * 0.05, 0, width * 0.05, height * 0.03),

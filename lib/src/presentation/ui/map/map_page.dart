@@ -28,9 +28,6 @@ class MapPage extends ConsumerWidget {
     final poi = ref.watch(selectedPoiControllerProvider);
     final lists = ref.watch(listsControllerProvider);
 
-    logger.info("Show marker: ${state.showPoiMarker}");
-    logger.info("Poi to show: $poi");
-
     return Stack(
       children: [
         MapView(
@@ -110,10 +107,6 @@ class MapPage extends ConsumerWidget {
   }
 
   List<Marker> buildShowedListsMarkers(BuildContext context, List<MyList> lists, WidgetRef ref) {
-    logger.info(
-      "Showing lists on map: ${lists.where((l) => l.visibleOnMap).map((l) => l.name).toList()}",
-    );
-
     return lists
         .where((l) => l.visibleOnMap) //TODO spostare da qui il filtro
         .expand((list) {

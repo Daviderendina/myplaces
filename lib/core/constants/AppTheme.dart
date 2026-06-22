@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../features/collections/models/collection.dart';
+
 class AppTheme {
   static ThemeData get light => ThemeData(
     useMaterial3: true,
@@ -38,17 +40,20 @@ class AppTheme {
   );
 
   static TextTheme get _textLight => const TextTheme(
-    // headlineLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
-    // headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
-    //headlineSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black), // Page subtitle
-    titleLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
-    // Page titles
-    // titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-    titleSmall: TextStyle(
+    headlineLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
+    headlineMedium: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, color: Colors.black),
+    headlineSmall: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w400,
       color: Colors.black,
     ), // Page subtitle
+    // titleLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
+    titleMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),
+    // titleSmall: TextStyle(
+    //   fontSize: 18,
+    //   fontWeight: FontWeight.w400,
+    //   color: Colors.black,
+    // ), // Page subtitle
     // bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black),
     // bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black),
     // labelLarge: TextStyle(

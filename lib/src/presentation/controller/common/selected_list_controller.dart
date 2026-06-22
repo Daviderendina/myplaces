@@ -6,7 +6,6 @@ import 'package:myplaces/src/providers.dart';
 
 import '../../../../../../src/domain/poi.dart';
 import '../../../domain/my_list.dart';
-import '../../../../logger.dart';
 import 'lists_controller.dart';
 
 class SelectedListController extends StateNotifier<MyList?> {
@@ -18,37 +17,28 @@ class SelectedListController extends StateNotifier<MyList?> {
   SelectedListController(super._state, this.repository, this.allListsController);
 
   Future<void> selectNewList(MyList myList) async {
-    logger.info("Selecting list with id ${myList.id}");
     MyList? fromRepository = await repository.getById(myList.id);
 
     if (fromRepository == null) {
-      logger.warn("MyList not found in repository");
       state = myList;
     } else {
-      logger.info("Retrieved myList from repository: $fromRepository");
       state = fromRepository;
     }
   }
 
   Future<void> updateNote(String note) async {
-    logger.info("Updating note: $note");
-
     state!.note = note;
     await repository.save(state!);
     state = await repository.getById(state!.id);
-
-    logger.info("Saved note, new state: $state");
 
     allListsController.refresh();
   }
 
   Future<void> deletePoiFromList(Poi poi) async {
-    logger.info("Deleting poi from MyList(id=${state!.id}): Poi(id=${poi.obxId})");
     // final updatedList = state!.copyWith();
     // updatedList.poiList.removeWhere((p) => p.id == poi.id);
 
     state!.poiList.removeWhere((p) => p.id == poi.id);
-    logger.info("Updated list: $state");
     await repository.save(state!);
 
     // repository.save(updatedList);
