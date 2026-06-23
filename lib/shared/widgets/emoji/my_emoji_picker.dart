@@ -6,7 +6,12 @@ class MyEmojiPicker extends StatefulWidget {
   final double height;
   final String? initialEmoji;
 
-  const MyEmojiPicker({super.key, this.onEmojiSelected, required this.height, this.initialEmoji});
+  const MyEmojiPicker({
+    super.key,
+    this.onEmojiSelected,
+    required this.height,
+    this.initialEmoji,
+  });
 
   @override
   State<MyEmojiPicker> createState() => _MyEmojiPickerState();
@@ -65,7 +70,7 @@ class _MyEmojiPickerState extends State<MyEmojiPicker> {
                     child: Icon(
                       categoryIcons[k],
                       color: selectedCategory == k
-                          ? Theme.of(context).primaryColor
+                          ? Theme.of(context).colorScheme.primary
                           : Theme.of(context).disabledColor,
                       size: selectedCategory == k ? 28 : 24,
                     ),
@@ -101,7 +106,9 @@ class _MyEmojiPickerState extends State<MyEmojiPicker> {
                 },
                 child: Opacity(
                   opacity: isSelected ? 1.0 : 0.25,
-                  child: Center(child: Text(emoji, style: TextStyle(fontSize: 24))),
+                  child: Center(
+                    child: Text(emoji, style: TextStyle(fontSize: 24)),
+                  ),
                 ),
               );
             },

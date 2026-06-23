@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myplaces/features/collections/models/collection.dart';
 import 'package:myplaces/shared/widgets/circled_emoji.dart';
-
-import '../collection_detail_screen.dart';
 
 class CollectionListTile extends StatelessWidget {
   final Collection collection;
@@ -18,10 +16,7 @@ class CollectionListTile extends StatelessWidget {
       title: Text(collection.name, style: Theme.of(context).textTheme.titleMedium),
       subtitle: Text('${collection.pois.length} places saved'),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => CollectionDetailScreen(collection: collection)),
-        ); // TODO mettere su controller della pagina!
+        context.push('/collection-detail', extra: collection);
       },
     );
   }

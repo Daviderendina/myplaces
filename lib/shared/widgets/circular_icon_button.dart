@@ -12,16 +12,19 @@ class CircularIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context).height * .045;
+    final iconSize = size * .58;
+
     return Container(
-      height: 38,
-      width: 38,
+      height: size,
+      width: size,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(80),
-        color: Colors.white.withAlpha(15),
+        color: Colors.white.withAlpha(100),
       ),
       child: IconButton(
-        icon: Icon(icon, size: 20),
-        color: Colors.white.withAlpha(200),
+        icon: Icon(icon, size: iconSize),
+        color: Colors.black,
         onPressed: onPressed,
       ),
     );

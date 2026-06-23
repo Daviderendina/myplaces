@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../features/collections/models/collection.dart';
-
 class AppTheme {
   static ThemeData get light => ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: Colors.white,
-    primaryColor: _LightColors().primary,
+    colorScheme: ColorScheme.light(
+      primary: _LightColors().primary,
+      onPrimary: _LightColors().onPrimary,
+    ),
     disabledColor: _LightColors().inactiveItemColor,
     textTheme: _textLight,
-    appBarTheme: AppBarTheme(backgroundColor: Colors.transparent),
+    appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: _LightColors().primary,
@@ -17,15 +18,27 @@ class AppTheme {
       showSelectedLabels: true,
       showUnselectedLabels: false,
       type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: TextStyle(fontSize: 13),
+      selectedLabelStyle: const TextStyle(fontSize: 13),
     ),
     searchBarTheme: SearchBarThemeData(
       elevation: WidgetStateProperty.all(0),
-      backgroundColor: WidgetStateProperty.all(_LightColors().inputBackgroundColor),
+      backgroundColor: WidgetStateProperty.all(
+        _LightColors().inputBackgroundColor,
+      ),
       constraints: const BoxConstraints(minHeight: 0),
       shape: WidgetStateProperty.all(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(MainRadius.medium)),
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(MainRadius.medium),
+        ),
       ),
+    ),
+    cardTheme: const CardThemeData(
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(MainRadius.small)),
+      ),
+      clipBehavior: Clip.antiAlias,
     ),
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -39,28 +52,51 @@ class AppTheme {
     ),
   );
 
-  static TextTheme get _textLight => const TextTheme(
-    headlineLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
-    headlineMedium: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, color: Colors.black),
-    headlineSmall: TextStyle(
+  static TextTheme get _textLight => TextTheme(
+    displayLarge: const TextStyle(
+      fontSize: 36,
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+    ),
+    displayMedium: const TextStyle(
+      fontSize: 30,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+    ),
+    displaySmall: const TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w400,
       color: Colors.black,
-    ), // Page subtitle
+    ),
+    // Page subtitle
     // titleLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
-    titleMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),
+    titleMedium: const TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w500,
+      color: Colors.black,
+    ),
     // titleSmall: TextStyle(
     //   fontSize: 18,
     //   fontWeight: FontWeight.w400,
     //   color: Colors.black,
     // ), // Page subtitle
     // bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black),
-    // bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black),
-    // labelLarge: TextStyle(
-    //   fontSize: 14,
-    //   fontWeight: FontWeight.w600,
-    //   color: Colors.black,
-    // ),
+    bodyMedium: const TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+    ),
+    bodySmall: TextStyle(
+      fontSize: 13,
+      height: 1.2,
+      fontWeight: FontWeight.w400,
+      color: _LightColors().bodyTextColor,
+    ),
+    labelLarge: const TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+    ),
   );
 }
 
@@ -75,11 +111,17 @@ abstract class MainColors {
 
   Color get primary;
 
+  Color get onPrimary;
+
   Color get inactiveItemColor;
 
   Color get inputBackgroundColor;
 
-  Color get inputTextHintColor; // TODO valutare se farlo confluire in un valore piu generico
+  Color get inputTextHintColor;
+
+  // TODO valutare se farlo confluire in un valore piu generico
+
+  Color get bodyTextColor;
 }
 
 class _LightColors extends MainColors {
@@ -89,6 +131,9 @@ class _LightColors extends MainColors {
   Color get primary => Colors.black;
 
   @override
+  Color get onPrimary => Colors.white;
+
+  @override
   Color get inactiveItemColor => Color.fromARGB(100, 205, 205, 205);
 
   @override
@@ -96,4 +141,7 @@ class _LightColors extends MainColors {
 
   @override
   Color get inputTextHintColor => Color.fromARGB(255, 170, 170, 170);
+
+  @override
+  Color get bodyTextColor => Color.fromARGB(255, 57, 57, 57);
 }

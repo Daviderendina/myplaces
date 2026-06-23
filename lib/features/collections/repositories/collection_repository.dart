@@ -38,11 +38,38 @@ class CollectionRepository {
             name: "Museo del Cairo",
             coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
           ),
-          Poi(id: "3", name: "Creta", coordinates: Coordinates(latitude: 0.123, longitude: 0.123)),
+          Poi(
+            id: "3",
+            name: "Creta",
+            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+          ),
+          Poi(
+            id: "3",
+            name: "Creta",
+            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+          ),
+          Poi(
+            id: "3",
+            name: "Creta",
+            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+          ),
+          Poi(
+            id: "3",
+            name: "Creta",
+            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+          ),
         ],
       ),
-      Collection(id: '2', name: 'Da visitare', emoji: await MyEmoji.create('✈️')),
-      Collection(id: '3', name: 'Ristoranti di pesce', emoji: await MyEmoji.create('🐟')),
+      Collection(
+        id: '2',
+        name: 'Da visitare',
+        emoji: await MyEmoji.create('✈️'),
+      ),
+      Collection(
+        id: '3',
+        name: 'Ristoranti di pesce',
+        emoji: await MyEmoji.create('🐟'),
+      ),
       Collection(id: '4', name: 'Parchi', emoji: await MyEmoji.create('🌳')),
     ];
     return _cache;

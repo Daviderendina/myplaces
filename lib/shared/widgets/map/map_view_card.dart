@@ -7,12 +7,15 @@ class MapViewCard extends StatelessWidget {
   final MapController controller;
   final List<Marker> Function() markerBuilder;
 
-  const MapViewCard({super.key, required this.controller, required this.markerBuilder});
+  const MapViewCard({
+    super.key,
+    required this.controller,
+    required this.markerBuilder,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppLayout.map.cardRadius(context)),
+    return Card(
       child: SizedBox(
         height: AppLayout.map.cardHeight(context),
         child: MapView(controller: controller, markerBuilder: markerBuilder),

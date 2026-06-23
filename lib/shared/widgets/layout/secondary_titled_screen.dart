@@ -34,13 +34,13 @@ class SecondaryTitledScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                spacing: AppLayout.getSmallHorizontalSpace(context),
+                spacing: AppLayout.space.getHorizontalSmall(context),
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.arrow_back, size: 25),
                     padding: EdgeInsets.symmetric(vertical: height * .0085),
-                    // TODO mettere  nel layout
-                    child: Icon(Icons.arrow_back, size: 25),
                   ),
                   Expanded(
                     child: Column(
@@ -49,25 +49,40 @@ class SecondaryTitledScreen extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: Theme.of(context).textTheme.headlineMedium,
+                          style: Theme.of(context).textTheme.displayMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         if (subtitle != null)
-                          Text(subtitle!, style: Theme.of(context).textTheme.headlineSmall),
+                          Text(
+                            subtitle!,
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
                       ],
                     ),
                   ),
-                  ?action,
+                  if (action != null) action!,
                 ],
               ),
-
-              SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
-              if (searchBar != null) ...[
-                searchBar!,
-                SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
-              ],
-              Expanded(child: child),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: AppLayout.getMediumVerticalSpace(context),
+                      ),
+                      if (searchBar != null) ...[
+                        searchBar!,
+                        SizedBox(
+                          height: AppLayout.getMediumVerticalSpace(context),
+                        ),
+                      ],
+                      child,
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

@@ -8,6 +8,7 @@ import 'package:myplaces/shared/widgets/map/map_view_card.dart';
 import '../../../core/constants/AppLayout.dart';
 import '../../../shared/widgets/app_search_bar.dart';
 import '../models/collection.dart';
+import 'widgets/collection_detail_card.dart';
 
 class CollectionDetailScreen extends StatelessWidget {
   final Collection collection;
@@ -21,7 +22,11 @@ class CollectionDetailScreen extends StatelessWidget {
     return SecondaryTitledScreen(
       title: collection.name,
       subtitle: "${collection.pois.length} places saved",
-      searchBar: GenericSearchBar(hintText: 'Cerca luoghi...', onSearch: (query) {}),
+      searchBar: GenericSearchBar(
+        // TODO ma serve?
+        hintText: 'Cerca luoghi...',
+        onSearch: (query) {},
+      ),
       action: CircledEmoji(collection: collection),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,21 +34,15 @@ class CollectionDetailScreen extends StatelessWidget {
         children: [
           MapViewCard(controller: controller, markerBuilder: () => []),
           Text("Places", style: Theme.of(context).textTheme.titleMedium),
-          GridView.builder(
+          ListView.separated(
             shrinkWrap: true,
-            // Necessario dentro una Column
             physics: const NeverScrollableScrollPhysics(),
-            // La Column è dentro uno scroll di sistema
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: AppLayout.getSmallHorizontalSpace(context),
-              mainAxisSpacing: AppLayout.getSmallVerticalSpace(context),
-              childAspectRatio: 1.4, // Aspect ratio tipico delle card in foto
-            ),
             itemCount: collection.pois.length,
+            separatorBuilder: (context, index) =>
+                SizedBox(height: AppLayout.getSmallVerticalSpace(context)),
             itemBuilder: (context, index) {
               final poi = collection.pois[index];
-              return Container(height: 5, color: Colors.red, child: Text(poi.name));
+              return CollectionDetailCard(poi: poi);
             },
           ),
         ],

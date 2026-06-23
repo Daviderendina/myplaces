@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
+// TODO se questo venisse inizializzato una volta e vasta forse poi diventa piu veloce
 abstract class AppLayout {
   static final form = _FormLayout();
   static final map = _Map();
+  static final collection = _Collection();
+  static final space = _Space();
+  static final button = _Button();
+  static final icon = _Icon();
 
   // Get the padding for the fullscreen modal page
   static EdgeInsets getFullscreenModalPadding(BuildContext context) {
@@ -28,40 +33,73 @@ abstract class AppLayout {
     left: MediaQuery.of(context).size.width * 0.05,
     right: MediaQuery.of(context).size.width * 0.05,
   );
-
-  static double getSmallHorizontalSpace(BuildContext context) =>
-      MediaQuery.of(context).size.width * .035;
 }
 
 abstract class _Radius {
   static final medium = 12.0;
 }
 
-class _FormLayout {
-  // Form horizontal spacing
-  final double _titleSpacingMultiplier = .029; // Space between the tiel and the rest of the form
-  final double _subtitleSpacingMultiplier = .010; // Space between subtitle and the form input
-  final double _fieldSpacingMultiplier = .023; // Space between field and the next subtitle
+class _Space {
+  double getVerticalSmall(BuildContext context) =>
+      MediaQuery.of(context).size.height * .01;
 
+  double getVerticalMedium(BuildContext context) =>
+      MediaQuery.of(context).size.height * .025;
+
+  double getHorizontalMedium(BuildContext context) =>
+      MediaQuery.of(context).size.width * .055;
+
+  double getHorizontalSmall(BuildContext context) =>
+      MediaQuery.of(context).size.width * .035;
+
+  double getHorizontalXSmall(BuildContext context) =>
+      MediaQuery.of(context).size.width * .015;
+}
+
+class _FormLayout {
   // Form padding
   final double fieldInternalPaddingMultiplier = 0.015;
 
   double getTitleSpacing(BuildContext context) =>
-      MediaQuery.of(context).size.height * _titleSpacingMultiplier;
+      MediaQuery.of(context).size.height * .029;
 
   double getSubtitleSpacing(BuildContext context) =>
-      MediaQuery.of(context).size.height * _subtitleSpacingMultiplier;
+      MediaQuery.of(context).size.height * .010;
 
   double getFieldSpacing(BuildContext context) =>
-      MediaQuery.of(context).size.height * _fieldSpacingMultiplier;
+      MediaQuery.of(context).size.height * .023;
 
-  EdgeInsets getFieldInternalMapping(BuildContext context) => EdgeInsets.symmetric(
-    horizontal: MediaQuery.of(context).size.width * fieldInternalPaddingMultiplier,
-  );
+  EdgeInsets getFieldInternalMapping(BuildContext context) =>
+      EdgeInsets.symmetric(
+        horizontal:
+            MediaQuery.of(context).size.width * fieldInternalPaddingMultiplier,
+      );
 }
 
 class _Map {
-  double cardHeight(BuildContext context) => MediaQuery.of(context).size.height * 0.25;
+  double cardHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height * 0.25;
 
   double cardRadius(BuildContext context) => _Radius.medium;
+}
+
+class _Collection {
+  final card = _CollectionCard();
+}
+
+class _CollectionCard {
+  double height(BuildContext context) =>
+      MediaQuery.of(context).size.height * .08;
+
+  double width(BuildContext context) => MediaQuery.of(context).size.width * .14;
+}
+
+class _Button {
+  double getLargeHeight(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * 0.05;
+}
+
+class _Icon {
+  double getMediumSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .022;
 }

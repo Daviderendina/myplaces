@@ -30,14 +30,19 @@ class MainTitledScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(title, style: Theme.of(context).textTheme.headlineLarge),
+                Text(title, style: Theme.of(context).textTheme.displayLarge),
                 Spacer(),
                 ?action,
               ],
             ),
 
             if (subtitle != null) ...[
-              Text(subtitle!, style: Theme.of(context).textTheme.titleSmall?.copyWith(height: 1)),
+              Text(
+                subtitle!,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(height: 1),
+              ),
               SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
             ],
             if (searchBar != null) ...[

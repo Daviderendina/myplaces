@@ -66,7 +66,10 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Navigator.pop(context),
+              ),
               Expanded(
                 child: Padding(
                   padding: AppLayout.getFullscreenModalPadding(context),
@@ -75,9 +78,8 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
                     children: [
                       Text(
                         'Nuova Collezione',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.displayMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
 
                       SizedBox(height: AppLayout.form.getTitleSpacing(context)),
@@ -94,13 +96,18 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
                         label: "List emoji",
                         child: MyEmojiPicker(
                           height: height * .45,
-                          onEmojiSelected: (emoji) => controller.setValues(emoji: emoji),
+                          onEmojiSelected: (emoji) =>
+                              controller.setValues(emoji: emoji),
                         ),
                       ),
 
                       const Spacer(),
 
-                      AppButton(text: 'SALVA', isLoading: state.isSaving, onPressed: _handleSave),
+                      AppButton(
+                        text: 'SALVA',
+                        isLoading: state.isSaving,
+                        onPressed: _handleSave,
+                      ),
                     ],
                   ),
                 ),
