@@ -7,6 +7,8 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: _LightColors().primary,
       onPrimary: _LightColors().onPrimary,
+      surfaceContainer: _LightColors().surfaceContainer,
+      onSurfaceVariant: _LightColors().onSurfaceVariant,
     ),
     disabledColor: _LightColors().inactiveItemColor,
     textTheme: _textLight,
@@ -122,6 +124,10 @@ abstract class MainColors {
   // TODO valutare se farlo confluire in un valore piu generico
 
   Color get bodyTextColor;
+
+  Color get surfaceContainer;
+
+  Color get onSurfaceVariant;
 }
 
 class _LightColors extends MainColors {
@@ -144,4 +150,10 @@ class _LightColors extends MainColors {
 
   @override
   Color get bodyTextColor => Color.fromARGB(255, 57, 57, 57);
+
+  @override
+  Color get surfaceContainer => Color.fromARGB(255, 221, 221, 221);
+
+  @override
+  Color get onSurfaceVariant => Color.fromARGB(255, 126, 126, 126);
 }

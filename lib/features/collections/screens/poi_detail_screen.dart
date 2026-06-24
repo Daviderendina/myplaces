@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/models/poi.dart';
-import 'package:myplaces/shared/widgets/app_button.dart';
 import 'package:myplaces/shared/widgets/large_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
 import 'package:myplaces/shared/widgets/icon_text_row.dart';
@@ -62,13 +61,14 @@ class PoiDetailScreen extends ConsumerWidget {
 
               SizedBox(height: AppLayout.space.getVerticalSmall(context)),
 
-              IconTextRow(icon: Icons.location_on, text: "Location info"),
-              IconTextRow(icon: Icons.nature, text: "Mountain"),
-              IconTextRow(icon: Icons.star, text: "4.5"),
-              IconTextRow(icon: Icons.access_time, text: "Opening hours"),
+              IconTextRow(
+                icon: Icons.location_on_outlined,
+                text:
+                    "${displayPoi.coordinates.latitude}, ${displayPoi.coordinates.longitude}",
+              ),
 
               // Additional info
-              SizedBox(height: AppLayout.space.getHorizontalSmall(context)),
+              SizedBox(height: AppLayout.space.getVerticalSmall(context)),
 
               // Notes
               Text("Notes", style: Theme.of(context).textTheme.headlineSmall),
@@ -79,8 +79,8 @@ class PoiDetailScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
 
-              Spacer(),
-              AppButton(text: "Add to List", onPressed: () {}),
+              const Spacer(),
+              LargeButton(text: "Add to List", onPressed: () {}),
             ],
           ),
         ),

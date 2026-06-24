@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/collections/controllers/add_collection_controller.dart';
-import 'package:myplaces/shared/widgets/app_button.dart';
+import 'package:myplaces/shared/widgets/large_button.dart';
 import 'package:myplaces/shared/widgets/app_snack_bar.dart';
 import 'package:myplaces/shared/widgets/form/app_text_field.dart';
 import 'package:myplaces/shared/widgets/form/generic_form_field.dart';
@@ -103,7 +103,7 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
 
                       const Spacer(),
 
-                      AppButton(
+                      LargeButton(
                         text: 'SALVA',
                         isLoading: state.isSaving,
                         onPressed: _handleSave,

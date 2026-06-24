@@ -100,6 +100,6 @@ class _Button {
 }
 
 class _Icon {
-  double getMediumSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .022;
+  double getSmallSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .020;
 }

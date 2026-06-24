@@ -20,11 +20,11 @@ class CircularIconButton extends StatelessWidget {
       width: size,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(80),
-        color: Colors.white.withAlpha(100),
+        color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(100),
       ),
       child: IconButton(
         icon: Icon(icon, size: iconSize),
-        color: Colors.black,
+        color: Theme.of(context).colorScheme.primary,
         onPressed: onPressed,
       ),
     );
