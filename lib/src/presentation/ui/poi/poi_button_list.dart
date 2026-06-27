@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/features/collections/screens/select_collection_modal.dart';
 
 import '../../../domain/default_lists.dart';
 import '../../../../logger.dart';
 import '../list/visual_symbol_visualizer.dart';
-import '../list/select_list_page.dart';
 import '../../../providers.dart';
 import '../../../domain/my_list.dart';
 
@@ -21,7 +21,9 @@ class PoiButtonList extends ConsumerWidget {
           data: (lists) {
             final poi = ref.watch(selectedPoiControllerProvider);
 
-            List<MyList> defaultLists = lists.where((l) => l.isDefault).toList();
+            List<MyList> defaultLists = lists
+                .where((l) => l.isDefault)
+                .toList();
 
             final controller = ref.read(selectedPoiControllerProvider.notifier);
 
@@ -38,7 +40,10 @@ class PoiButtonList extends ConsumerWidget {
                       child: Center(
                         child: VisualSymbolVisualizer(
                           symbol: myList.visualSymbol,
-                          colored: poi!.lists.map((l) => l.id).toList().contains(myList.id),
+                          colored: poi!.lists
+                              .map((l) => l.id)
+                              .toList()
+                              .contains(myList.id),
                         ),
                       ),
                     ),
@@ -50,9 +55,17 @@ class PoiButtonList extends ConsumerWidget {
                 ActionChip(
                   backgroundColor: Colors.yellow.withAlpha(30),
                   onPressed: () {
-                    Navigator.of(
-                      context,
-                    ).push(MaterialPageRoute(builder: (context) => SelectListPage()));
+                    if (poi != null) {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => SelectCollectionModal(
+                          initialCollectionIds: poi.lists.map((l) => l.id.toString()).toList(),
+                        ),
+                      );
+                    }
                   },
                   label: Padding(
                     padding: EdgeInsets.all(isBig ? 8 : 6),
@@ -68,7 +81,9 @@ class PoiButtonList extends ConsumerWidget {
                   avatar: Icon(Icons.add, color: Colors.yellow.shade800),
                   elevation: 0,
                   pressElevation: 0,
-                  shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
+                  shape: const StadiumBorder(
+                    side: BorderSide(color: Colors.transparent),
+                  ),
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
                 ),
               ],

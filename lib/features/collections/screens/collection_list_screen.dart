@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/collections/controllers/collections_state.dart';
 import 'package:myplaces/features/collections/screens/add_collection_modal.dart';
 import 'package:myplaces/features/collections/screens/widgets/collection_list_tile.dart';
+import 'package:myplaces/shared/widgets/circled_icon_button.dart';
 import 'package:myplaces/shared/widgets/app_search_bar.dart';
 import 'package:myplaces/shared/widgets/layout/main_titled_screen.dart';
 import '../providers.dart';
@@ -26,7 +28,8 @@ class CollectionsScreen extends ConsumerWidget {
               ? "${data.displayedCollections.length} collections found"
               : "${data.allCollections.length} collections saved",
         ),
-        action: IconButton(
+        action: CircledIconButton(
+          icon: Icons.add_circle_rounded,
           onPressed: () {
             showModalBottomSheet(
               context: context,
@@ -36,7 +39,6 @@ class CollectionsScreen extends ConsumerWidget {
               builder: (context) => AddCollectionModal(),
             );
           },
-          icon: const Icon(Icons.add_circle_rounded),
         ),
         searchBar: GenericSearchBar(
           hintText: 'Cerca collezioni...',
@@ -68,11 +70,15 @@ class CollectionsScreen extends ConsumerWidget {
             return ListView.separated(
               //padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16), TODO fare qualcosa in comune con l'altra
               itemCount: collections.displayedCollections.length,
-              separatorBuilder: (context, index) => const Divider(),
+              separatorBuilder: (context, index) =>
+                  SizedBox(height: AppLayout.space.getVerticalSmall(context)),
               itemBuilder: (context, index) {
                 final collection = collections.displayedCollections[index];
 
-                return CollectionListTile(collection: collection);
+                return CollectionListTile(
+                  collection: collection,
+                  //isDisabled: true,
+                );
               },
             );
           },

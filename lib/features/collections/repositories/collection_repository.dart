@@ -1,6 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/models/poi.dart';
 
 import '../models/collection.dart';
@@ -26,38 +33,34 @@ class CollectionRepository {
           Poi(
             id: "0",
             name: "Cimone di Margno",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+            coordinates: LatLng(45.853, 9.390),
           ),
           Poi(
             id: "1",
             name: "Passo del Berlina",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+            coordinates: LatLng(45.853, 9.390),
           ),
           Poi(
             id: "2",
             name: "Museo del Cairo",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+            coordinates: LatLng(45.853, 9.390),
           ),
-          Poi(
-            id: "3",
-            name: "Creta",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
-          ),
-          Poi(
-            id: "3",
-            name: "Creta",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
-          ),
-          Poi(
-            id: "3",
-            name: "Creta",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
-          ),
-          Poi(
-            id: "3",
-            name: "Creta",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
-          ),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(44.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
         ],
       ),
       Collection(

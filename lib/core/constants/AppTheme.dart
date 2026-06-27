@@ -10,13 +10,13 @@ class AppTheme {
       surfaceContainer: _LightColors().surfaceContainer,
       onSurfaceVariant: _LightColors().onSurfaceVariant,
     ),
-    disabledColor: _LightColors().inactiveItemColor,
+    disabledColor: _LightColors().disabledColor,
     textTheme: _textLight,
     appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: _LightColors().primary,
-      unselectedItemColor: _LightColors().inactiveItemColor,
+      unselectedItemColor: _LightColors().disabledColor,
       showSelectedLabels: true,
       showUnselectedLabels: false,
       type: BottomNavigationBarType.fixed,
@@ -72,16 +72,22 @@ class AppTheme {
     ),
     // Page subtitle
     // titleLarge: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
+    headlineSmall: const TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+    ),
     titleMedium: const TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w500,
       color: Colors.black,
     ),
     // titleSmall: TextStyle(
-    //   fontSize: 18,
+    //   fontSize: 14,
     //   fontWeight: FontWeight.w400,
     //   color: Colors.black,
-    // ), // Page subtitle
+    // ),
+    // Page subtitle
     // bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black),
     bodyMedium: const TextStyle(
       fontSize: 16,
@@ -115,7 +121,7 @@ abstract class MainColors {
 
   Color get onPrimary;
 
-  Color get inactiveItemColor;
+  Color get disabledColor;
 
   Color get inputBackgroundColor;
 
@@ -140,7 +146,7 @@ class _LightColors extends MainColors {
   Color get onPrimary => Colors.white;
 
   @override
-  Color get inactiveItemColor => Color.fromARGB(100, 205, 205, 205);
+  Color get disabledColor => Color.fromARGB(100, 170, 170, 170);
 
   @override
   Color get inputBackgroundColor => Color.fromARGB(100, 227, 227, 227);

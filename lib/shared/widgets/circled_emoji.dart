@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:myplaces/core/constants/AppLayout.dart';
 import '../../../features/collections/models/collection.dart';
 
 class CircledEmoji extends StatelessWidget {
   final Collection collection;
   final bool addBorder;
+  final bool isDisabled;
 
-  const CircledEmoji({super.key, required this.collection, this.addBorder = false});
+  const CircledEmoji({
+    super.key,
+    required this.collection,
+    this.addBorder = false,
+    this.isDisabled = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = collection.emoji.color.withValues(alpha: 0.17);
-    final borderColor = collection.emoji.color.withValues(alpha: 0.4);
+    final color = isDisabled
+        ? Theme.of(context).disabledColor
+        : collection.emoji.color;
 
     var width = MediaQuery.sizeOf(context).width;
 
@@ -24,13 +32,25 @@ class CircledEmoji extends StatelessWidget {
       height: diameter,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: color.withValues(alpha: .1),
         shape: BoxShape.circle,
-        border: addBorder ? Border.all(color: borderColor, width: 1.0) : null,
+        border: addBorder
+            ? Border.all(color: color.withValues(alpha: .40), width: 1.0)
+            : null,
       ),
       child: Padding(
         padding: EdgeInsets.all(internalPadding),
-        child: Text(collection.emoji.value, style: TextStyle(fontSize: size, height: 1)),
+        child: Opacity(
+          opacity: isDisabled ? 0.1 : 1.0,
+          // Riduciamo l'opacità dell'emoji se disabilitato
+          child: Text(
+            collection.emoji.value,
+            style: TextStyle(
+              fontSize: AppLayout.emoji.getSmallSize(context),
+              height: 1,
+            ),
+          ),
+        ),
       ),
     );
   }

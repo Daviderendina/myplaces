@@ -8,6 +8,10 @@ abstract class AppLayout {
   static final space = _Space();
   static final button = _Button();
   static final icon = _Icon();
+  static final bottomSheet = _BottomSheet();
+  static final emoji = _Emoji();
+
+  //  static final collectionDetailHeader = _CollectionDetailHeader();
 
   // Get the padding for the fullscreen modal page
   static EdgeInsets getFullscreenModalPadding(BuildContext context) {
@@ -101,5 +105,34 @@ class _Button {
 
 class _Icon {
   double getSmallSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .020;
+      MediaQuery.sizeOf(context).height * .02;
+
+  double getMediumSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .03;
+
+  double getLargeSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .04;
+}
+
+class _BottomSheet {
+  double getRadius(BuildContext context) =>
+      MediaQuery.sizeOf(context).width * .08;
+
+  EdgeInsets getPadding(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return EdgeInsets.only(
+      top: size.height * 0.015,
+      left: size.width * .01,
+      right: size.width * .01,
+    );
+  }
+}
+
+class _Emoji {
+  double getSmallSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .02;
+
+  double getMediumSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .025;
 }

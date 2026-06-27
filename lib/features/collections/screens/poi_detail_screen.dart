@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/models/poi.dart';
+import 'package:myplaces/features/collections/screens/select_collection_modal.dart';
 import 'package:myplaces/shared/widgets/large_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
 import 'package:myplaces/shared/widgets/icon_text_row.dart';
@@ -28,7 +30,7 @@ class PoiDetailScreen extends ConsumerWidget {
         Poi(
           id: "0",
           name: "Cimone di Margno",
-          coordinates: const Coordinates(latitude: 45.123, longitude: 9.123),
+          coordinates: const LatLng(45.123, 9.123),
         );
 
     return Scaffold(
@@ -80,7 +82,23 @@ class PoiDetailScreen extends ConsumerWidget {
               ),
 
               const Spacer(),
-              LargeButton(text: "Add to List", onPressed: () {}),
+              LargeButton(
+                text: "Add to List",
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const SelectCollectionModal(
+                      initialCollectionIds: [
+                        "1",
+                        "3",
+                      ], // Pass appropriate IDs here
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

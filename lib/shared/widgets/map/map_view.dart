@@ -10,6 +10,7 @@ class MapView extends StatefulWidget {
   final MarkerBuilder markerBuilder;
   final LatLng? initialCenter;
   final double? initialZoom;
+  final EdgeInsets? cameraPadding;
 
   const MapView({
     super.key,
@@ -17,6 +18,7 @@ class MapView extends StatefulWidget {
     required this.markerBuilder,
     this.initialCenter,
     this.initialZoom,
+    this.cameraPadding,
   });
 
   @override
@@ -68,7 +70,7 @@ class _MapViewState extends State<MapView> {
   }
 
   void _maybeFitMap(List<Marker> markers, {bool force = false}) {
-    if (!_mapReady) return;
+    if (!_mapReady || markers.isEmpty) return;
 
     final points = markers.map((m) => m.point).toList();
 
@@ -77,7 +79,7 @@ class _MapViewState extends State<MapView> {
     _lastPoints = points;
 
     Future.microtask(() {
-      _fitToPoints(points);
+      if (mounted) _fitToPoints(points);
     });
   }
 
@@ -92,19 +94,17 @@ class _MapViewState extends State<MapView> {
   void _fitToPoints(List<LatLng> points) {
     if (points.isEmpty) return;
 
+    final padding = widget.cameraPadding ?? const EdgeInsets.all(48);
+
+    LatLngBounds bounds;
     if (points.length == 1) {
-      widget.controller.move(points.first, _defaultZoom);
-      return;
+      bounds = LatLngBounds(points.first, points.first);
+    } else {
+      bounds = _boundsFromPoints(points);
     }
 
-    final bounds = _boundsFromPoints(points);
-
     widget.controller.fitCamera(
-      CameraFit.bounds(
-        bounds: bounds,
-        padding: const EdgeInsets.all(48),
-        maxZoom: 16,
-      ),
+      CameraFit.bounds(bounds: bounds, padding: padding, maxZoom: 14),
     );
   }
 
