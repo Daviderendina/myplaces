@@ -5,8 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:material_floating_search_bar_plus/material_floating_search_bar_plus.dart';
 import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 import 'package:myplaces/src/presentation/ui/map/poi_bottom_sheet.dart';
-import 'package:myplaces/src/presentation/ui/map/select_visible_lists_button.dart';
-import 'package:myplaces/logger.dart';
+import 'package:myplaces/features/map/screens/widgets/select_visible_lists_button.dart';
 
 import '../../../../../src/domain/poi.dart';
 import '../../../domain/my_list.dart';
@@ -18,7 +17,8 @@ import 'mysearchbar.dart';
 
 class MapPage extends ConsumerWidget {
   final MapController mapController = MapController();
-  final FloatingSearchBarController searchBarController = FloatingSearchBarController();
+  final FloatingSearchBarController searchBarController =
+      FloatingSearchBarController();
 
   MapPage({super.key});
 
@@ -37,12 +37,19 @@ class MapPage extends ConsumerWidget {
           markerBuilder: () {
             return lists.when(
               data: (data) {
-                List<Marker> markers = buildShowedListsMarkers(context, data, ref);
+                List<Marker> markers = buildShowedListsMarkers(
+                  context,
+                  data,
+                  ref,
+                );
                 if (poi != null &&
                     state.showPoiMarker &&
                     markers.where((l) => l.point == poi.coordinates).isEmpty) {
                   markers.add(
-                    SelectedPoiMarker.build(poi: poi, onTap: () => showPoiModal(context)),
+                    SelectedPoiMarker.build(
+                      poi: poi,
+                      onTap: () => showPoiModal(context),
+                    ),
                   );
                 }
 
@@ -51,16 +58,6 @@ class MapPage extends ConsumerWidget {
               loading: () => [],
               error: (_, _) => [],
             );
-
-            if (poi != null && state.showPoiMarker) {
-              return [SelectedPoiMarker.build(poi: poi, onTap: () => showPoiModal(context))];
-            } else {
-              return lists.when(
-                data: (data) => buildShowedListsMarkers(context, data, ref),
-                loading: () => [],
-                error: (_, _) => [],
-              );
-            }
           },
         ),
 
@@ -74,7 +71,11 @@ class MapPage extends ConsumerWidget {
     );
   }
 
-  Future<void> showPoiOnMap(BuildContext context, WidgetRef ref, Poi poi) async {
+  Future<void> showPoiOnMap(
+    BuildContext context,
+    WidgetRef ref,
+    Poi poi,
+  ) async {
     ref.read(selectedPoiControllerProvider.notifier).selectNewPoi(poi);
 
     showPoiModal(context);
@@ -98,7 +99,10 @@ class MapPage extends ConsumerWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 21),
-              child: Material(color: Colors.transparent, child: PoiBottomSheet()),
+              child: Material(
+                color: Colors.transparent,
+                child: PoiBottomSheet(),
+              ),
             ),
           ),
         );
@@ -106,7 +110,11 @@ class MapPage extends ConsumerWidget {
     );
   }
 
-  List<Marker> buildShowedListsMarkers(BuildContext context, List<MyList> lists, WidgetRef ref) {
+  List<Marker> buildShowedListsMarkers(
+    BuildContext context,
+    List<MyList> lists,
+    WidgetRef ref,
+  ) {
     return lists
         .where((l) => l.visibleOnMap) //TODO spostare da qui il filtro
         .expand((list) {

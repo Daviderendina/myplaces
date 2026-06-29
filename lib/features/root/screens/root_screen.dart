@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/features/collections/screens/collection_list_screen.dart';
 import 'package:myplaces/features/trips/screens/trips_screen.dart';
+import '../../map/screens/main_map_screen.dart';
 import '../provider.dart';
 
 class RootScreen extends ConsumerWidget {
@@ -20,15 +21,21 @@ class RootScreen extends ConsumerWidget {
       extendBody: true,
       body: IndexedStack(
         index: rootState.selectedIndex,
-        children: const [
-          Center(child: Text('Map Screen')),
+        children: [
+          //TODO const
+          MainMapScreen(),
           CollectionsScreen(),
           TripsScreen(),
           Center(child: Text('Profile Screen')),
         ],
       ),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.fromLTRB(width * 0.05, 0, width * 0.05, height * 0.03),
+        margin: EdgeInsets.fromLTRB(
+          width * 0.05,
+          0,
+          width * 0.05,
+          height * 0.03,
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: BottomNavigationBar(

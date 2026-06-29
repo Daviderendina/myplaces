@@ -9,10 +9,12 @@ import '../../../providers.dart';
 class MySearchBar extends ConsumerWidget {
   final FloatingSearchBarController searchBarController;
   final Function(Poi poi) onResultTap;
+  final Widget? body;
 
   const MySearchBar({
     required this.searchBarController,
     required this.onResultTap,
+    this.body,
     super.key,
   });
 
@@ -22,6 +24,7 @@ class MySearchBar extends ConsumerWidget {
     final mapPageState = ref.watch(mapPageControllerProvider);
 
     return FloatingSearchBar(
+      body: body,
       actions: [
         mapPageState.showPoiMarker
             ? IconButton(

@@ -4,8 +4,8 @@ import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/collections/controllers/collections_state.dart';
 import 'package:myplaces/features/collections/screens/add_collection_modal.dart';
 import 'package:myplaces/features/collections/screens/widgets/collection_list_tile.dart';
-import 'package:myplaces/shared/widgets/circled_icon_button.dart';
 import 'package:myplaces/shared/widgets/app_search_bar.dart';
+import 'package:myplaces/shared/widgets/button/circular_icon_button.dart';
 import 'package:myplaces/shared/widgets/layout/main_titled_screen.dart';
 import '../providers.dart';
 
@@ -28,8 +28,9 @@ class CollectionsScreen extends ConsumerWidget {
               ? "${data.displayedCollections.length} collections found"
               : "${data.allCollections.length} collections saved",
         ),
-        action: CircledIconButton(
-          icon: Icons.add_circle_rounded,
+        action: CircularIconButton.primary(
+          icon: Icons.add,
+          size: AppLayout.button.getCircularMediumSize(context),
           onPressed: () {
             showModalBottomSheet(
               context: context,

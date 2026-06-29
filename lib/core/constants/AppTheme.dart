@@ -7,6 +7,7 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: _LightColors().primary,
       onPrimary: _LightColors().onPrimary,
+      surface: Colors.white,
       surfaceContainer: _LightColors().surfaceContainer,
       onSurfaceVariant: _LightColors().onSurfaceVariant,
     ),
@@ -14,7 +15,7 @@ class AppTheme {
     textTheme: _textLight,
     appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white.withValues(alpha: 0.80),
       selectedItemColor: _LightColors().primary,
       unselectedItemColor: _LightColors().disabledColor,
       showSelectedLabels: true,

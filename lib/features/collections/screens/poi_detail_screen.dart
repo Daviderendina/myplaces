@@ -4,7 +4,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/models/poi.dart';
 import 'package:myplaces/features/collections/screens/select_collection_modal.dart';
-import 'package:myplaces/shared/widgets/large_button.dart';
+import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
 import 'package:myplaces/shared/widgets/icon_text_row.dart';
 
@@ -82,7 +82,7 @@ class PoiDetailScreen extends ConsumerWidget {
               ),
 
               const Spacer(),
-              LargeButton(
+              TextAppButton(
                 text: "Add to List",
                 onPressed: () {
                   showModalBottomSheet(

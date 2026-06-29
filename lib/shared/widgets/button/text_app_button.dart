@@ -1,27 +1,51 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../core/constants/AppLayout.dart';
+import '../../../core/constants/AppLayout.dart';
 
-class LargeButton extends StatelessWidget {
+class TextAppButton extends StatefulWidget {
   final String text;
-  final VoidCallback? onPressed;
-  final bool isLoading;
+  final FutureOr<void> Function()? onPressed;
 
-  const LargeButton({
+  const TextAppButton({
     super.key,
     required this.text,
     this.onPressed,
-    this.isLoading = false,
   });
+
+  @override
+  State<TextAppButton> createState() => _TextAppButtonState();
+}
+
+class _TextAppButtonState extends State<TextAppButton> {
+  bool _isLoading = false;
+
+  Future<void> _handlePressed() async {
+    if (widget.onPressed == null || _isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await widget.onPressed!();
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return SizedBox(
       width: double.infinity,
       height: AppLayout.button.getLargeHeight(context),
       child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
+        onPressed: widget.onPressed == null || _isLoading ? null : _handlePressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: theme.colorScheme.primary,
           foregroundColor: theme.colorScheme.onPrimary,
@@ -32,7 +56,7 @@ class LargeButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: isLoading
+        child: _isLoading
             ? SizedBox(
                 height: 20,
                 width: 20,
@@ -42,7 +66,7 @@ class LargeButton extends StatelessWidget {
                 ),
               )
             : Text(
-                text,
+                widget.text,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/src/presentation/ui/common/note/note_box.dart';
-import '../../../../shared/widgets/circular_icon_button.dart';
 import '../../../tools/extension/title_case_extension.dart';
 import 'package:myplaces/src/presentation/ui/poi/poi_button_list.dart';
 
@@ -124,15 +123,15 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                     ),
                   ),
 
-                // Bottoni esistenti
-                Positioned(
-                  left: 8,
-                  top: 8,
-                  child: CircularIconButton(
-                    icon: Icons.arrow_back_outlined,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ),
+                // // Bottoni esistenti
+                // Positioned(
+                //   left: 8,
+                //   top: 8,
+                //   child: CircularIconButton(
+                //     icon: Icons.arrow_back_outlined,
+                //     onPressed: () => Navigator.of(context).pop(),
+                //   ),
+                // ),
               ],
             ),
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/src/tools/extension/title_case_extension.dart';
 
-import '../list/visual_symbol_visualizer.dart';
+import '../../../../src/presentation/ui/list/visual_symbol_visualizer.dart';
 
 class SelectListPopupItem extends StatefulWidget {
   final MyList myList;

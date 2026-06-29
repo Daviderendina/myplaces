@@ -41,6 +41,7 @@ abstract class AppLayout {
 
 abstract class _Radius {
   static final medium = 12.0;
+  static final large = 20.0;
 }
 
 class _Space {
@@ -101,6 +102,17 @@ class _CollectionCard {
 class _Button {
   double getLargeHeight(BuildContext context) =>
       MediaQuery.sizeOf(context).height * 0.05;
+
+  double getCircularSmallSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .038;
+
+  double getCircularMediumSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .045;
+
+  double getCircularLargeSize(BuildContext context) =>
+      MediaQuery.sizeOf(context).height * .055;
+
+  double getSquareButtonRadius(BuildContext context) => _Radius.large;
 }
 
 class _Icon {

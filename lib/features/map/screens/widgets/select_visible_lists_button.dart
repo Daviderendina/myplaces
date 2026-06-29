@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/domain/my_list.dart';
-import 'package:myplaces/src/presentation/ui/map/select_visible_lists_popup_item.dart';
-import '../../../providers.dart';
+import 'package:myplaces/features/map/screens/widgets/select_visible_lists_popup_item.dart';
+import '../../../../core/constants/AppLayout.dart';
+import '../../../../shared/widgets/button/circular_icon_button.dart';
+import '../../../../src/providers.dart';
 
 class SelectVisibleListsButton extends ConsumerWidget {
   const SelectVisibleListsButton({super.key});
@@ -73,14 +75,11 @@ class SelectVisibleListsButton extends ConsumerWidget {
           elevation: 0,
         );
       },
-      child: Container(
-        height: 54,
-        width: 54,
-        decoration: BoxDecoration(
-          color: Colors.teal.withAlpha(190),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Icon(Icons.filter_list_outlined, color: Colors.white, size: 23),
+      child: CircularIconButton.primary(
+        icon: Icons.filter_list_outlined,
+        size: AppLayout.button.getCircularLargeSize(context),
+        shape: CircularIconButtonShape.square,
+        onPressed: () {},
       ),
     );
   }

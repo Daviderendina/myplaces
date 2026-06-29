@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:myplaces/shared/widgets/button/circular_icon_button.dart';
 import 'package:myplaces/shared/widgets/map/map_view_screen.dart';
 import '../../../core/constants/AppLayout.dart';
 import '../../../shared/widgets/circled_emoji.dart';
-import '../../../shared/widgets/circled_icon_button.dart';
 import '../models/collection.dart';
 import 'widgets/collection_detail_card.dart';
 
@@ -174,11 +174,16 @@ class _CollectionHeaderDelegate extends SliverPersistentHeaderDelegate {
                   ],
                 ),
               ),
-              CircledIconButton(
-                icon: Icons.add_circle_rounded,
+              CircularIconButton.primary(
+                icon: Icons.add,
+                size: AppLayout.button.getCircularSmallSize(context),
                 onPressed: () {},
               ),
-              CircledIconButton(icon: Icons.close, onPressed: onClose),
+              CircularIconButton.transparent(
+                icon: Icons.close,
+                size: AppLayout.button.getCircularMediumSize(context),
+                onPressed: onClose,
+              ),
             ],
           ),
           Text(

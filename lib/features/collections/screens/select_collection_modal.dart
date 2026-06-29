@@ -4,15 +4,12 @@ import 'package:myplaces/features/collections/models/collection.dart';
 import 'package:myplaces/features/collections/models/emoji.dart';
 import 'package:myplaces/features/collections/screens/widgets/collection_list_tile.dart';
 import 'package:myplaces/shared/widgets/modal/base_fullscreen_modal.dart';
-import 'package:myplaces/shared/widgets/large_button.dart';
+import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 
 class SelectCollectionModal extends StatefulWidget {
   final List<String> initialCollectionIds;
 
-  const SelectCollectionModal({
-    super.key,
-    required this.initialCollectionIds,
-  });
+  const SelectCollectionModal({super.key, required this.initialCollectionIds});
 
   @override
   State<SelectCollectionModal> createState() => _SelectCollectionModalState();
@@ -74,9 +71,8 @@ class _SelectCollectionModalState extends State<SelectCollectionModal> {
           Expanded(
             child: ListView.separated(
               itemCount: _mockedCollections.length,
-              separatorBuilder: (context, index) => SizedBox(
-                height: AppLayout.getSmallVerticalSpace(context),
-              ),
+              separatorBuilder: (context, index) =>
+                  SizedBox(height: AppLayout.getSmallVerticalSpace(context)),
               itemBuilder: (context, index) {
                 final collection = _mockedCollections[index];
                 final isSelected = _selectedIds.contains(collection.id);
@@ -90,7 +86,7 @@ class _SelectCollectionModalState extends State<SelectCollectionModal> {
             ),
           ),
           SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
-          LargeButton(
+          TextAppButton(
             text: 'Save',
             onPressed: () {
               // Logic for saving selection will go here
