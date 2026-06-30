@@ -39,7 +39,7 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
 
     return Scaffold(
       body: Padding(
-        padding: AppLayout.getPagePadding(context),
+        padding: EdgeInsets.only(top: 16), //AppLayout.getPagePadding(context),
         //const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

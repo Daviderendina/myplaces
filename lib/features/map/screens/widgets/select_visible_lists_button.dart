@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/features/map/screens/widgets/select_visible_lists_popup_item.dart';
 import '../../../../core/constants/AppLayout.dart';
-import '../../../../shared/widgets/button/circular_icon_button.dart';
+import '../../../../shared/widgets/button/icon_app_button.dart';
 import '../../../../src/providers.dart';
 
 class SelectVisibleListsButton extends ConsumerWidget {
@@ -12,6 +12,7 @@ class SelectVisibleListsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listsAsync = ref.watch(listsControllerProvider);
+    // TODO menu
 
     return GestureDetector(
       onTap: () async {
@@ -39,7 +40,7 @@ class SelectVisibleListsButton extends ConsumerWidget {
             borderRadius: BorderRadius.circular(12.0),
           ),
           clipBehavior: Clip.antiAlias,
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             maxHeight: 300,
             minWidth: 1,
             maxWidth: 220,
@@ -75,10 +76,12 @@ class SelectVisibleListsButton extends ConsumerWidget {
           elevation: 0,
         );
       },
-      child: CircularIconButton.primary(
+      child: IconAppButton.primary(
         icon: Icons.filter_list_outlined,
-        size: AppLayout.button.getCircularLargeSize(context),
-        shape: CircularIconButtonShape.square,
+        buttonSize: AppLayout.buttons.circularLarge,
+        iconSize: AppLayout.icons.medium,
+        shape: IconAppShape.square,
+        backgroundAlpha: .80,
         onPressed: () {},
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:myplaces/shared/widgets/button/circular_icon_button.dart';
+import 'package:myplaces/shared/widgets/button/icon_app_button.dart';
 import 'package:myplaces/shared/widgets/map/map_view_screen.dart';
 import '../../../core/constants/AppLayout.dart';
 import '../../../shared/widgets/circled_emoji.dart';
@@ -65,13 +65,11 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
             maxChildSize: .96,
             builder: (context, scrollController) {
               return Container(
-                padding: AppLayout.bottomSheet.getPadding(context),
+                padding: AppLayout.modals.bottomSheetPadding,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: .95),
                   borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(
-                      AppLayout.bottomSheet.getRadius(context),
-                    ),
+                    top: Radius.circular(AppLayout.modals.bottomSheetRadius),
                   ),
                 ),
                 child: CustomScrollView(
@@ -95,11 +93,7 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
                           return Column(
                             children: [
                               CollectionDetailCard(poi: poi),
-                              SizedBox(
-                                height: AppLayout.getSmallVerticalSpace(
-                                  context,
-                                ),
-                              ),
+                              SizedBox(height: AppLayout.spaces.verticalSmall),
                             ],
                           );
                         }, childCount: widget.collection.pois.length),
@@ -148,7 +142,7 @@ class _CollectionHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
           ),
-          SizedBox(height: AppLayout.space.getVerticalSmall(context)),
+          SizedBox(height: AppLayout.spaces.verticalSmall),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -162,26 +156,25 @@ class _CollectionHeaderDelegate extends SliverPersistentHeaderDelegate {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    SizedBox(
-                      width: AppLayout.space.getHorizontalSmall(context),
-                    ),
+                    SizedBox(width: AppLayout.spaces.horizontalSmall),
                     Text(
                       collection.emoji.value,
-                      style: TextStyle(
-                        fontSize: AppLayout.emoji.getMediumSize(context),
-                      ),
+                      style: TextStyle(fontSize: AppLayout.icons.medium),
                     ),
                   ],
                 ),
               ),
-              CircularIconButton.primary(
+              IconAppButton.primary(
                 icon: Icons.add,
-                size: AppLayout.button.getCircularSmallSize(context),
+                buttonSize: AppLayout.buttons.circularSmall,
+                iconSize: AppLayout.icons.medium,
                 onPressed: () {},
               ),
-              CircularIconButton.transparent(
+              SizedBox(width: AppLayout.spaces.horizontalSmall),
+              IconAppButton.transparent(
                 icon: Icons.close,
-                size: AppLayout.button.getCircularMediumSize(context),
+                buttonSize: AppLayout.buttons.circularMedium,
+                iconSize: AppLayout.icons.medium,
                 onPressed: onClose,
               ),
             ],

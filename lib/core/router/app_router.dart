@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myplaces/features/collections/models/collection.dart';
 import 'package:myplaces/features/collections/screens/collection_detail_screen.dart';
-import 'package:myplaces/features/collections/screens/poi_detail_screen.dart';
+import 'package:myplaces/features/poi/screens/poi_detail_screen.dart';
 import 'package:myplaces/features/root/screens/root_screen.dart';
 import 'package:myplaces/core/models/poi.dart';
 

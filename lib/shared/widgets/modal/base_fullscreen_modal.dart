@@ -21,7 +21,7 @@ class BaseFullscreenModal extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: AppLayout.getFullscreenModalPadding(context),
+                padding: AppLayout.modals.fullscreenPadding,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -31,7 +31,7 @@ class BaseFullscreenModal extends StatelessWidget {
                         style: Theme.of(context).textTheme.displayMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: AppLayout.form.getTitleSpacing(context)),
+                      SizedBox(height: AppLayout.forms.titleSpacing),
                     ],
                     Expanded(child: child),
                   ],

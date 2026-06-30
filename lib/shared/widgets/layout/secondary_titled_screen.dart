@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/constants/AppLayout.dart';
 
 class SecondaryTitledScreen extends StatelessWidget {
@@ -18,29 +17,25 @@ class SecondaryTitledScreen extends StatelessWidget {
     this.searchBar,
   });
 
-  // TODO rivedere gli stili
-
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.sizeOf(context).height;
-
     return Scaffold(
       body: SafeArea(
         bottom: false,
         child: Padding(
-          padding: AppLayout.getPagePadding(context),
+          padding: AppLayout.geometry.pagePadding,
           child: Column(
             spacing: 0,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                spacing: AppLayout.space.getHorizontalSmall(context),
+                spacing: AppLayout.spaces.horizontalSmall,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.arrow_back, size: 25),
-                    padding: EdgeInsets.symmetric(vertical: height * .0085),
+                    padding: EdgeInsets.symmetric(vertical: AppLayout.screenHeight * .0085),
                   ),
                   Expanded(
                     child: Column(
@@ -69,14 +64,10 @@ class SecondaryTitledScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: AppLayout.getMediumVerticalSpace(context),
-                      ),
+                      SizedBox(height: AppLayout.spaces.verticalMedium),
                       if (searchBar != null) ...[
                         searchBar!,
-                        SizedBox(
-                          height: AppLayout.getMediumVerticalSpace(context),
-                        ),
+                        SizedBox(height: AppLayout.spaces.verticalMedium),
                       ],
                       child,
                     ],

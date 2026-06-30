@@ -68,7 +68,7 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
             hintText: 'Inserisci il nome della collezione',
             controller: _nameController,
           ),
-          SizedBox(height: AppLayout.form.getFieldSpacing(context)),
+          SizedBox(height: AppLayout.forms.fieldSpacing),
           GenericFormField(
             label: "List emoji",
             child: MyEmojiPicker(
@@ -77,10 +77,7 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
             ),
           ),
           const Spacer(),
-          TextAppButton(
-            text: 'SALVA',
-            onPressed: _handleSave,
-          ),
+          TextAppButton(text: 'SALVA', onPressed: _handleSave),
         ],
       ),
     );

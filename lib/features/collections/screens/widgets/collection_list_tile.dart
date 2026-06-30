@@ -18,48 +18,34 @@ class CollectionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     return InkWell(
       borderRadius: BorderRadius.circular(1000),
-      onTap:
-          onPressed ??
-          () => context.push('/collection-detail', extra: collection),
+      onTap: onPressed ?? () => context.push('/collection-detail', extra: collection),
       child: Row(
-        spacing: AppLayout.space.getHorizontalXSmall(context),
+        spacing: AppLayout.spaces.horizontalXSmall,
         children: [
           CircledEmoji(collection: collection, isDisabled: isDisabled),
-          SizedBox(width: AppLayout.space.getHorizontalXSmall(context)),
+          SizedBox(width: AppLayout.spaces.horizontalXSmall),
           Text(
             collection.name,
-            style: getStyle(
-              context,
-              Theme.of(context).textTheme.labelLarge,
-              isDisabled,
-            ),
+            style: _getStyle(theme.textTheme.labelLarge, theme.disabledColor),
           ),
           Text(
             "/",
-            style: getStyle(
-              context,
-              Theme.of(context).textTheme.labelSmall,
-              isDisabled,
-            ),
+            style: _getStyle(theme.textTheme.labelSmall, theme.disabledColor),
           ),
           Text(
             "${collection.pois.length} places",
-            style: getStyle(
-              context,
-              Theme.of(context).textTheme.labelSmall,
-              isDisabled,
-            ),
+            style: _getStyle(theme.textTheme.labelSmall, theme.disabledColor),
           ),
         ],
       ),
     );
   }
 
-  TextStyle? getStyle(BuildContext context, TextStyle? style, bool isDisabled) {
-    return isDisabled
-        ? style?.copyWith(color: Theme.of(context).disabledColor)
-        : style;
+  TextStyle? _getStyle(TextStyle? style, Color disabledColor) {
+    return isDisabled ? style?.copyWith(color: disabledColor) : style;
   }
 }

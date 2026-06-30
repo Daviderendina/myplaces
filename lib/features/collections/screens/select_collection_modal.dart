@@ -72,7 +72,7 @@ class _SelectCollectionModalState extends State<SelectCollectionModal> {
             child: ListView.separated(
               itemCount: _mockedCollections.length,
               separatorBuilder: (context, index) =>
-                  SizedBox(height: AppLayout.getSmallVerticalSpace(context)),
+                  SizedBox(height: AppLayout.spaces.verticalSmall),
               itemBuilder: (context, index) {
                 final collection = _mockedCollections[index];
                 final isSelected = _selectedIds.contains(collection.id);
@@ -85,7 +85,7 @@ class _SelectCollectionModalState extends State<SelectCollectionModal> {
               },
             ),
           ),
-          SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
+          SizedBox(height: AppLayout.spaces.verticalMedium),
           TextAppButton(
             text: 'Save',
             onPressed: () {

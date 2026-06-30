@@ -18,8 +18,9 @@ class CollectionDetailCard extends StatelessWidget {
         children: [
           Card(
             child: SizedBox(
-              width: AppLayout.collection.card.width(context),
-              height: AppLayout.collection.card.height(context),
+              // TODO si possono mettere direttamente qui dentro? essendo proprio e non geneirci, oppure li rendo generici
+              width: AppLayout.cards.collectionWidth,
+              height: AppLayout.cards.collectionHeight,
               child: Image.network(
                 imageUrl ?? 'https://picsum.photos/seed/${poi.id}/400/300',
                 fit: BoxFit.cover,
@@ -30,7 +31,7 @@ class CollectionDetailCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: AppLayout.space.getHorizontalSmall(context)),
+          SizedBox(width: AppLayout.spaces.horizontalSmall),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,150 +1,142 @@
 import 'package:flutter/cupertino.dart';
 
-// TODO se questo venisse inizializzato una volta e vasta forse poi diventa piu veloce
 abstract class AppLayout {
-  static final form = _FormLayout();
-  static final map = _Map();
-  static final collection = _Collection();
-  static final space = _Space();
-  static final button = _Button();
-  static final icon = _Icon();
-  static final bottomSheet = _BottomSheet();
-  static final emoji = _Emoji();
+  //TODO secondo me c'è da sistemare ancora qualcosa qui. Ad esempio, perchè ho un buttons ma anche un radius, se il radius è parametro del button?
+  static late double screenHeight;
+  static late double screenWidth;
 
-  //  static final collectionDetailHeader = _CollectionDetailHeader();
+  // Modules
+  static final spaces = _Spaces();
+  static final geometry = _Geometry();
+  static final buttons = _Buttons();
+  static final icons = _Icons();
+  static final cards = _Cards();
+  static final forms = _Forms();
+  static final modals = _Modals();
 
-  // Get the padding for the fullscreen modal page
-  static EdgeInsets getFullscreenModalPadding(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  static void init(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    screenHeight = size.height;
+    screenWidth = size.width;
 
-    return EdgeInsets.fromLTRB(
-      size.width * .05,
-      size.height * 0.01,
-      size.width * .05,
-      size.height * 0.02,
-    );
+    spaces._init(screenHeight, screenWidth);
+    geometry._init(screenHeight, screenWidth);
+    buttons._init(screenHeight, screenWidth);
+    icons._init(screenHeight, screenWidth);
+    cards._init(screenHeight, screenWidth);
+    forms._init(screenHeight, screenWidth);
+    modals._init(screenHeight, screenWidth);
   }
-
-  // TODO fare tutte in una classe a parte
-  static double getSmallVerticalSpace(BuildContext context) =>
-      MediaQuery.of(context).size.height * .01;
-
-  static double getMediumVerticalSpace(BuildContext context) =>
-      MediaQuery.of(context).size.height * .03;
-
-  static EdgeInsets getPagePadding(BuildContext context) => EdgeInsets.only(
-    top: MediaQuery.of(context).size.height * 0.03,
-    left: MediaQuery.of(context).size.width * 0.05,
-    right: MediaQuery.of(context).size.width * 0.05,
-  );
 }
 
-abstract class _Radius {
-  static final medium = 12.0;
-  static final large = 20.0;
+class _Spaces {
+  late double verticalSmall;
+  late double verticalMedium;
+  late double horizontalMedium;
+  late double horizontalSmall;
+  late double horizontalXSmall;
+
+  void _init(double h, double w) {
+    verticalSmall = h * .01;
+    verticalMedium = h * .025;
+    horizontalMedium = w * .055;
+    horizontalSmall = w * .035;
+    horizontalXSmall = w * .015;
+  }
 }
 
-class _Space {
-  double getVerticalSmall(BuildContext context) =>
-      MediaQuery.of(context).size.height * .01;
+class _Geometry {
+  late EdgeInsets pagePadding;
+  final double radiusMedium = 12.0;
+  final double radiusLarge = 20.0;
 
-  double getVerticalMedium(BuildContext context) =>
-      MediaQuery.of(context).size.height * .025;
-
-  double getHorizontalMedium(BuildContext context) =>
-      MediaQuery.of(context).size.width * .055;
-
-  double getHorizontalSmall(BuildContext context) =>
-      MediaQuery.of(context).size.width * .035;
-
-  double getHorizontalXSmall(BuildContext context) =>
-      MediaQuery.of(context).size.width * .015;
-}
-
-class _FormLayout {
-  // Form padding
-  final double fieldInternalPaddingMultiplier = 0.015;
-
-  double getTitleSpacing(BuildContext context) =>
-      MediaQuery.of(context).size.height * .029;
-
-  double getSubtitleSpacing(BuildContext context) =>
-      MediaQuery.of(context).size.height * .010;
-
-  double getFieldSpacing(BuildContext context) =>
-      MediaQuery.of(context).size.height * .023;
-
-  EdgeInsets getFieldInternalMapping(BuildContext context) =>
-      EdgeInsets.symmetric(
-        horizontal:
-            MediaQuery.of(context).size.width * fieldInternalPaddingMultiplier,
-      );
-}
-
-class _Map {
-  double cardHeight(BuildContext context) =>
-      MediaQuery.of(context).size.height * 0.25;
-
-  double cardRadius(BuildContext context) => _Radius.medium;
-}
-
-class _Collection {
-  final card = _CollectionCard();
-}
-
-class _CollectionCard {
-  double height(BuildContext context) =>
-      MediaQuery.of(context).size.height * .08;
-
-  double width(BuildContext context) => MediaQuery.of(context).size.width * .14;
-}
-
-class _Button {
-  double getLargeHeight(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * 0.05;
-
-  double getCircularSmallSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .038;
-
-  double getCircularMediumSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .045;
-
-  double getCircularLargeSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .055;
-
-  double getSquareButtonRadius(BuildContext context) => _Radius.large;
-}
-
-class _Icon {
-  double getSmallSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .02;
-
-  double getMediumSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .03;
-
-  double getLargeSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .04;
-}
-
-class _BottomSheet {
-  double getRadius(BuildContext context) =>
-      MediaQuery.sizeOf(context).width * .08;
-
-  EdgeInsets getPadding(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return EdgeInsets.only(
-      top: size.height * 0.015,
-      left: size.width * .01,
-      right: size.width * .01,
+  void _init(double h, double w) {
+    pagePadding = EdgeInsets.only(
+      top: h * 0.03,
+      left: w * 0.05,
+      right: w * 0.05,
     );
   }
 }
 
-class _Emoji {
-  double getSmallSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .02;
+class _Buttons {
+  late double primaryHeight;
+  late double circularXSmall;
+  late double circularSmall;
+  late double circularMedium;
+  late double circularLarge;
+  late double radiusSquare;
 
-  double getMediumSize(BuildContext context) =>
-      MediaQuery.sizeOf(context).height * .025;
+  void _init(double h, double w) {
+    primaryHeight = h * 0.05;
+    circularXSmall = h * .025;
+    circularSmall = h * .038;
+    circularMedium = h * .045;
+    circularLarge = h * .055;
+  }
+}
+
+class _Icons {
+  late double xsmall;
+  late double small;
+  late double medium;
+  late double large;
+  late double emojiSmall;
+  late double emojiMedium;
+
+  void _init(double h, double w) {
+    xsmall = h * .015;
+    small = h * .02;
+    medium = h * .03;
+    large = h * .04;
+    emojiSmall = h * .02;
+    emojiMedium = h * .025;
+  }
+}
+
+class _Cards {
+  late double mapHeight;
+  late double collectionHeight;
+  late double collectionWidth;
+
+  void _init(double h, double w) {
+    mapHeight = h * 0.25;
+    collectionHeight = h * .08;
+    collectionWidth = w * .14;
+  }
+}
+
+class _Forms {
+  late double titleSpacing;
+  late double subtitleSpacing;
+  late double fieldSpacing;
+  late EdgeInsets fieldInternalPadding;
+
+  void _init(double h, double w) {
+    titleSpacing = h * .029;
+    subtitleSpacing = h * .010;
+    fieldSpacing = h * .023;
+    fieldInternalPadding = EdgeInsets.symmetric(horizontal: w * 0.015);
+  }
+}
+
+class _Modals {
+  late EdgeInsets fullscreenPadding;
+  late double bottomSheetRadius;
+  late EdgeInsets bottomSheetPadding;
+
+  void _init(double h, double w) {
+    fullscreenPadding = EdgeInsets.fromLTRB(
+      w * .05,
+      h * 0.01,
+      w * .05,
+      h * 0.02,
+    );
+    bottomSheetRadius = w * .08;
+    bottomSheetPadding = EdgeInsets.only(
+      top: h * 0.015,
+      left: w * .01,
+      right: w * .01,
+    );
+  }
 }

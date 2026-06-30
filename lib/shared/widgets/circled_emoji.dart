@@ -20,12 +20,7 @@ class CircledEmoji extends StatelessWidget {
         ? Theme.of(context).disabledColor
         : collection.emoji.color;
 
-    var width = MediaQuery.sizeOf(context).width;
-
-    final double radius = width * 0.055;
-    final double diameter = radius * 2;
-    final double internalPadding = width * 0.015;
-    final double size = width * 0.045;
+    final double diameter = AppLayout.spaces.horizontalMedium * 2;
 
     return Container(
       width: diameter,
@@ -39,16 +34,12 @@ class CircledEmoji extends StatelessWidget {
             : null,
       ),
       child: Padding(
-        padding: EdgeInsets.all(internalPadding),
+        padding: EdgeInsets.all(AppLayout.spaces.horizontalXSmall),
         child: Opacity(
           opacity: isDisabled ? 0.1 : 1.0,
-          // Riduciamo l'opacità dell'emoji se disabilitato
           child: Text(
             collection.emoji.value,
-            style: TextStyle(
-              fontSize: AppLayout.emoji.getSmallSize(context),
-              height: 1,
-            ),
+            style: TextStyle(fontSize: AppLayout.icons.emojiSmall, height: 1),
           ),
         ),
       ),

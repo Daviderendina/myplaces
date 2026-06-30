@@ -43,13 +43,13 @@ class _TextAppButtonState extends State<TextAppButton> {
 
     return SizedBox(
       width: double.infinity,
-      height: AppLayout.button.getLargeHeight(context),
+      height: AppLayout.buttons.primaryHeight,
       child: ElevatedButton(
         onPressed: widget.onPressed == null || _isLoading ? null : _handlePressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: theme.colorScheme.primary,
           foregroundColor: theme.colorScheme.onPrimary,
-          disabledBackgroundColor: theme.disabledColor.withOpacity(0.12),
+          disabledBackgroundColor: theme.disabledColor.withValues(alpha: 0.12),
           disabledForegroundColor: theme.disabledColor,
           elevation: 0,
           shape: RoundedRectangleBorder(

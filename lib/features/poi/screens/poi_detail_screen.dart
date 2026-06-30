@@ -6,7 +6,7 @@ import 'package:myplaces/core/models/poi.dart';
 import 'package:myplaces/features/collections/screens/select_collection_modal.dart';
 import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
-import 'package:myplaces/shared/widgets/icon_text_row.dart';
+import 'package:myplaces/features/poi/screens/widgets/icon_text_row.dart';
 
 class PoiDetailScreen extends ConsumerWidget {
   final Poi? poi;
@@ -36,13 +36,13 @@ class PoiDetailScreen extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: AppLayout.getFullscreenModalPadding(context),
+          padding: AppLayout.modals.fullscreenPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 0,
             children: [
               AppImageCarousel(images: images, height: height * 0.45),
-              SizedBox(height: AppLayout.space.getVerticalMedium(context)),
+              SizedBox(height: AppLayout.spaces.verticalMedium),
 
               // Name
               Text(
@@ -51,7 +51,7 @@ class PoiDetailScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
 
-              SizedBox(height: AppLayout.space.getVerticalSmall(context)),
+              SizedBox(height: AppLayout.spaces.verticalSmall),
 
               // Description
               Text(
@@ -61,7 +61,7 @@ class PoiDetailScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
 
-              SizedBox(height: AppLayout.space.getVerticalSmall(context)),
+              SizedBox(height: AppLayout.spaces.verticalSmall),
 
               IconTextRow(
                 icon: Icons.location_on_outlined,
@@ -70,7 +70,7 @@ class PoiDetailScreen extends ConsumerWidget {
               ),
 
               // Additional info
-              SizedBox(height: AppLayout.space.getVerticalSmall(context)),
+              SizedBox(height: AppLayout.spaces.verticalSmall),
 
               // Notes
               Text("Notes", style: Theme.of(context).textTheme.headlineSmall),

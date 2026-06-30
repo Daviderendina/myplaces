@@ -47,7 +47,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
           right: 1,
           left: 1,
           child: Row(
-            spacing: AppLayout.space.getHorizontalSmall(context),
+            spacing: AppLayout.spaces.horizontalSmall,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AppStaticSearchBar(
@@ -57,7 +57,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
                 },
               ),
 
-              SelectVisibleListsButton(), // TODO sistemare meglio questo widget
+              SelectVisibleListsButton(),
             ],
           ),
         ),

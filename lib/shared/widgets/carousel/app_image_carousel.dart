@@ -1,8 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:myplaces/shared/widgets/button/circular_icon_button.dart';
-
-import '../../../core/constants/AppLayout.dart';
+import 'package:myplaces/core/constants/AppLayout.dart';
+import '../button/icon_app_button.dart';
 
 class AppImageCarousel extends StatefulWidget {
   final List<String> images;
@@ -102,9 +101,10 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
           Positioned(
             left: 8,
             top: 8,
-            child: CircularIconButton.surfaceTransparent(
+            child: IconAppButton.surfaceTransparent(
               icon: Icons.arrow_back_outlined,
-              size: AppLayout.button.getCircularMediumSize(context),
+              buttonSize: AppLayout.buttons.circularMedium,
+              iconSize: AppLayout.icons.medium,
               onPressed: () => Navigator.of(context).pop(),
             ),
           ),

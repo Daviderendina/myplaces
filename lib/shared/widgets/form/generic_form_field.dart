@@ -16,10 +16,12 @@ class GenericFormField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: AppLayout.form.getSubtitleSpacing(context)),
-        Padding(padding: AppLayout.form.getFieldInternalMapping(context), child: child),
+        SizedBox(height: AppLayout.forms.subtitleSpacing),
+        Padding(padding: AppLayout.forms.fieldInternalPadding, child: child),
       ],
     );
   }

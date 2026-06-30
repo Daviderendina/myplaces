@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/constants/AppTheme.dart';
 import 'package:myplaces/core/router/app_router.dart';
 
@@ -18,6 +19,10 @@ class MyApp extends ConsumerWidget {
       routerConfig: AppRouter.router,
       theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        AppLayout.init(context);
+        return child!;
+      },
     );
   }
 }

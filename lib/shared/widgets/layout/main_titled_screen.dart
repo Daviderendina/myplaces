@@ -23,7 +23,7 @@ class MainTitledScreen extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: AppLayout.getPagePadding(context),
+        padding: AppLayout.geometry.pagePadding,
         child: Column(
           spacing: 0,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,11 +31,10 @@ class MainTitledScreen extends StatelessWidget {
             Row(
               children: [
                 Text(title, style: Theme.of(context).textTheme.displayLarge),
-                Spacer(),
-                ?action,
+                const Spacer(),
+                if (action != null) action!,
               ],
             ),
-
             if (subtitle != null) ...[
               Text(
                 subtitle!,
@@ -43,11 +42,11 @@ class MainTitledScreen extends StatelessWidget {
                   context,
                 ).textTheme.titleSmall?.copyWith(height: 1),
               ),
-              SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
+              SizedBox(height: AppLayout.spaces.verticalMedium),
             ],
             if (searchBar != null) ...[
               searchBar!,
-              SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
+              SizedBox(height: AppLayout.spaces.verticalMedium),
             ],
             Expanded(child: child),
           ],
