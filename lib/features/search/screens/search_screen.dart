@@ -54,6 +54,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       Icons.arrow_back,
                       color: Theme.of(context).hintColor,
                     ),
+                    onLeadingTap: () => Navigator.pop(context),
                     hintText: 'Search..',
                     onChanged: (value) {
                       setState(() {});

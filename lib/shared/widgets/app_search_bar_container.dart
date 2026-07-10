@@ -6,6 +6,7 @@ import '../../core/constants/AppTheme.dart';
 
 class AppSearchBar extends StatelessWidget {
   final Widget? leading;
+  final VoidCallback? onLeadingTap;
   final Widget? trailing;
   final String? hintText;
   final bool readOnly;
@@ -22,6 +23,7 @@ class AppSearchBar extends StatelessWidget {
   const AppSearchBar({
     super.key,
     this.leading,
+    this.onLeadingTap,
     this.trailing,
     this.hintText,
     this.readOnly = false,
@@ -67,7 +69,7 @@ class AppSearchBar extends StatelessWidget {
         child: Row(
           children: [
             if (leading != null) ...[
-              leading!,
+              InkWell(onTap: onLeadingTap, child: leading!),
               SizedBox(width: AppLayout.spaces.horizontalSmall),
             ],
             Expanded(
