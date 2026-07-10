@@ -83,15 +83,7 @@ class PoiCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          poi.name,
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(
-                                // TODO bello questo modo per i testi!!!
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
+                        Text(poi.name),
                         Spacer(),
                         SizedBox(
                           height: 20,

@@ -61,8 +61,7 @@ class MapPage extends ConsumerWidget {
           },
         ),
 
-        Positioned(top: 55, right: 65, child: SelectVisibleListsButton()),
-
+        //Positioned(top: 55, right: 65, child: SelectVisibleListsButton()),
         MySearchBar(
           searchBarController: searchBarController,
           onResultTap: (r) => showPoiOnMap(context, ref, r),

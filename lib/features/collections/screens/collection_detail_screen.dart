@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:myplaces/shared/widgets/button/icon_app_button.dart';
 import 'package:myplaces/shared/widgets/map/map_view_screen.dart';
 import '../../../core/constants/AppLayout.dart';
-import '../../../shared/widgets/circled_emoji.dart';
+import '../../../shared/widgets/emoji/circled_emoji.dart';
 import '../models/collection.dart';
 import 'widgets/collection_detail_card.dart';
 
@@ -152,7 +152,7 @@ class _CollectionHeaderDelegate extends SliverPersistentHeaderDelegate {
                     Flexible(
                       child: Text(
                         collection.name,
-                        style: Theme.of(context).textTheme.headlineMedium,
+                        style: Theme.of(context).textTheme.displayMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -181,7 +181,7 @@ class _CollectionHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           Text(
             '${collection.pois.length} places',
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.displaySmall,
           ),
         ],
       ),

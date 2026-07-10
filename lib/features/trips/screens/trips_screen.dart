@@ -42,7 +42,6 @@ class TripsScreen extends ConsumerWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(16),
             itemCount: state.displayedTrips.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (context, index) {

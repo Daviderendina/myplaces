@@ -6,6 +6,8 @@ import 'package:myplaces/features/poi/screens/poi_detail_screen.dart';
 import 'package:myplaces/features/root/screens/root_screen.dart';
 import 'package:myplaces/core/models/poi.dart';
 
+import 'package:myplaces/features/search/screens/search_screen.dart';
+
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'root',
 );
@@ -18,6 +20,10 @@ class AppRouter {
     initialLocation: '/',
     routes: [
       GoRoute(path: '/', builder: (context, state) => const RootScreen()),
+      GoRoute(
+        path: '/search',
+        builder: (context, state) => const SearchScreen(),
+      ),
       GoRoute(
         path: '/collection-detail',
         builder: (context, state) {

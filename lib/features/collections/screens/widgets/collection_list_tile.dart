@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/collections/models/collection.dart';
-import 'package:myplaces/shared/widgets/circled_emoji.dart';
+import 'package:myplaces/shared/widgets/emoji/circled_emoji.dart';
 
 class CollectionListTile extends StatelessWidget {
   final Collection collection;
@@ -19,10 +19,12 @@ class CollectionListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return InkWell(
       borderRadius: BorderRadius.circular(1000),
-      onTap: onPressed ?? () => context.push('/collection-detail', extra: collection),
+      onTap:
+          onPressed ??
+          () => context.push('/collection-detail', extra: collection),
       child: Row(
         spacing: AppLayout.spaces.horizontalXSmall,
         children: [

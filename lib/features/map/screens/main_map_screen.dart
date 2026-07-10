@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
+import 'package:myplaces/core/constants/AppTheme.dart';
 import 'package:myplaces/features/map/screens/widgets/select_visible_lists_button.dart';
-import 'package:myplaces/shared/widgets/app_static_search_bar.dart';
+import 'package:myplaces/shared/widgets/layout/app_search_bar_container.dart';
+import 'package:myplaces/src/domain/poi.dart';
 import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 
 class MainMapScreen extends ConsumerStatefulWidget {
@@ -31,9 +34,6 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    final headerHeight = size.height * .05;
-
     return Stack(
       children: [
         MapView(
@@ -43,22 +43,44 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
           markerBuilder: () => [],
         ),
         Positioned(
-          top: headerHeight,
-          right: 1,
-          left: 1,
-          child: Row(
-            spacing: AppLayout.spaces.horizontalSmall,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AppStaticSearchBar(
-                width: 230,
-                onTap: () {
-                  // Future logic
-                },
-              ),
-
-              SelectVisibleListsButton(),
-            ],
+          top: AppLayout.screenHeight * .05,
+          right: 0,
+          left: 0,
+          child: Padding(
+            padding: EdgeInsets.only(
+              right: AppLayout.geometry.pagePadding.right,
+              left: AppLayout.geometry.pagePadding.left,
+            ),
+            child: Row(
+              spacing: AppLayout.spaces.horizontalSmall,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: AppSearchBarContainer(
+                    height: AppLayout.geometry.itemHeightSmall,
+                    readOnly: true,
+                    leading: Icon(
+                      Icons.search,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    hintText: 'Search..',
+                    onTap: () async {
+                      final Poi? selectedPoi = await context.push<Poi>(
+                        '/search',
+                      );
+                      if (selectedPoi != null) {
+                        debugPrint(
+                          'Selected POI in MainMapScreen: ${selectedPoi.name}',
+                        );
+                      }
+                    },
+                  ),
+                ),
+                SelectVisibleListsButton(
+                  size: AppLayout.geometry.itemHeightSmall,
+                ),
+              ],
+            ),
           ),
         ),
       ],

@@ -3,11 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/domain/my_list.dart';
 import 'package:myplaces/features/map/screens/widgets/select_visible_lists_popup_item.dart';
 import '../../../../core/constants/AppLayout.dart';
+import '../../../../core/constants/AppTheme.dart';
 import '../../../../shared/widgets/button/icon_app_button.dart';
 import '../../../../src/providers.dart';
 
 class SelectVisibleListsButton extends ConsumerWidget {
-  const SelectVisibleListsButton({super.key});
+  final double size;
+
+  const SelectVisibleListsButton({super.key, required this.size});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,6 +19,7 @@ class SelectVisibleListsButton extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () async {
+        // ... (resto del codice invariato fino a showMenu)
         final listsData = listsAsync.when(
           data: (data) => data,
           loading: () => [],
@@ -41,7 +45,7 @@ class SelectVisibleListsButton extends ConsumerWidget {
           ),
           clipBehavior: Clip.antiAlias,
           constraints: const BoxConstraints(
-            maxHeight: 300,
+            maxHeight: 220,
             minWidth: 1,
             maxWidth: 220,
           ),
@@ -78,10 +82,10 @@ class SelectVisibleListsButton extends ConsumerWidget {
       },
       child: IconAppButton.primary(
         icon: Icons.filter_list_outlined,
-        buttonSize: AppLayout.buttons.circularLarge,
+        buttonSize: size,
         iconSize: AppLayout.icons.medium,
         shape: IconAppShape.square,
-        backgroundAlpha: .80,
+        backgroundAlpha: AppTheme.surfaceAlpha,
         onPressed: () {},
       ),
     );

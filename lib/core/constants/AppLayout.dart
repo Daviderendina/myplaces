@@ -47,15 +47,18 @@ class _Spaces {
 
 class _Geometry {
   late EdgeInsets pagePadding;
+  late double itemHeightSmall;
   final double radiusMedium = 12.0;
   final double radiusLarge = 20.0;
 
   void _init(double h, double w) {
     pagePadding = EdgeInsets.only(
-      top: h * 0.03,
+      top: h * 0.06,
       left: w * 0.05,
       right: w * 0.05,
     );
+
+    itemHeightSmall = h * .06;
   }
 }
 
@@ -121,14 +124,14 @@ class _Forms {
 }
 
 class _Modals {
-  late EdgeInsets fullscreenPadding;
+  late EdgeInsets fullscreenPadding; // TODO mettere insieme all altro pading
   late double bottomSheetRadius;
-  late EdgeInsets bottomSheetPadding;
+  late EdgeInsets bottomSheetPadding; // TODO mettere insieme all altro pading
 
   void _init(double h, double w) {
     fullscreenPadding = EdgeInsets.fromLTRB(
       w * .05,
-      h * 0.01,
+      h * 0.05,
       w * .05,
       h * 0.02,
     );

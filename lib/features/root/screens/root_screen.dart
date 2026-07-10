@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/collections/screens/collection_list_screen.dart';
 import 'package:myplaces/features/trips/screens/trips_screen.dart';
 import '../../map/screens/main_map_screen.dart';
@@ -10,15 +11,13 @@ class RootScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var height = MediaQuery.sizeOf(context).height;
-    var width = MediaQuery.sizeOf(context).width;
-
     // TODO cambiare lo stile delle scritte della barra sotto
     final rootState = ref.watch(rootControllerProvider);
     final controller = ref.read(rootControllerProvider.notifier);
 
     return Scaffold(
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: IndexedStack(
         index: rootState.selectedIndex,
         children: [
@@ -31,13 +30,13 @@ class RootScreen extends ConsumerWidget {
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.fromLTRB(
-          width * 0.05,
+          AppLayout.geometry.pagePadding.left,
           0,
-          width * 0.05,
-          height * 0.03,
+          AppLayout.geometry.pagePadding.right,
+          AppLayout.geometry.pagePadding.right,
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(30), // TODO AppLAyout
           child: BottomNavigationBar(
             currentIndex: rootState.selectedIndex,
             onTap: (index) => controller.setIndex(index),

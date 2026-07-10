@@ -11,35 +11,33 @@ class BaseFullscreenModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () => Navigator.pop(context),
-            ),
-            Expanded(
-              child: Padding(
-                padding: AppLayout.modals.fullscreenPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (title != null) ...[
-                      Text(
-                        title!,
-                        style: Theme.of(context).textTheme.displayMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: AppLayout.forms.titleSpacing),
-                    ],
-                    Expanded(child: child),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          ),
+          Expanded(
+            child: Padding(
+              padding: AppLayout.modals.fullscreenPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (title != null) ...[
+                    Text(
+                      title!,
+                      style: Theme.of(context).textTheme.displayMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: AppLayout.forms.titleSpacing),
                   ],
-                ),
+                  Expanded(child: child),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
