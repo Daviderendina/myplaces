@@ -48,19 +48,33 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     backgroundColor: Theme.of(
                       context,
                     ).colorScheme.surfaceContainerLow,
-                    // TODO sistemare qui
                     readOnly: false,
                     leading: Icon(
                       Icons.arrow_back,
                       color: Theme.of(context).hintColor,
                     ),
-                    onLeadingTap: () => Navigator.pop(context),
+                    onLeadingTap: () {
+                      ref
+                          .read(searchControllerProvider.notifier)
+                          .clearResults();
+                      Navigator.pop(context);
+                    },
+                    trailing: _textController.text.isNotEmpty
+                        ? Icon(Icons.close, color: Theme.of(context).hintColor)
+                        : null,
+                    onTrailingTap: () {
+                      _textController.clear();
+                      ref
+                          .read(searchControllerProvider.notifier)
+                          .clearResults();
+                      setState(() {});
+                    },
                     hintText: 'Search..',
                     onChanged: (value) {
-                      setState(() {});
                       ref
                           .read(searchControllerProvider.notifier)
                           .onQueryChanged(value);
+                      setState(() {});
                     },
                   ),
                 ],
@@ -70,10 +84,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           Expanded(
             child: resultsAsync.when(
               data: (pois) {
-                if (pois.isEmpty && _textController.text.isNotEmpty) {
-                  return const Center(
-                    child: Text('No results found'),
-                  ); // TODO STYLE
+                if (resultsAsync.isLoading || resultsAsync.isRefreshing) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (pois.isEmpty && _textController.text.trim().isNotEmpty) {
+                  return const Center(child: Text('No results found'));
                 }
                 return ListView.builder(
                   padding: EdgeInsets.zero,

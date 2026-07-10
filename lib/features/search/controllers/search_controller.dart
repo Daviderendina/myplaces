@@ -15,17 +15,28 @@ class SearchController extends AsyncNotifier<List<Poi>> {
   void onQueryChanged(String query) {
     _debounceTimer?.cancel();
 
-    if (query.isEmpty) {
+    final trimmedQuery = query.trim();
+    if (trimmedQuery.isEmpty) {
       state = const AsyncData([]);
       return;
     }
 
+    // Impostiamo immediatamente lo stato a loading (o manteniamo il precedente) 
+    // per segnalare alla UI che una ricerca è "in arrivo"
+    if (!state.isLoading) {
+      state = const AsyncValue.loading();
+    }
+
     _debounceTimer = Timer(AppConfig.debounceDuration, () async {
-      state = const AsyncLoading();
       state = await AsyncValue.guard(() async {
         final service = ref.read(searchServiceProvider);
-        return await service.searchPois(query);
+        return await service.searchPois(trimmedQuery);
       });
     });
+  }
+
+  void clearResults() {
+    _debounceTimer?.cancel();
+    state = const AsyncData([]);
   }
 }

@@ -8,6 +8,7 @@ class AppSearchBar extends StatelessWidget {
   final Widget? leading;
   final VoidCallback? onLeadingTap;
   final Widget? trailing;
+  final VoidCallback? onTrailingTap;
   final String? hintText;
   final bool readOnly;
   final bool autofocus;
@@ -25,6 +26,7 @@ class AppSearchBar extends StatelessWidget {
     this.leading,
     this.onLeadingTap,
     this.trailing,
+    this.onTrailingTap,
     this.hintText,
     this.readOnly = false,
     this.autofocus = false,
@@ -69,7 +71,14 @@ class AppSearchBar extends StatelessWidget {
         child: Row(
           children: [
             if (leading != null) ...[
-              InkWell(onTap: onLeadingTap, child: leading!),
+              GestureDetector(
+                onTap: onLeadingTap,
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: leading!,
+                ),
+              ),
               SizedBox(width: AppLayout.spaces.horizontalSmall),
             ],
             Expanded(
@@ -95,7 +104,14 @@ class AppSearchBar extends StatelessWidget {
             ),
             if (trailing != null) ...[
               SizedBox(width: AppLayout.spaces.horizontalXSmall),
-              trailing!,
+              GestureDetector(
+                onTap: onTrailingTap,
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: trailing!,
+                ),
+              ),
             ],
           ],
         ),
