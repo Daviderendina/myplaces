@@ -85,7 +85,7 @@ class _SelectCollectionModalState extends State<SelectCollectionModal> {
               },
             ),
           ),
-          SizedBox(height: AppLayout.spaces.verticalMedium),
+          SizedBox(height: AppLayout.spaces.verticalLarge),
           TextAppButton(
             text: 'Save',
             onPressed: () {

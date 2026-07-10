@@ -64,10 +64,10 @@ class SecondaryTitledScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: AppLayout.spaces.verticalMedium),
+                    SizedBox(height: AppLayout.spaces.verticalLarge),
                     if (searchBar != null) ...[
                       searchBar!,
-                      SizedBox(height: AppLayout.spaces.verticalMedium),
+                      SizedBox(height: AppLayout.spaces.verticalLarge),
                     ],
                     child,
                   ],

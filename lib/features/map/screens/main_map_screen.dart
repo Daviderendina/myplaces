@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
+import 'package:myplaces/features/map/providers.dart';
+import 'package:myplaces/features/map/screens/widgets/poi_summary_sheet.dart';
 import 'package:myplaces/features/map/screens/widgets/select_visible_lists_button.dart';
 import 'package:myplaces/shared/widgets/app_search_bar_container.dart';
 import 'package:myplaces/src/domain/poi.dart';
@@ -33,6 +35,8 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedPoi = ref.watch(mapSelectionProvider);
+
     return Stack(
       children: [
         MapView(
@@ -41,6 +45,18 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
           initialZoom: 5.55,
           markerBuilder: () => [],
         ),
+        if (selectedPoi != null)
+          Positioned(
+            left: AppLayout.geometry.mainPagePadding.left,
+            right: AppLayout.geometry.mainPagePadding.right,
+            bottom: AppLayout.screenHeight * .10,
+            child: PoiSummarySheet(
+              poi: selectedPoi,
+              onCloseClick: () =>
+                  ref.read(mapSelectionProvider.notifier).clear(),
+            ),
+          ),
+
         Positioned(
           top: AppLayout.screenHeight * .05,
           right: 0,
@@ -62,19 +78,23 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
                       Icons.search,
                       color: Theme.of(context).hintColor,
                     ),
+                    trailing: selectedPoi != null
+                        ? Icon(Icons.close, color: Theme.of(context).hintColor)
+                        : null,
+                    onTrailingTap: () {
+                      ref.read(mapSelectionProvider.notifier).clear();
+                    },
                     hintText: 'Search..',
                     onTap: () async {
-                      final Poi? selectedPoi = await context.push<Poi>(
-                        '/search',
-                      );
-                      if (selectedPoi != null) {
-                        debugPrint(
-                          'Selected POI in MainMapScreen: ${selectedPoi.name}',
-                        );
+                      final Poi? result = await context.push<Poi>('/search');
+                      if (result != null) {
+                        ref.read(mapSelectionProvider.notifier).select(result);
+                        // TODO: center map on POI
                       }
                     },
                   ),
                 ),
+
                 SelectVisibleListsButton(
                   size: AppLayout.geometry.itemHeightSmall,
                 ),

@@ -8,6 +8,8 @@ import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
 import 'package:myplaces/features/poi/screens/widgets/icon_text_row.dart';
 
+import '../../../shared/widgets/button/transparent_back_button.dart';
+
 class PoiDetailScreen extends ConsumerWidget {
   final Poi? poi;
 
@@ -40,8 +42,12 @@ class PoiDetailScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 0,
           children: [
-            AppImageCarousel(images: images, height: height * 0.45),
-            SizedBox(height: AppLayout.spaces.verticalMedium),
+            AppImageCarousel(
+              images: images,
+              height: height * 0.45,
+              overlay: TransparentBackButton(),
+            ),
+            SizedBox(height: AppLayout.spaces.verticalLarge),
 
             // Name
             Text(

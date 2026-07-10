@@ -100,6 +100,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       subtitle: poi.getDisplayAreaName(),
                       icon: Icons.location_on,
                       onTap: () {
+                        ref
+                            .read(searchControllerProvider.notifier)
+                            .clearResults();
                         context.pop(poi);
                       },
                     );

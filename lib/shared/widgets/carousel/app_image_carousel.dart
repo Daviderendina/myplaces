@@ -5,7 +5,8 @@ import '../button/transparent_back_button.dart';
 class AppImageCarousel extends StatefulWidget {
   final List<String> images;
   final double height;
-  final bool showBackButton;
+  final Widget? overlay;
+  final Alignment overlayAlignment;
 
   //TODO troppi valori fixed
 
@@ -13,7 +14,8 @@ class AppImageCarousel extends StatefulWidget {
     super.key,
     required this.images,
     required this.height,
-    this.showBackButton = true,
+    this.overlay,
+    this.overlayAlignment = Alignment.topLeft,
   });
 
   @override
@@ -96,8 +98,17 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
               }).toList(),
             ),
           ),
-        if (widget.showBackButton)
-          Positioned(left: 8, top: 8, child: TransparentBackButton()),
+
+        if (widget.overlay != null)
+          Positioned(
+            top: 8,
+            left: widget.overlayAlignment == Alignment.topLeft ? 8 : null,
+            right: widget.overlayAlignment == Alignment.topRight ? 8 : null,
+            child: widget.overlay!,
+          ),
+
+        // if (widget.showBackButton)
+        //   Positioned(left: 8, top: 8, child: TransparentBackButton()),
       ],
     );
   }

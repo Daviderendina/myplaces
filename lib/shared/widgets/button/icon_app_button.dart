@@ -43,7 +43,7 @@ class IconAppButton extends StatelessWidget {
     required this.icon,
     required this.buttonSize,
     required this.iconSize,
-    this.backgroundAlpha = 1,
+    this.backgroundAlpha = 0,
     this.shape = IconAppShape.circular,
   }) : _type = _IconAppType.transparent;
 

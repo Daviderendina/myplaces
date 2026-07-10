@@ -40,11 +40,11 @@ class MainTitledScreen extends StatelessWidget {
                 context,
               ).textTheme.displaySmall?.copyWith(height: 1),
             ),
-            SizedBox(height: AppLayout.spaces.verticalMedium),
+            SizedBox(height: AppLayout.spaces.verticalLarge),
           ],
           if (searchBar != null) ...[
             searchBar!,
-            SizedBox(height: AppLayout.spaces.verticalMedium),
+            SizedBox(height: AppLayout.spaces.verticalLarge),
           ],
           Expanded(child: child),
         ],

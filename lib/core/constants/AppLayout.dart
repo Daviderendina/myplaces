@@ -32,13 +32,15 @@ abstract class AppLayout {
 class _Spaces {
   late double verticalSmall;
   late double verticalMedium;
+  late double verticalLarge;
   late double horizontalMedium;
   late double horizontalSmall;
   late double horizontalXSmall;
 
   void _init(double h, double w) {
     verticalSmall = h * .01;
-    verticalMedium = h * .025;
+    verticalMedium = h * .017;
+    verticalLarge = h * .025;
     horizontalMedium = w * .055;
     horizontalSmall = w * .035;
     horizontalXSmall = w * .015;
