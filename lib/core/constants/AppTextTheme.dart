@@ -9,7 +9,7 @@ import 'AppColors.dart';
 
   headline: All text for dividing sections of the app
     large: primary sections in main pages
-    medium: secondary sections in main pages
+    medium: secondary sections in main pages / primary sections in main pages
     small: sections in secondary pages
 
   title: dedicated to card titles and lists
@@ -26,6 +26,16 @@ import 'AppColors.dart';
     medium: for labels
     small:
   * */
+
+extension AppTextThemeExtension on TextTheme {
+  TextStyle? get hintText {
+    final theme = this;
+    if (theme is AppTextTheme) {
+      return theme.hintText;
+    }
+    return null;
+  }
+}
 
 class AppTextTheme extends TextTheme {
   final TextStyle? hintText;
@@ -65,9 +75,9 @@ class AppTextTheme extends TextTheme {
           color: AppColors.primaryTextLight,
         ),
         labelLarge: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: AppColors.primaryTextLight,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: AppColors.onPrimaryLight,
         ),
       );
 }

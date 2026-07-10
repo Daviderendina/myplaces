@@ -4,9 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
-import 'package:myplaces/core/constants/AppTheme.dart';
 import 'package:myplaces/features/map/screens/widgets/select_visible_lists_button.dart';
-import 'package:myplaces/shared/widgets/layout/app_search_bar_container.dart';
+import 'package:myplaces/shared/widgets/app_search_bar_container.dart';
 import 'package:myplaces/src/domain/poi.dart';
 import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 
@@ -48,15 +47,15 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
           left: 0,
           child: Padding(
             padding: EdgeInsets.only(
-              right: AppLayout.geometry.pagePadding.right,
-              left: AppLayout.geometry.pagePadding.left,
+              right: AppLayout.geometry.mainPagePadding.right,
+              left: AppLayout.geometry.mainPagePadding.left,
             ),
             child: Row(
               spacing: AppLayout.spaces.horizontalSmall,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: AppSearchBarContainer(
+                  child: AppSearchBar(
                     height: AppLayout.geometry.itemHeightSmall,
                     readOnly: true,
                     leading: Icon(

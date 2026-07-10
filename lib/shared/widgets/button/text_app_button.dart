@@ -6,11 +6,7 @@ class TextAppButton extends StatefulWidget {
   final String text;
   final FutureOr<void> Function()? onPressed;
 
-  const TextAppButton({
-    super.key,
-    required this.text,
-    this.onPressed,
-  });
+  const TextAppButton({super.key, required this.text, this.onPressed});
 
   @override
   State<TextAppButton> createState() => _TextAppButtonState();
@@ -45,7 +41,9 @@ class _TextAppButtonState extends State<TextAppButton> {
       width: double.infinity,
       height: AppLayout.buttons.primaryHeight,
       child: ElevatedButton(
-        onPressed: widget.onPressed == null || _isLoading ? null : _handlePressed,
+        onPressed: widget.onPressed == null || _isLoading
+            ? null
+            : _handlePressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: theme.colorScheme.primary,
           foregroundColor: theme.colorScheme.onPrimary,
@@ -65,13 +63,7 @@ class _TextAppButtonState extends State<TextAppButton> {
                   color: theme.colorScheme.onPrimary,
                 ),
               )
-            : Text(
-                widget.text,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
+            : Text(widget.text, style: Theme.of(context).textTheme.labelLarge),
       ),
     );
   }

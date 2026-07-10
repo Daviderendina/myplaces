@@ -35,7 +35,7 @@ class PoiDetailScreen extends ConsumerWidget {
 
     return Scaffold(
       body: Padding(
-        padding: AppLayout.modals.fullscreenPadding,
+        padding: AppLayout.geometry.untitledMainPagePadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 0,
@@ -57,7 +57,7 @@ class PoiDetailScreen extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
               maxLines: 4,
               "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi conLorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi con",
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
 
             SizedBox(height: AppLayout.spaces.verticalSmall),
@@ -72,7 +72,7 @@ class PoiDetailScreen extends ConsumerWidget {
             SizedBox(height: AppLayout.spaces.verticalSmall),
 
             // Notes
-            Text("Notes", style: Theme.of(context).textTheme.headlineSmall),
+            Text("Notes", style: Theme.of(context).textTheme.headlineMedium),
             Text(
               overflow: TextOverflow.ellipsis,
               maxLines: 2,

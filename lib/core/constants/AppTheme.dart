@@ -15,6 +15,7 @@ class AppTheme {
       onPrimary: AppColors.onPrimaryLight,
       surface: Colors.white,
       surfaceContainer: AppColors.surfaceContainerLight,
+      surfaceContainerLow: AppColors.surfaceContainerLowLight,
       onSurfaceVariant: AppColors.onSurfaceVariantLight,
     ),
     disabledColor: AppColors.disabledLight,

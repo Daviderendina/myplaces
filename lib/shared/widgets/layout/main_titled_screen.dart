@@ -21,7 +21,7 @@ class MainTitledScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppLayout.geometry.pagePadding,
+      padding: AppLayout.geometry.mainPagePadding,
       child: Column(
         spacing: 0,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +38,7 @@ class MainTitledScreen extends StatelessWidget {
               subtitle!,
               style: Theme.of(
                 context,
-              ).textTheme.titleSmall?.copyWith(height: 1),
+              ).textTheme.displaySmall?.copyWith(height: 1),
             ),
             SizedBox(height: AppLayout.spaces.verticalMedium),
           ],

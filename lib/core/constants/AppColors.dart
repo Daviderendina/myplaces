@@ -7,6 +7,12 @@ class AppColors {
   static const Color hintLight = Color.fromARGB(255, 170, 170, 170);
   static const Color primaryTextLight = Color.fromARGB(255, 0, 0, 0);
   static const Color surfaceContainerLight = Color.fromARGB(255, 221, 221, 221);
+  static const Color surfaceContainerLowLight = Color.fromARGB(
+    100,
+    221,
+    221,
+    221,
+  );
   static const Color onSurfaceVariantLight = Color.fromARGB(255, 126, 126, 126);
   static const Color scaffoldBackgroundLight = Colors.white;
   static const Color disabledLight = Color.fromARGB(100, 170, 170, 170);

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/search/providers.dart';
 import 'package:myplaces/features/search/screens/widgets/search_result_tile.dart';
-import 'package:myplaces/shared/widgets/layout/app_search_bar_container.dart';
+import 'package:myplaces/shared/widgets/app_search_bar_container.dart';
 import 'package:myplaces/src/domain/poi.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -36,18 +36,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             bottom: false,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: AppLayout.geometry.pagePadding.left,
+                horizontal: AppLayout.geometry.mainPagePadding.left,
               ),
               child: Column(
                 children: [
                   SizedBox(height: AppLayout.spaces.verticalSmall),
-                  AppSearchBarContainer(
+                  AppSearchBar(
                     controller: _textController,
                     autofocus: true,
                     height: AppLayout.geometry.itemHeightSmall,
                     backgroundColor: Theme.of(
                       context,
-                    ).colorScheme.surfaceContainer.withAlpha(100),
+                    ).colorScheme.surfaceContainerLow,
                     // TODO sistemare qui
                     readOnly: false,
                     leading: Icon(
@@ -70,14 +70,23 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             child: resultsAsync.when(
               data: (pois) {
                 if (pois.isEmpty && _textController.text.isNotEmpty) {
-                  return const Center(child: Text('No results found'));
+                  return const Center(
+                    child: Text('No results found'),
+                  ); // TODO STYLE
                 }
                 return ListView.builder(
                   padding: EdgeInsets.zero,
                   itemCount: pois.length,
                   itemBuilder: (context, index) {
                     final poi = pois[index];
-                    return _buildPoiTile(context, poi);
+                    return SearchResultTile(
+                      title: poi.name,
+                      subtitle: poi.getDisplayAreaName(),
+                      icon: Icons.location_on,
+                      onTap: () {
+                        context.pop(poi);
+                      },
+                    );
                   },
                 );
               },
@@ -87,17 +96,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildPoiTile(BuildContext context, Poi poi) {
-    return SearchResultTile(
-      title: poi.name,
-      subtitle: poi.getDisplayAreaName(),
-      icon: Icons.location_on,
-      onTap: () {
-        context.pop(poi);
-      },
     );
   }
 }

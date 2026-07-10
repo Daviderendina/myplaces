@@ -5,7 +5,7 @@ import 'package:myplaces/shared/widgets/map/map_view_screen.dart';
 import '../../../core/constants/AppLayout.dart';
 import '../../../shared/widgets/emoji/circled_emoji.dart';
 import '../models/collection.dart';
-import 'widgets/collection_detail_card.dart';
+import 'widgets/poi_card.dart';
 
 class CollectionDetailScreen extends StatefulWidget {
   final Collection collection;
@@ -92,7 +92,7 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
                           final poi = widget.collection.pois[index];
                           return Column(
                             children: [
-                              CollectionDetailCard(poi: poi),
+                              PoiCard(poi: poi),
                               SizedBox(height: AppLayout.spaces.verticalSmall),
                             ],
                           );

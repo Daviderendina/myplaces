@@ -32,15 +32,17 @@ class CollectionListTile extends StatelessWidget {
           SizedBox(width: AppLayout.spaces.horizontalXSmall),
           Text(
             collection.name,
-            style: _getStyle(theme.textTheme.labelLarge, theme.disabledColor),
+            style: _getStyle(theme.textTheme.titleMedium, theme.disabledColor),
           ),
           Text(
             "/",
-            style: _getStyle(theme.textTheme.labelSmall, theme.disabledColor),
+            style: _getStyle(theme.textTheme.titleSmall, theme.disabledColor),
           ),
           Text(
             "${collection.pois.length} places",
-            style: _getStyle(theme.textTheme.labelSmall, theme.disabledColor),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: _getStyle(theme.textTheme.titleSmall, theme.disabledColor),
           ),
         ],
       ),

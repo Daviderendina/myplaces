@@ -27,8 +27,7 @@ class BaseFullscreenModal extends StatelessWidget {
                   if (title != null) ...[
                     Text(
                       title!,
-                      style: Theme.of(context).textTheme.displayMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.displayMedium,
                     ),
                     SizedBox(height: AppLayout.forms.titleSpacing),
                   ],

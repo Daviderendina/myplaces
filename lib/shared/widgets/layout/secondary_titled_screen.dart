@@ -21,7 +21,7 @@ class SecondaryTitledScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: AppLayout.geometry.pagePadding,
+        padding: AppLayout.geometry.mainPagePadding,
         child: Column(
           spacing: 0,
           crossAxisAlignment: CrossAxisAlignment.start,

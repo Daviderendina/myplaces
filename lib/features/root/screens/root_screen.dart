@@ -30,10 +30,10 @@ class RootScreen extends ConsumerWidget {
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.fromLTRB(
-          AppLayout.geometry.pagePadding.left,
+          AppLayout.geometry.mainPagePadding.left,
           0,
-          AppLayout.geometry.pagePadding.right,
-          AppLayout.geometry.pagePadding.right,
+          AppLayout.geometry.mainPagePadding.right,
+          AppLayout.geometry.mainPagePadding.right,
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30), // TODO AppLAyout

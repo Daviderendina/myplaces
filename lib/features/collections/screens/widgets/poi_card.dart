@@ -5,11 +5,11 @@ import 'package:myplaces/core/constants/AppTheme.dart';
 import '../../../../core/models/poi.dart';
 
 // TODO widgetname
-class CollectionDetailCard extends StatelessWidget {
+class PoiCard extends StatelessWidget {
   final Poi poi;
   final String? imageUrl;
 
-  const CollectionDetailCard({super.key, required this.poi, this.imageUrl});
+  const PoiCard({super.key, required this.poi, this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class CollectionDetailCard extends StatelessWidget {
               children: [
                 Text(
                   poi.name,
-                  style: Theme.of(context).textTheme.titleLarge, // TODO
+                  style: Theme.of(context).textTheme.titleLarge,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

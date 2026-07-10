@@ -4,9 +4,9 @@ import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/collections/controllers/collections_state.dart';
 import 'package:myplaces/features/collections/screens/add_collection_modal.dart';
 import 'package:myplaces/features/collections/screens/widgets/collection_list_tile.dart';
-import 'package:myplaces/shared/widgets/app_search_bar.dart';
 import 'package:myplaces/shared/widgets/button/icon_app_button.dart';
 import 'package:myplaces/shared/widgets/layout/main_titled_screen.dart';
+import '../../../shared/widgets/app_search_bar_container.dart';
 import '../providers.dart';
 
 class CollectionsScreen extends ConsumerWidget {
@@ -41,12 +41,22 @@ class CollectionsScreen extends ConsumerWidget {
           );
         },
       ),
-      searchBar: GenericSearchBar(
+      searchBar: AppSearchBar(
         hintText: 'Cerca collezioni...',
-        onSearch: (query) {
+        leading: Icon(Icons.search, color: Theme.of(context).hintColor),
+        backgroundColor: Theme.of(
+          context,
+        ).colorScheme.surfaceContainerLow, // TODO non mi piace sta gestione
+        onChanged: (query) {
           ref.read(collectionsControllerProvider.notifier).filter(query);
         },
       ),
+      // searchBar: GenericSearchBar(
+      //   hintText: 'Cerca collezioni...',
+      //   onSearch: (query) {
+      //     ref.read(collectionsControllerProvider.notifier).filter(query);
+      //   },
+      // ),
       child: collectionsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Center(

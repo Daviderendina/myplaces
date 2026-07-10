@@ -28,8 +28,8 @@ class SearchResultTile extends StatelessWidget {
           color: Theme.of(context).colorScheme.onPrimary,
         ),
       ),
-      title: Text(title, style: Theme.of(context).textTheme.labelMedium),
-      subtitle: Text(subtitle, style: Theme.of(context).textTheme.labelSmall),
+      title: Text(title, style: Theme.of(context).textTheme.titleLarge),
+      subtitle: Text(subtitle, style: Theme.of(context).textTheme.titleSmall),
       onTap: onTap,
     );
   }

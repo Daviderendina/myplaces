@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
+import 'package:myplaces/core/constants/AppTextTheme.dart';
 
-import '../../../core/constants/AppTheme.dart';
+import '../../core/constants/AppTheme.dart';
 
-class AppSearchBarContainer extends StatelessWidget {
+class AppSearchBar extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final String? hintText;
@@ -18,7 +19,7 @@ class AppSearchBarContainer extends StatelessWidget {
   final Color? cursorColor;
   final bool showShadow;
 
-  const AppSearchBarContainer({
+  const AppSearchBar({
     super.key,
     this.leading,
     this.trailing,
@@ -80,11 +81,7 @@ class AppSearchBarContainer extends StatelessWidget {
                 enableInteractiveSelection: false,
                 decoration: InputDecoration(
                   hintText: hintText ?? '',
-                  hintStyle: TextStyle(
-                    // TODO AppTheme
-                    color: theme.hintColor,
-                    fontSize: 16,
-                  ),
+                  hintStyle: Theme.of(context).textTheme.hintText,
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,

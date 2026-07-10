@@ -46,16 +46,23 @@ class _Spaces {
 }
 
 class _Geometry {
-  late EdgeInsets pagePadding;
+  late EdgeInsets mainPagePadding;
+  late EdgeInsets untitledMainPagePadding;
   late double itemHeightSmall;
   final double radiusMedium = 12.0;
   final double radiusLarge = 20.0;
 
   void _init(double h, double w) {
-    pagePadding = EdgeInsets.only(
+    mainPagePadding = EdgeInsets.only(
       top: h * 0.06,
       left: w * 0.05,
       right: w * 0.05,
+    );
+    untitledMainPagePadding = EdgeInsets.fromLTRB(
+      w * .05,
+      h * 0.045,
+      w * .05,
+      h * 0.02,
     );
 
     itemHeightSmall = h * .06;
@@ -131,7 +138,7 @@ class _Modals {
   void _init(double h, double w) {
     fullscreenPadding = EdgeInsets.fromLTRB(
       w * .05,
-      h * 0.05,
+      h * 0.01,
       w * .05,
       h * 0.02,
     );
