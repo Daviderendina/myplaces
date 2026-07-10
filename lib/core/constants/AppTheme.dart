@@ -5,7 +5,7 @@ import 'package:myplaces/core/constants/AppTextTheme.dart';
 import 'AppLayout.dart';
 
 class AppTheme {
-  static double get surfaceAlpha => 0.8;
+  static const double surfaceAlpha = 0.8;
 
   static ThemeData get light => ThemeData(
     useMaterial3: true,

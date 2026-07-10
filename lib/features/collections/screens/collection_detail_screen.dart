@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:myplaces/shared/widgets/button/icon_app_button.dart';
 import 'package:myplaces/shared/widgets/map/map_view_screen.dart';
 import '../../../core/constants/AppLayout.dart';
+import '../../../shared/widgets/button/transparent_back_button.dart';
 import '../../../shared/widgets/emoji/circled_emoji.dart';
 import '../models/collection.dart';
 import 'widgets/poi_card.dart';
@@ -107,6 +108,8 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
               );
             },
           ),
+
+          Positioned(left: 16, top: 32, child: TransparentBackButton()),
         ],
       ),
     );

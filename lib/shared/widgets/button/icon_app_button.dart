@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 
+import '../../../core/constants/AppTheme.dart';
+
 enum _IconAppType { primary, surfaceTransparent, transparent }
 
 enum IconAppShape { circular, square }
@@ -31,7 +33,7 @@ class IconAppButton extends StatelessWidget {
     required this.icon,
     required this.buttonSize,
     required this.iconSize,
-    this.backgroundAlpha = 1,
+    this.backgroundAlpha = AppTheme.surfaceAlpha,
     this.shape = IconAppShape.circular,
   }) : _type = _IconAppType.surfaceTransparent;
 
@@ -49,9 +51,7 @@ class IconAppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Color backgroundColor = switch (_type) {
       _IconAppType.primary => Theme.of(context).colorScheme.primary,
-      _IconAppType.surfaceTransparent => Theme.of(
-        context,
-      ).colorScheme.surface.withAlpha(100),
+      _IconAppType.surfaceTransparent => Theme.of(context).colorScheme.surface,
       _IconAppType.transparent => Colors.transparent,
     };
 

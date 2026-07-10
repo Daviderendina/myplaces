@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:myplaces/core/constants/AppLayout.dart';
-import '../button/icon_app_button.dart';
+import '../button/transparent_back_button.dart';
 
 class AppImageCarousel extends StatefulWidget {
   final List<String> images;
@@ -98,16 +97,7 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
             ),
           ),
         if (widget.showBackButton)
-          Positioned(
-            left: 8,
-            top: 8,
-            child: IconAppButton.surfaceTransparent(
-              icon: Icons.arrow_back_outlined,
-              buttonSize: AppLayout.buttons.circularMedium,
-              iconSize: AppLayout.icons.medium,
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
+          Positioned(left: 8, top: 8, child: TransparentBackButton()),
       ],
     );
   }
