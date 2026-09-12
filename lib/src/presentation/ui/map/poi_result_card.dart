@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/poi.dart';
 
 class PoiResultCard extends StatelessWidget {
-  final Poi poi;
+  final OldPoi poi;
   final VoidCallback onTap;
 
   const PoiResultCard({super.key, required this.poi, required this.onTap});

@@ -11,12 +11,12 @@ class PoiService {
 
   PoiService(this._searchService, this._poiRepository);
 
-  Future<List<Poi>> search(String query) {
+  Future<List<OldPoi>> search(String query) {
     return _searchService.search(query);
   }
 
-  Future<Poi> save(Poi poi) async {
-    Poi? poiSaved = await _poiRepository.getById(poi.id);
+  Future<OldPoi> save(OldPoi poi) async {
+    OldPoi? poiSaved = await _poiRepository.getById(poi.id);
 
     if (poiSaved != null) {
       poi.obxId = poiSaved.obxId;
@@ -26,11 +26,11 @@ class PoiService {
     // TODO forse devo tornare copy per forzare aggiornamento???
   }
 
-  Future<Poi?> getById(String id) async {
+  Future<OldPoi?> getById(String id) async {
     return _poiRepository.getById(id);
   }
 
-  Poi togglePoiInList(Poi poi, MyList myList) {
+  OldPoi togglePoiInList(OldPoi poi, MyList myList) {
     bool listBelongToPoi = poi.lists.any((l) => l.id == myList.id);
     if (listBelongToPoi) {
       poi.lists.removeWhere((l) => l.id == myList.id);

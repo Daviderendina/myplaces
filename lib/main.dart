@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/constants/AppTheme.dart';
-import 'features/root/screens/root_screen.dart';
+import 'package:myplaces/core/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+  ));
 
   runApp(ProviderScope(child: MyApp()));
 }
@@ -14,25 +21,14 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: AppRouter.router,
       theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: RootScreen()),
+      builder: (context, child) {
+        AppLayout.init(context);
+        return child!;
+      },
     );
-    // TODO
-    // final init = ref.watch(appInitProvider);
-    //
-    // return init.when(
-    //   loading: () => const MaterialApp(
-    //     home: Scaffold(body: Center(child: CircularProgressIndicator())),
-    //   ),
-    //   error: (e, st) => MaterialApp(
-    //     home: Scaffold(body: Center(child: Text('Errore: $e'))),
-    //   ),
-    //   data: (_) => MaterialApp(
-    //     title: 'Flutter Demo',
-    //     home: Center(child: const Text("Hello, world")),
-    //   ),
-    // );
   }
 }

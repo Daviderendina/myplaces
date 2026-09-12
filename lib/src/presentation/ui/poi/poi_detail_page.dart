@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/src/presentation/ui/common/note/note_box.dart';
 import '../../../tools/extension/title_case_extension.dart';
 import 'package:myplaces/src/presentation/ui/poi/poi_button_list.dart';
@@ -8,7 +9,6 @@ import 'package:myplaces/src/presentation/ui/poi/poi_button_list.dart';
 import '../../../../src/domain/poi_image.dart';
 import '../../../providers.dart';
 import '../common/chips.dart';
-import '../common/circular_icon_button.dart';
 import '../common/note/note_dialog.dart';
 
 class PoiDetailPage extends ConsumerStatefulWidget {
@@ -39,7 +39,8 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.only(top: 16), //AppLayout.getPagePadding(context),
+        //const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -122,24 +123,15 @@ class PoiDetailPageState extends ConsumerState<PoiDetailPage> {
                     ),
                   ),
 
-                // Bottoni esistenti
-                Positioned(
-                  left: 8,
-                  top: 8,
-                  child: CircularIconButton(
-                    icon: Icons.arrow_back_outlined,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ),
-                if (poi.note.isEmpty)
-                  Positioned(
-                    right: 8,
-                    top: 8,
-                    child: CircularIconButton(
-                      icon: Icons.playlist_add,
-                      onPressed: () => openNoteDialog(poi.note),
-                    ),
-                  ),
+                // // Bottoni esistenti
+                // Positioned(
+                //   left: 8,
+                //   top: 8,
+                //   child: CircularIconButton(
+                //     icon: Icons.arrow_back_outlined,
+                //     onPressed: () => Navigator.of(context).pop(),
+                //   ),
+                // ),
               ],
             ),
 

@@ -9,7 +9,7 @@ import '../../../providers.dart';
 
 class AddListCustomChips extends ConsumerStatefulWidget {
   final List<MyList> lists;
-  final Poi poi;
+  final OldPoi poi;
 
   const AddListCustomChips({super.key, required this.lists, required this.poi});
 
@@ -62,7 +62,7 @@ class AddListCustomChipsState extends ConsumerState<AddListCustomChips> {
   }
 
   // TODO fare unico
-  void onListClick(bool selected, Poi poi, MyList myList) {
+  void onListClick(bool selected, OldPoi poi, MyList myList) {
     // print("onListClick >>> ${poi.lists}");
     // setState(() {
     //   if (selected) {

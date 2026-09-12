@@ -1,12 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/models/poi.dart';
 
 import '../models/collection.dart';
 import '../models/emoji.dart';
 
 class CollectionRepository {
+  // TODO forse il visibleOnMAp è più una config locale/remota
+
   final _controller = StreamController<List<Collection>>.broadcast();
 
   List<Collection> _cache = []; // cache locale
@@ -26,23 +35,47 @@ class CollectionRepository {
           Poi(
             id: "0",
             name: "Cimone di Margno",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+            coordinates: LatLng(45.853, 9.390),
           ),
           Poi(
             id: "1",
             name: "Passo del Berlina",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+            coordinates: LatLng(45.853, 9.390),
           ),
           Poi(
             id: "2",
             name: "Museo del Cairo",
-            coordinates: Coordinates(latitude: 0.123, longitude: 0.123),
+            coordinates: LatLng(45.853, 9.390),
           ),
-          Poi(id: "3", name: "Creta", coordinates: Coordinates(latitude: 0.123, longitude: 0.123)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(44.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
         ],
       ),
-      Collection(id: '2', name: 'Da visitare', emoji: await MyEmoji.create('✈️')),
-      Collection(id: '3', name: 'Ristoranti di pesce', emoji: await MyEmoji.create('🐟')),
+      Collection(
+        id: '2',
+        name: 'Da visitare',
+        emoji: await MyEmoji.create('✈️'),
+      ),
+      Collection(
+        id: '3',
+        name: 'Ristoranti di pesce',
+        emoji: await MyEmoji.create('🐟'),
+        visibleOnMap: false,
+      ),
       Collection(id: '4', name: 'Parchi', emoji: await MyEmoji.create('🌳')),
     ];
     return _cache;

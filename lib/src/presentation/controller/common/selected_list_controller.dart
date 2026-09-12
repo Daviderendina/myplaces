@@ -14,7 +14,11 @@ class SelectedListController extends StateNotifier<MyList?> {
   final ListService repository;
   final ListsController allListsController;
 
-  SelectedListController(super._state, this.repository, this.allListsController);
+  SelectedListController(
+    super._state,
+    this.repository,
+    this.allListsController,
+  );
 
   Future<void> selectNewList(MyList myList) async {
     MyList? fromRepository = await repository.getById(myList.id);
@@ -34,7 +38,7 @@ class SelectedListController extends StateNotifier<MyList?> {
     allListsController.refresh();
   }
 
-  Future<void> deletePoiFromList(Poi poi) async {
+  Future<void> deletePoiFromList(OldPoi poi) async {
     // final updatedList = state!.copyWith();
     // updatedList.poiList.removeWhere((p) => p.id == poi.id);
 

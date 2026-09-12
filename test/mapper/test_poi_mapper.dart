@@ -23,7 +23,7 @@ void main() {
         },
       };
 
-      final poi = Poi.fromJson(photonExample);
+      final poi = OldPoi.fromJson(photonExample);
 
       expect(poi.id, '12345');
       expect(poi.name, 'La Pergola');
@@ -50,7 +50,7 @@ void main() {
         },
       };
 
-      final poi = Poi.fromJson(photonExample);
+      final poi = OldPoi.fromJson(photonExample);
 
       expect(poi.id, '54321');
       expect(poi.name, 'Unknown Place');
@@ -65,7 +65,7 @@ void main() {
     test('returns Poi.empty() if response is invalid', () {
       final invalidResponse = {"invalid": "data"};
 
-      final poi = Poi.fromJson(invalidResponse);
+      final poi = OldPoi.fromJson(invalidResponse);
 
       expect(poi.isEmpty(), true);
       expect(poi.id, '');
@@ -88,7 +88,7 @@ void main() {
         },
       };
 
-      final poi = Poi.fromJson(photonExample);
+      final poi = OldPoi.fromJson(photonExample);
 
       expect(poi.category, PoiCategory.unknown);
     });

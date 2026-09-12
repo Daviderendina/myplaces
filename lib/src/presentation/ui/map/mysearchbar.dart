@@ -8,20 +8,25 @@ import '../../../providers.dart';
 
 class MySearchBar extends ConsumerWidget {
   final FloatingSearchBarController searchBarController;
-  final Function(Poi poi) onResultTap;
+  final Function(OldPoi poi) onResultTap;
+  final Widget? body;
 
   const MySearchBar({
     required this.searchBarController,
     required this.onResultTap,
+    this.body,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<List<Poi>> state = ref.watch(searchBarControllerProvider);
+    final AsyncValue<List<OldPoi>> state = ref.watch(
+      searchBarControllerProvider,
+    );
     final mapPageState = ref.watch(mapPageControllerProvider);
 
     return FloatingSearchBar(
+      body: body,
       actions: [
         mapPageState.showPoiMarker
             ? IconButton(

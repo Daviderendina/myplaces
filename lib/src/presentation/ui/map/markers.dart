@@ -7,7 +7,7 @@ import '../../../domain/poi.dart';
 import '../list/visual_symbol_visualizer.dart';
 
 class CircularFlagPoiMarker {
-  static Marker build({required Poi poi, required VoidCallback onTap}) {
+  static Marker build({required OldPoi poi, required VoidCallback onTap}) {
     return Marker(
       width: 32,
       height: 32,
@@ -33,7 +33,7 @@ class CircularFlagPoiMarker {
 class ListPoiMarker {
   static Marker build({
     required MyList myList,
-    required Poi poi,
+    required OldPoi poi,
     required VoidCallback onTap,
   }) {
     return Marker(
@@ -59,7 +59,7 @@ class ListPoiMarker {
 }
 
 class SelectedPoiMarker {
-  static Marker build({required Poi poi, required VoidCallback onTap}) {
+  static Marker build({required OldPoi poi, required VoidCallback onTap}) {
     return Marker(
       point: poi.coordinates,
       child: GestureDetector(

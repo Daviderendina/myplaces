@@ -20,33 +20,34 @@ class MainTitledScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Padding(
-        padding: AppLayout.getPagePadding(context),
-        child: Column(
-          spacing: 0,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(title, style: Theme.of(context).textTheme.headlineLarge),
-                Spacer(),
-                ?action,
-              ],
+    return Padding(
+      padding: AppLayout.geometry.mainPagePadding,
+      child: Column(
+        spacing: 0,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(title, style: Theme.of(context).textTheme.displayLarge),
+              const Spacer(),
+              if (action != null) action!,
+            ],
+          ),
+          if (subtitle != null) ...[
+            Text(
+              subtitle!,
+              style: Theme.of(
+                context,
+              ).textTheme.displaySmall?.copyWith(height: 1),
             ),
-
-            if (subtitle != null) ...[
-              Text(subtitle!, style: Theme.of(context).textTheme.titleSmall?.copyWith(height: 1)),
-              SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
-            ],
-            if (searchBar != null) ...[
-              searchBar!,
-              SizedBox(height: AppLayout.getMediumVerticalSpace(context)),
-            ],
-            Expanded(child: child),
+            SizedBox(height: AppLayout.spaces.verticalLarge),
           ],
-        ),
+          if (searchBar != null) ...[
+            searchBar!,
+            SizedBox(height: AppLayout.spaces.verticalLarge),
+          ],
+          Expanded(child: child),
+        ],
       ),
     );
   }

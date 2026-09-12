@@ -52,7 +52,7 @@ comunica solo con il layer immediatamente adiacente. Il flusso della chiamata va
     - **Dipendenze piatte**: nessun Service chiama un altro Service. Se la logica è condivisa,
       estrarla
       in una funzione/utility.
-      -**Repository**
+- **Repository**
     - **Unico punto di accesso** per ogni aggregato di dominio.
     - **Mappa le risposte raw** (JSON / Supabase DTOs) in oggetti `Model` tipizzati prima di
       restituirli.
@@ -113,6 +113,9 @@ lib/
 
 - NON aggiungere margini e padding di tua iniziativa
 - NON scommentare mai righe commentate
+- Utilizza sempre AppTheme e AppLayut per la definizione di temi e costanti di layout. Cerca di
+  utilizzare quanto già definito prima di definire cose nuove. Quando viene definito qualcosa di
+  nuovo, deve essere il più generico possibile.
 - Limitati a fare esattamente quanto ti chiedo
 - *NON* usare freezed o altro, voglio riverpod puro con AsyncNotifier e state.
 - **Genera sempre i test** contestualmente all'implementazione, non alla fine.
@@ -121,5 +124,8 @@ lib/
 - **Nessun `print()`** nel codice di produzione. Usa un logger o le eccezioni tipizzate.
 - **Commenta solo il perché**, non il cosa. Il codice deve essere auto-esplicativo.
 - *NON* commentare il codice
-- **Se una istruzione in questo documento è ambigua**, scegli l'interpretazione più conservativa (
-  meno codice, più semplice) e documenta la scelta come commento inline.
+- **Se una istruzione in questo documento è ambigua**, chiedimi in chat come è meglio procedere
+- Prima di partire con la programmazione, chiedi sempre in chat qualsiasi dubbio o specifica sullo
+  sviluppo.
+- Se in chat ti sto facendo violare esplicitamente qualcosa che ti ho definito qui, chiedimi
+  conferma prima di partire

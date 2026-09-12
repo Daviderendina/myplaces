@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/poi.dart';
 
 class PoiCard extends StatelessWidget {
-  final Poi poi;
+  final OldPoi poi;
   final VoidCallback onTap;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
@@ -83,15 +83,7 @@ class PoiCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          poi.name,
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(
-                                // TODO bello questo modo per i testi!!!
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
+                        Text(poi.name),
                         Spacer(),
                         SizedBox(
                           height: 20,

@@ -6,17 +6,17 @@ import 'package:myplaces/src/domain/visual_symbol.dart';
 import '../tools/extension/title_case_extension.dart';
 
 class MyList {
-  int id = 0; 
+  int id = 0;
   String emoji;
   String name;
   bool isDefault;
   String note;
-  bool isArchived; 
+  bool isArchived;
   bool visibleOnMap;
 
   IconData? icon;
 
-  final List<Poi> poiList = [];
+  final List<OldPoi> poiList = [];
 
   MyList({
     required String name,

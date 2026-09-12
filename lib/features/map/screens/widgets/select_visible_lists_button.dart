@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/src/domain/my_list.dart';
-import 'package:myplaces/src/presentation/ui/map/select_visible_lists_popup_item.dart';
-import '../../../providers.dart';
+import 'package:myplaces/features/map/screens/widgets/select_visible_lists_popup_item.dart';
+import '../../../../core/constants/AppLayout.dart';
+import '../../../../core/constants/AppTheme.dart';
+import '../../../../shared/widgets/button/icon_app_button.dart';
+import '../../../../src/providers.dart';
 
 class SelectVisibleListsButton extends ConsumerWidget {
-  const SelectVisibleListsButton({super.key});
+  final double size;
+
+  const SelectVisibleListsButton({super.key, required this.size});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listsAsync = ref.watch(listsControllerProvider);
+    // TODO menu
 
     return GestureDetector(
       onTap: () async {
+        // ... (resto del codice invariato fino a showMenu)
         final listsData = listsAsync.when(
           data: (data) => data,
           loading: () => [],
@@ -37,8 +44,8 @@ class SelectVisibleListsButton extends ConsumerWidget {
             borderRadius: BorderRadius.circular(12.0),
           ),
           clipBehavior: Clip.antiAlias,
-          constraints: BoxConstraints(
-            maxHeight: 300,
+          constraints: const BoxConstraints(
+            maxHeight: 220,
             minWidth: 1,
             maxWidth: 220,
           ),
@@ -73,14 +80,13 @@ class SelectVisibleListsButton extends ConsumerWidget {
           elevation: 0,
         );
       },
-      child: Container(
-        height: 54,
-        width: 54,
-        decoration: BoxDecoration(
-          color: Colors.teal.withAlpha(190),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Icon(Icons.filter_list_outlined, color: Colors.white, size: 23),
+      child: IconAppButton.primary(
+        icon: Icons.filter_list_outlined,
+        buttonSize: size,
+        iconSize: AppLayout.icons.medium,
+        shape: IconAppShape.square,
+        backgroundAlpha: AppTheme.surfaceAlpha,
+        onPressed: () {},
       ),
     );
   }

@@ -5,7 +5,7 @@ import 'package:myplaces/src/domain/poi_image.dart';
 
 import '../config/poi_categories_mapping.dart';
 
-class Poi {
+class OldPoi {
   int obxId = 0;
 
   final String id;
@@ -16,8 +16,8 @@ class Poi {
   String name;
 
   String? city;
-  String? province; 
-  String? region; 
+  String? province;
+  String? region;
   String? country;
   String? countrycode;
 
@@ -32,7 +32,7 @@ class Poi {
 
   List<MyList> lists = [];
 
-  Poi({
+  OldPoi({
     required this.id,
     this.type,
     this.subtype,
@@ -64,8 +64,8 @@ class Poi {
     return id.isEmpty && name.isEmpty;
   }
 
-  factory Poi.empty() {
-    return Poi(id: '', name: '', categoryName: PoiCategory.unknown.name);
+  factory OldPoi.empty() {
+    return OldPoi(id: '', name: '', categoryName: PoiCategory.unknown.name);
   }
 
   String getDisplayAreaName() {
@@ -88,7 +88,7 @@ class Poi {
     return 'Poi(obxId: $obxId, id: $id, type: $type, subtype: $subtype, name: $name, city: $city, province: $province, region: $region, country: $country, countrycode: $countrycode, categoryName: $categoryName, note: $note, lat: $lat, lng: $lng, coordinates: ${coordinates.latitude},${coordinates.longitude}, images: [${images.map((i) => i.thumbnail).join(', ')}], lists: [${lists.map((l) => l.name).join(', ')}])';
   }
 
-  factory Poi.fromJson(Map<String, dynamic> json) {
+  factory OldPoi.fromJson(Map<String, dynamic> json) {
     PoiCategory findCategoryByTypeAndSubtype(String type, String subtype) {
       return poiCategoriesMapping["$type|$subtype"] ??
           poiCategoriesMapping["$type|*"] ??
@@ -99,7 +99,7 @@ class Poi {
       final properties = json['properties'];
       final geometry = json['geometry'];
 
-      Poi result = Poi(
+      OldPoi result = OldPoi(
         id: properties['osm_id'].toString(),
         type: properties['osm_key'],
         subtype: properties['osm_value'],
@@ -119,13 +119,13 @@ class Poi {
 
       return result;
     } catch (error) {
-      return Poi.empty();
+      return OldPoi.empty();
     }
   }
 }
 
-extension PoiCopy on Poi {
-  Poi copy({
+extension PoiCopy on OldPoi {
+  OldPoi copy({
     String? type,
     String? subtype,
     String? name,
@@ -141,7 +141,7 @@ extension PoiCopy on Poi {
     List<PoiImage>? images,
     List<MyList>? lists,
   }) {
-    final clonedPoi = Poi(
+    final clonedPoi = OldPoi(
       id: this.id,
       type: type ?? this.type,
       subtype: subtype ?? this.subtype,

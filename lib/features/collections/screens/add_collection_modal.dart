@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/collections/controllers/add_collection_controller.dart';
-import 'package:myplaces/shared/widgets/app_button.dart';
+import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 import 'package:myplaces/shared/widgets/app_snack_bar.dart';
 import 'package:myplaces/shared/widgets/form/app_text_field.dart';
 import 'package:myplaces/shared/widgets/form/generic_form_field.dart';
+import 'package:myplaces/shared/widgets/modal/base_fullscreen_modal.dart';
 import '../../../shared/widgets/emoji/my_emoji_picker.dart';
 import '../providers.dart';
 
@@ -57,57 +58,27 @@ class _AddCollectionModalState extends ConsumerState<AddCollectionModal> {
     final state = ref.watch(addCollectionControllerProvider);
     final controller = ref.read(addCollectionControllerProvider.notifier);
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      behavior: HitTestBehavior.opaque,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
-              Expanded(
-                child: Padding(
-                  padding: AppLayout.getFullscreenModalPadding(context),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Nuova Collezione',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-
-                      SizedBox(height: AppLayout.form.getTitleSpacing(context)),
-
-                      TextInputFormField(
-                        label: 'Nome',
-                        hintText: 'Inserisci il nome della collezione',
-                        controller: _nameController,
-                      ),
-
-                      SizedBox(height: AppLayout.form.getFieldSpacing(context)),
-
-                      GenericFormField(
-                        label: "List emoji",
-                        child: MyEmojiPicker(
-                          height: height * .45,
-                          onEmojiSelected: (emoji) => controller.setValues(emoji: emoji),
-                        ),
-                      ),
-
-                      const Spacer(),
-
-                      AppButton(text: 'SALVA', isLoading: state.isSaving, onPressed: _handleSave),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+    return BaseFullscreenModal(
+      title: 'Nuova Collezione',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextInputFormField(
+            label: 'Nome',
+            hintText: 'Inserisci il nome della collezione',
+            controller: _nameController,
           ),
-        ),
+          SizedBox(height: AppLayout.forms.fieldSpacing),
+          GenericFormField(
+            label: "List emoji",
+            child: MyEmojiPicker(
+              height: height * .45,
+              onEmojiSelected: (emoji) => controller.setValues(emoji: emoji),
+            ),
+          ),
+          const Spacer(),
+          TextAppButton(text: 'SALVA', onPressed: _handleSave),
+        ],
       ),
     );
   }
