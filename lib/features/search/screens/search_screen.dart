@@ -97,7 +97,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     final poi = pois[index];
                     return SearchResultTile(
                       title: poi.name,
-                      subtitle: poi.getDisplayAreaName(),
+                      subtitle: poi.id,
                       icon: Icons.location_on,
                       onTap: () {
                         ref

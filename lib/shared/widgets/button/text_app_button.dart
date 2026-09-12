@@ -80,7 +80,10 @@ class _TextAppButtonState extends State<TextAppButton> {
           foregroundColor: foregroundColor,
           disabledBackgroundColor: theme.disabledColor.withValues(alpha: 0.12),
           disabledForegroundColor: theme.disabledColor,
+          // For removing click effect
           elevation: 0,
+          shadowColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
           side: widget._type == _TextAppType.alternative
               ? BorderSide(
                   color: theme.colorScheme.primary.withValues(alpha: 0.1),

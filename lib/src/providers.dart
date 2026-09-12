@@ -17,28 +17,31 @@ import 'application/settings_service.dart';
 import 'domain/my_list.dart';
 import 'domain/poi.dart';
 
-final searchBarControllerProvider = AsyncNotifierProvider<SearchBarController, List<Poi>>(
-  () => SearchBarController(),
-);
-final mapPageControllerProvider = StateNotifierProvider<MapPageController, MapPageState>(
-  (ref) => MapPageController(const MapPageState()),
-);
+final searchBarControllerProvider =
+    AsyncNotifierProvider<SearchBarController, List<OldPoi>>(
+      () => SearchBarController(),
+    );
+final mapPageControllerProvider =
+    StateNotifierProvider<MapPageController, MapPageState>(
+      (ref) => MapPageController(const MapPageState()),
+    );
 
-final selectedPoiControllerProvider = StateNotifierProvider<SelectedPoiController, Poi?>(
-  (ref) => SelectedPoiController(null, ref.read(poiServiceProvider)),
-);
+final selectedPoiControllerProvider =
+    StateNotifierProvider<SelectedPoiController, OldPoi?>(
+      (ref) => SelectedPoiController(null, ref.read(poiServiceProvider)),
+    );
 
-final selectedListControllerProvider = StateNotifierProvider<SelectedListController, MyList?>(
-  (ref) => SelectedListController(
-    null,
-    ref.read(listServiceProvider),
-    ref.read(listsControllerProvider.notifier),
-  ),
-);
+final selectedListControllerProvider =
+    StateNotifierProvider<SelectedListController, MyList?>(
+      (ref) => SelectedListController(
+        null,
+        ref.read(listServiceProvider),
+        ref.read(listsControllerProvider.notifier),
+      ),
+    );
 
-final listsControllerProvider = AsyncNotifierProvider<ListsController, List<MyList>>(
-  ListsController.new,
-);
+final listsControllerProvider =
+    AsyncNotifierProvider<ListsController, List<MyList>>(ListsController.new);
 
 // Service
 
@@ -46,7 +49,9 @@ final poiServiceProvider = Provider<PoiService>(
   (ref) => PoiService(PoiSearchService(), PoiRepository()),
 );
 
-final listServiceProvider = Provider<ListService>((ref) => ListService(ListRepository()));
+final listServiceProvider = Provider<ListService>(
+  (ref) => ListService(ListRepository()),
+);
 
 final settingsServiceProvider = FutureProvider<SettingsService>((ref) async {
   final prefs = await SharedPreferencesWithCache.create(

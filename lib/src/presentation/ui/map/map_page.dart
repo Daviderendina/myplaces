@@ -73,7 +73,7 @@ class MapPage extends ConsumerWidget {
   Future<void> showPoiOnMap(
     BuildContext context,
     WidgetRef ref,
-    Poi poi,
+    OldPoi poi,
   ) async {
     ref.read(selectedPoiControllerProvider.notifier).selectNewPoi(poi);
 

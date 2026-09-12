@@ -5,22 +5,22 @@ import 'package:myplaces/logger.dart';
 import '../../../../../../src/domain/poi.dart';
 import '../../../../domain/my_list.dart';
 
-class SelectedPoiController extends StateNotifier<Poi?> {
+class SelectedPoiController extends StateNotifier<OldPoi?> {
   final PoiService _service;
 
   SelectedPoiController(super._state, this._service);
 
-  Future<void> selectNewPoi(Poi poi) async {
+  Future<void> selectNewPoi(OldPoi poi) async {
     state = await _service.getById(poi.id) ?? poi;
   }
 
-  void triggerPoiToList(Poi poi, MyList myList) {
-    Poi result = _service.togglePoiInList(poi, myList);
+  void triggerPoiToList(OldPoi poi, MyList myList) {
+    OldPoi result = _service.togglePoiInList(poi, myList);
     // TODO non so mi sembra fragile come metodo. per ora pero funzioa - funziona perchè i dati mostrati sono sempre consistenti con il DB, ma se il DB va lento si sminchia?
     selectNewPoi(result);
   }
 
-  bool poiBelongToList(Poi poi, MyList list) {
+  bool poiBelongToList(OldPoi poi, MyList list) {
     return poi.lists.any((l) => l.id == list.id);
   }
 

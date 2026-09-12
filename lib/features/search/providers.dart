@@ -3,7 +3,7 @@ import 'package:myplaces/features/search/controllers/search_controller.dart';
 import 'package:myplaces/features/search/datasources/search_datasource.dart';
 import 'package:myplaces/features/search/repositories/search_repository.dart';
 import 'package:myplaces/features/search/services/search_service.dart';
-import 'package:myplaces/src/domain/poi.dart';
+import '../../core/models/poi.dart';
 
 final searchDataSourceProvider = Provider<SearchDataSource>((ref) {
   return MockSearchDataSource();
@@ -19,6 +19,7 @@ final searchServiceProvider = Provider<SearchService>((ref) {
   return SearchService(repository);
 });
 
-final searchControllerProvider = AsyncNotifierProvider<SearchController, List<Poi>>(() {
-  return SearchController();
-});
+final searchControllerProvider =
+    AsyncNotifierProvider<SearchController, List<Poi>>(() {
+      return SearchController();
+    });

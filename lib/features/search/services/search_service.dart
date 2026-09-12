@@ -1,5 +1,5 @@
+import 'package:myplaces/core/models/poi.dart';
 import 'package:myplaces/features/search/repositories/search_repository.dart';
-import 'package:myplaces/src/domain/poi.dart';
 
 class SearchService {
   final SearchRepository _repository;

@@ -14,6 +14,8 @@ import '../models/collection.dart';
 import '../models/emoji.dart';
 
 class CollectionRepository {
+  // TODO forse il visibleOnMAp è più una config locale/remota
+
   final _controller = StreamController<List<Collection>>.broadcast();
 
   List<Collection> _cache = []; // cache locale
@@ -72,6 +74,7 @@ class CollectionRepository {
         id: '3',
         name: 'Ristoranti di pesce',
         emoji: await MyEmoji.create('🐟'),
+        visibleOnMap: false,
       ),
       Collection(id: '4', name: 'Parchi', emoji: await MyEmoji.create('🌳')),
     ];

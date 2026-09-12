@@ -8,7 +8,7 @@ import '../../../providers.dart';
 
 class MySearchBar extends ConsumerWidget {
   final FloatingSearchBarController searchBarController;
-  final Function(Poi poi) onResultTap;
+  final Function(OldPoi poi) onResultTap;
   final Widget? body;
 
   const MySearchBar({
@@ -20,7 +20,9 @@ class MySearchBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<List<Poi>> state = ref.watch(searchBarControllerProvider);
+    final AsyncValue<List<OldPoi>> state = ref.watch(
+      searchBarControllerProvider,
+    );
     final mapPageState = ref.watch(mapPageControllerProvider);
 
     return FloatingSearchBar(

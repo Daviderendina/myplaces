@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/collection.dart';
 import '../providers.dart';
 import '../services/collections_service.dart';
 import 'collections_state.dart';
@@ -17,12 +16,18 @@ class CollectionsController extends AsyncNotifier<CollectionsState> {
     ref.listen(collectionsStreamProvider, (_, next) {
       next.whenData((list) {
         state = AsyncData(
-          state.value!.copyWith(allCollections: list, displayedCollections: list),
+          state.value!.copyWith(
+            allCollections: list,
+            displayedCollections: list,
+          ),
         ); // TODO qui devo modificare la active query anche?
       });
     });
 
-    return CollectionsState(allCollections: initial, displayedCollections: initial);
+    return CollectionsState(
+      allCollections: initial,
+      displayedCollections: initial,
+    );
   }
 
   void filter(String query) {
@@ -30,13 +35,19 @@ class CollectionsController extends AsyncNotifier<CollectionsState> {
     if (currentState == null) return;
 
     if (query.isEmpty) {
-      state = AsyncData(currentState.copyWith(displayedCollections: currentState.allCollections));
+      state = AsyncData(
+        currentState.copyWith(
+          displayedCollections: currentState.allCollections,
+        ),
+      );
     } else {
       final filteredList = currentState.allCollections
           .where((c) => c.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
 
-      state = AsyncData(currentState.copyWith(displayedCollections: filteredList));
+      state = AsyncData(
+        currentState.copyWith(displayedCollections: filteredList),
+      );
     }
   }
 }

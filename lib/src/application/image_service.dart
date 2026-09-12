@@ -5,8 +5,8 @@ import 'package:myplaces/src/domain/poi_image.dart';
 import '../domain/poi.dart';
 
 class ImageService {
-  Future<Poi> enrichPoiWithImages({
-    required Poi poi,
+  Future<OldPoi> enrichPoiWithImages({
+    required OldPoi poi,
     int limit = 2 /*15*/,
   }) async {
     final queryString = [

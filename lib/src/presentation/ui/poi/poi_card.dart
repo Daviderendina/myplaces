@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/poi.dart';
 
 class PoiCard extends StatelessWidget {
-  final Poi poi;
+  final OldPoi poi;
   final VoidCallback onTap;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppConfig.dart';
 import 'package:myplaces/features/search/providers.dart';
-import 'package:myplaces/src/domain/poi.dart';
+import '../../../core/models/poi.dart';
 
 class SearchController extends AsyncNotifier<List<Poi>> {
   Timer? _debounceTimer;
@@ -21,7 +21,7 @@ class SearchController extends AsyncNotifier<List<Poi>> {
       return;
     }
 
-    // Impostiamo immediatamente lo stato a loading (o manteniamo il precedente) 
+    // Impostiamo immediatamente lo stato a loading (o manteniamo il precedente)
     // per segnalare alla UI che una ricerca è "in arrivo"
     if (!state.isLoading) {
       state = const AsyncValue.loading();

@@ -6,9 +6,9 @@ import '../../../../../src/domain/poi.dart';
 import '../../../providers.dart';
 import '../../../../logger.dart';
 
-class SearchBarController extends AsyncNotifier<List<Poi>> {
+class SearchBarController extends AsyncNotifier<List<OldPoi>> {
   @override
-  FutureOr<List<Poi>> build() {
+  FutureOr<List<OldPoi>> build() {
     return [];
   }
 
@@ -19,7 +19,9 @@ class SearchBarController extends AsyncNotifier<List<Poi>> {
     }
 
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => ref.read(poiServiceProvider).search(query));
+    state = await AsyncValue.guard(
+      () => ref.read(poiServiceProvider).search(query),
+    );
     // TODO gestire error
   }
 }

@@ -12,6 +12,6 @@ class RootController extends Notifier<RootState> {
     state = state.copyWith(selectedIndex: index);
 
     // Reset map selection when switching tabs
-    ref.read(mapSelectionProvider.notifier).clear();
+    ref.read(mainMapControllerProvider.notifier).clearSelection();
   }
 }

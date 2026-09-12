@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/map/providers.dart';
+import 'package:myplaces/features/map/screens/widgets/AppMarker.dart';
 import 'package:myplaces/features/map/screens/widgets/poi_summary_sheet.dart';
 import 'package:myplaces/features/map/screens/widgets/select_visible_lists_button.dart';
 import 'package:myplaces/shared/widgets/app_search_bar_container.dart';
-import 'package:myplaces/src/domain/poi.dart';
 import 'package:myplaces/src/presentation/ui/map/map_view.dart';
 
 class MainMapScreen extends ConsumerStatefulWidget {
@@ -35,7 +34,19 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedPoi = ref.watch(mapSelectionProvider);
+    final mapState = ref.watch(mainMapControllerProvider);
+    final mapController = ref.read(mainMapControllerProvider.notifier);
+
+    // Ascolta i cambiamenti di stato per muovere la telecamera
+    ref.listen(mainMapControllerProvider, (previous, next) {
+      if (next.cameraMoveTarget != null) {
+        _mapController.move(
+          next.cameraMoveTarget!,
+          next.targetZoom ?? 7.0,
+          offset: next.targetOffset ?? Offset.zero,
+        );
+      }
+    });
 
     return Stack(
       children: [
@@ -43,17 +54,19 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
           controller: _mapController,
           initialCenter: const LatLng(44, 12.6),
           initialZoom: 5.55,
-          markerBuilder: () => [],
+          markerBuilder: () => [
+            if (mapState.selectedPoi != null)
+              AppMarker.selectedPoiMarker(mapState.selectedPoi!, context),
+          ],
         ),
-        if (selectedPoi != null)
+        if (mapState.selectedPoi != null)
           Positioned(
             left: AppLayout.geometry.mainPagePadding.left,
             right: AppLayout.geometry.mainPagePadding.right,
             bottom: AppLayout.screenHeight * .10,
             child: PoiSummarySheet(
-              poi: selectedPoi,
-              onCloseClick: () =>
-                  ref.read(mapSelectionProvider.notifier).clear(),
+              poi: mapState.selectedPoi!,
+              onCloseClick: () => mapController.clearSelection(),
             ),
           ),
 
@@ -78,20 +91,12 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
                       Icons.search,
                       color: Theme.of(context).hintColor,
                     ),
-                    trailing: selectedPoi != null
+                    trailing: mapState.selectedPoi != null
                         ? Icon(Icons.close, color: Theme.of(context).hintColor)
                         : null,
-                    onTrailingTap: () {
-                      ref.read(mapSelectionProvider.notifier).clear();
-                    },
+                    onTrailingTap: () => mapController.clearSelection(),
                     hintText: 'Search..',
-                    onTap: () async {
-                      final Poi? result = await context.push<Poi>('/search');
-                      if (result != null) {
-                        ref.read(mapSelectionProvider.notifier).select(result);
-                        // TODO: center map on POI
-                      }
-                    },
+                    onTap: () => mapController.onSearchTap(context),
                   ),
                 ),
 

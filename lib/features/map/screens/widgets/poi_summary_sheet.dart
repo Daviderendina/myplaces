@@ -5,8 +5,8 @@ import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/shared/widgets/button/icon_app_button.dart';
 import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
-import 'package:myplaces/src/domain/poi.dart';
 
+import '../../../../core/models/poi.dart';
 import '../../../collections/screens/select_collection_modal.dart';
 
 class PoiSummarySheet extends ConsumerWidget {
