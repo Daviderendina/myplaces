@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
+import 'package:myplaces/features/collections/models/collection.dart';
+import 'package:myplaces/features/map/controllers/main_map_state.dart';
 import 'package:myplaces/features/map/providers.dart';
 import 'package:myplaces/features/map/screens/widgets/AppMarker.dart';
 import 'package:myplaces/features/map/screens/widgets/poi_summary_sheet.dart';
 import 'package:myplaces/features/map/screens/widgets/select_visible_lists_button.dart';
 import 'package:myplaces/shared/widgets/app_search_bar_container.dart';
-import 'package:myplaces/src/presentation/ui/map/map_view.dart';
+
+import '../../../core/models/poi.dart';
+import '../../../shared/widgets/map/map_view_screen.dart';
+import '../controllers/main_map_controller.dart';
 
 class MainMapScreen extends ConsumerStatefulWidget {
   const MainMapScreen({super.key});
@@ -32,32 +36,65 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
     super.dispose();
   }
 
+  List<Marker> _buildMarkers(MainMapState mapState, MainMapController mapController) {
+    // TODO perchè vien chiamata quando si esce dalla mappa e non solo quando si entra?
+    final markers = <Marker>[];
+
+    // Add selectedPoi marker
+    if ((mapState.showSelectedPoiMarker ?? true) && mapState.selectedPoi != null) {
+      markers.add(AppMarker.selectedPoiMarker(mapState.selectedPoi!, context));
+    }
+
+    // Add poi belonging to visible collections
+    List<Marker> visibleCollectionsMarkers = mapState.visibleCollections
+        .expand((Collection c) => c.pois)
+        .map((Poi poi) {
+          return AppMarker.collectionPoiMarker(
+            poi,
+            mapState.visibleCollections.firstWhere((c) => c.pois.contains(poi)),
+            context,
+            onTap: () => mapController.selectPoi(poi: poi, showSelectedPoiMarker: false),
+          );
+        })
+        .toList();
+
+    markers.addAll(visibleCollectionsMarkers);
+
+    return markers;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final mapState = ref.watch(mainMapControllerProvider);
+    final MainMapState mapState = ref
+        .watch(mainMapControllerProvider)
+        .when(
+          data: (state) => state,
+          loading: () => const MainMapState(),
+          error: (error, stackTrace) => const MainMapState(),
+        );
     final mapController = ref.read(mainMapControllerProvider.notifier);
 
-    // Ascolta i cambiamenti di stato per muovere la telecamera
     ref.listen(mainMapControllerProvider, (previous, next) {
-      if (next.cameraMoveTarget != null) {
+      final cameraState = next.when(
+        data: (state) => state,
+        loading: () => null,
+        error: (error, stackTrace) => null,
+      );
+      final cameraMoveTarget = cameraState?.cameraMoveTarget;
+      if (cameraMoveTarget != null) {
         _mapController.move(
-          next.cameraMoveTarget!,
-          next.targetZoom ?? 7.0,
-          offset: next.targetOffset ?? Offset.zero,
+          cameraMoveTarget,
+          cameraState?.targetZoom ?? 7.0,
+          offset: cameraState?.targetOffset ?? Offset.zero,
         );
       }
     });
 
     return Stack(
       children: [
-        MapView(
+        MapViewScreen(
           controller: _mapController,
-          initialCenter: const LatLng(44, 12.6),
-          initialZoom: 5.55,
-          markerBuilder: () => [
-            if (mapState.selectedPoi != null)
-              AppMarker.selectedPoiMarker(mapState.selectedPoi!, context),
-          ],
+          markerBuilder: () => _buildMarkers(mapState, mapController),
         ),
         if (mapState.selectedPoi != null)
           Positioned(
@@ -87,10 +124,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
                   child: AppSearchBar(
                     height: AppLayout.geometry.itemHeightSmall,
                     readOnly: true,
-                    leading: Icon(
-                      Icons.search,
-                      color: Theme.of(context).hintColor,
-                    ),
+                    leading: Icon(Icons.search, color: Theme.of(context).hintColor),
                     trailing: mapState.selectedPoi != null
                         ? Icon(Icons.close, color: Theme.of(context).hintColor)
                         : null,
@@ -100,9 +134,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
                   ),
                 ),
 
-                SelectVisibleListsButton(
-                  size: AppLayout.geometry.itemHeightSmall,
-                ),
+                SelectVisibleListsButton(size: AppLayout.geometry.itemHeightSmall),
               ],
             ),
           ),

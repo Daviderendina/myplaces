@@ -4,7 +4,7 @@ MyPlaces è una app Flutter per permettere agli utenti di tracciare i propri via
 interesse (POI — Points of
 Interest). Le sue funzionalità principali sono
 
-- Autenticazione utente (email/password e Google OAuth)
+- Autenticazione utente (email/password)
 - Visualizzazione di una mappa interattiva con i propri POI
 - Gestione CRUD completa dei viaggi
 - Gestione CRUD completa delle collezioni di POI

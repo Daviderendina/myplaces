@@ -4,9 +4,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/models/poi.dart';
 import 'package:myplaces/features/collections/screens/select_collection_modal.dart';
+import 'package:myplaces/features/poi/screens/widgets/icon_text_row.dart';
 import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
-import 'package:myplaces/features/poi/screens/widgets/icon_text_row.dart';
 
 import '../../../shared/widgets/button/transparent_back_button.dart';
 
@@ -28,12 +28,7 @@ class PoiDetailScreen extends ConsumerWidget {
     ];
 
     final displayPoi =
-        poi ??
-        Poi(
-          id: "0",
-          name: "Cimone di Margno",
-          coordinates: const LatLng(45.123, 9.123),
-        );
+        poi ?? Poi(id: "0", name: "Cimone di Margno", coordinates: const LatLng(45.123, 9.123));
 
     return Scaffold(
       body: Padding(
@@ -70,8 +65,7 @@ class PoiDetailScreen extends ConsumerWidget {
 
             IconTextRow(
               icon: Icons.location_on_outlined,
-              text:
-                  "${displayPoi.coordinates.latitude}, ${displayPoi.coordinates.longitude}",
+              text: "${displayPoi.coordinates.latitude}, ${displayPoi.coordinates.longitude}",
             ),
 
             // Additional info
@@ -96,10 +90,8 @@ class PoiDetailScreen extends ConsumerWidget {
                   useSafeArea: true,
                   backgroundColor: Colors.transparent,
                   builder: (context) => const SelectCollectionModal(
-                    initialCollectionIds: [
-                      "1",
-                      "3",
-                    ], // Pass appropriate IDs here
+                    title: 'Salva in una collezione',
+                    initialCollectionIds: ["1", "3"], // Pass appropriate IDs here
                   ),
                 );
               },

@@ -5,7 +5,6 @@ import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/search/providers.dart';
 import 'package:myplaces/features/search/screens/widgets/search_result_tile.dart';
 import 'package:myplaces/shared/widgets/app_search_bar_container.dart';
-import 'package:myplaces/src/domain/poi.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -35,9 +34,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppLayout.geometry.mainPagePadding.left,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: AppLayout.geometry.mainPagePadding.left),
               child: Column(
                 children: [
                   SizedBox(height: AppLayout.spaces.verticalSmall),
@@ -45,18 +42,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     controller: _textController,
                     autofocus: true,
                     height: AppLayout.geometry.itemHeightSmall,
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerLow,
+                    backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
                     readOnly: false,
-                    leading: Icon(
-                      Icons.arrow_back,
-                      color: Theme.of(context).hintColor,
-                    ),
+                    leading: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
                     onLeadingTap: () {
-                      ref
-                          .read(searchControllerProvider.notifier)
-                          .clearResults();
+                      ref.read(searchControllerProvider.notifier).clearResults();
                       Navigator.pop(context);
                     },
                     trailing: _textController.text.isNotEmpty
@@ -64,16 +54,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         : null,
                     onTrailingTap: () {
                       _textController.clear();
-                      ref
-                          .read(searchControllerProvider.notifier)
-                          .clearResults();
+                      ref.read(searchControllerProvider.notifier).clearResults();
                       setState(() {});
                     },
                     hintText: 'Search..',
                     onChanged: (value) {
-                      ref
-                          .read(searchControllerProvider.notifier)
-                          .onQueryChanged(value);
+                      ref.read(searchControllerProvider.notifier).onQueryChanged(value);
                       setState(() {});
                     },
                   ),
@@ -100,9 +86,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       subtitle: poi.id,
                       icon: Icons.location_on,
                       onTap: () {
-                        ref
-                            .read(searchControllerProvider.notifier)
-                            .clearResults();
+                        ref.read(searchControllerProvider.notifier).clearResults();
                         context.pop(poi);
                       },
                     );

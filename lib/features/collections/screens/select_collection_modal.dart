@@ -1,50 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/features/collections/models/collection.dart';
-import 'package:myplaces/features/collections/models/emoji.dart';
+import 'package:myplaces/features/collections/providers.dart';
 import 'package:myplaces/features/collections/screens/widgets/collection_list_tile.dart';
-import 'package:myplaces/shared/widgets/modal/base_fullscreen_modal.dart';
 import 'package:myplaces/shared/widgets/button/text_app_button.dart';
+import 'package:myplaces/shared/widgets/modal/base_fullscreen_modal.dart';
 
-class SelectCollectionModal extends StatefulWidget {
+class SelectCollectionModal extends ConsumerStatefulWidget {
   final List<String> initialCollectionIds;
+  final String title;
 
-  const SelectCollectionModal({super.key, required this.initialCollectionIds});
+  const SelectCollectionModal({
+    super.key,
+    required this.initialCollectionIds,
+    required this.title,
+  });
 
   @override
-  State<SelectCollectionModal> createState() => _SelectCollectionModalState();
+  ConsumerState<SelectCollectionModal> createState() => _SelectCollectionModalState();
 }
 
-class _SelectCollectionModalState extends State<SelectCollectionModal> {
+class _SelectCollectionModalState extends ConsumerState<SelectCollectionModal> {
   late Set<String> _selectedIds;
-
-  // Mocked data for collections
-  final List<Collection> _mockedCollections = [
-    Collection(
-      id: '1',
-      name: 'Preferiti',
-      emoji: MyEmoji(value: '⭐', color: Colors.amber),
-      pois: [],
-    ),
-    Collection(
-      id: '2',
-      name: 'Da visitare',
-      emoji: MyEmoji(value: '📍', color: Colors.red),
-      pois: [],
-    ),
-    Collection(
-      id: '3',
-      name: 'Viaggio Estate',
-      emoji: MyEmoji(value: '🏖️', color: Colors.blue),
-      pois: [],
-    ),
-    Collection(
-      id: '4',
-      name: 'Ristoranti',
-      emoji: MyEmoji(value: '🍝', color: Colors.orange),
-      pois: [],
-    ),
-  ];
 
   @override
   void initState() {
@@ -64,17 +42,24 @@ class _SelectCollectionModalState extends State<SelectCollectionModal> {
 
   @override
   Widget build(BuildContext context) {
+    final collectionsAsync = ref.watch(collectionsControllerProvider);
+    final collections = collectionsAsync.when(
+      data: (state) => state.allCollections,
+      loading: () => const <Collection>[],
+      error: (error, stackTrace) => const <Collection>[],
+    );
+
     return BaseFullscreenModal(
-      title: 'Salva in una collezione',
+      title: widget.title,
       child: Column(
         children: [
           Expanded(
             child: ListView.separated(
-              itemCount: _mockedCollections.length,
+              itemCount: collections.length,
               separatorBuilder: (context, index) =>
                   SizedBox(height: AppLayout.spaces.verticalSmall),
               itemBuilder: (context, index) {
-                final collection = _mockedCollections[index];
+                final collection = collections[index];
                 final isSelected = _selectedIds.contains(collection.id);
 
                 return CollectionListTile(
@@ -88,10 +73,7 @@ class _SelectCollectionModalState extends State<SelectCollectionModal> {
           SizedBox(height: AppLayout.spaces.verticalLarge),
           TextAppButton(
             text: 'Save',
-            onPressed: () {
-              // Logic for saving selection will go here
-              Navigator.pop(context, _selectedIds.toList());
-            },
+            onPressed: () => Navigator.pop(context, _selectedIds.toList()),
           ),
         ],
       ),

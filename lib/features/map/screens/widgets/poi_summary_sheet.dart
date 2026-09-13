@@ -71,10 +71,8 @@ class PoiSummarySheet extends ConsumerWidget {
                       useSafeArea: true,
                       backgroundColor: Colors.transparent,
                       builder: (context) => const SelectCollectionModal(
-                        initialCollectionIds: [
-                          "1",
-                          "3",
-                        ], // Pass appropriate IDs here
+                        title: 'Salva in una collezione',
+                        initialCollectionIds: ["1", "3"], // Pass appropriate IDs here
                       ),
                     ),
                   ),

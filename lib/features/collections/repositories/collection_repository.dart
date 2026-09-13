@@ -1,12 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/models/poi.dart';
 
@@ -32,21 +25,9 @@ class CollectionRepository {
         name: 'Preferiti',
         emoji: await MyEmoji.create('❤️'),
         pois: [
-          Poi(
-            id: "0",
-            name: "Cimone di Margno",
-            coordinates: LatLng(45.853, 9.390),
-          ),
-          Poi(
-            id: "1",
-            name: "Passo del Berlina",
-            coordinates: LatLng(45.853, 9.390),
-          ),
-          Poi(
-            id: "2",
-            name: "Museo del Cairo",
-            coordinates: LatLng(45.853, 9.390),
-          ),
+          Poi(id: "0", name: "Cimone di Margno", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "1", name: "Passo del Berlina", coordinates: LatLng(45.853, 9.390)),
+          Poi(id: "2", name: "Museo del Cairo", coordinates: LatLng(45.853, 9.390)),
           Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
           Poi(id: "3", name: "Creta", coordinates: LatLng(44.853, 9.390)),
           Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
@@ -65,17 +46,8 @@ class CollectionRepository {
           Poi(id: "3", name: "Creta", coordinates: LatLng(45.853, 9.390)),
         ],
       ),
-      Collection(
-        id: '2',
-        name: 'Da visitare',
-        emoji: await MyEmoji.create('✈️'),
-      ),
-      Collection(
-        id: '3',
-        name: 'Ristoranti di pesce',
-        emoji: await MyEmoji.create('🐟'),
-        visibleOnMap: false,
-      ),
+      Collection(id: '2', name: 'Da visitare', emoji: await MyEmoji.create('✈️')),
+      Collection(id: '3', name: 'Ristoranti di pesce', emoji: await MyEmoji.create('🐟')),
       Collection(id: '4', name: 'Parchi', emoji: await MyEmoji.create('🌳')),
     ];
     return _cache;
@@ -87,6 +59,14 @@ class CollectionRepository {
     _controller.add(_cache); // emette la cache aggiornata
 
     return true;
+  }
+
+  Future<void> setVisibleCollections(Set<String> visibleIds) async {
+    // await _client.update(...); // salva sul DB
+    _cache = _cache
+        .map((c) => c.copyWith(visibleOnMap: visibleIds.contains(c.id)))
+        .toList();
+    _controller.add(_cache); // emette la cache aggiornata
   }
 
   void dispose() => _controller.close();

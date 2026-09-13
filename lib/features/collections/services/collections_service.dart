@@ -23,4 +23,7 @@ class CollectionService {
     return _repository.addCollection(c);
     //return Random().nextBool();
   }
+
+  Future<void> setVisibleCollections(Set<String> visibleIds) =>
+      _repository.setVisibleCollections(visibleIds);
 }
