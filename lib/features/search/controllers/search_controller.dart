@@ -1,14 +1,16 @@
 import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppConfig.dart';
 import 'package:myplaces/features/search/providers.dart';
-import '../../../core/models/poi.dart';
 
-class SearchController extends AsyncNotifier<List<Poi>> {
+import '../model/PoiSearchResult.dart';
+
+class SearchController extends AsyncNotifier<List<PoiSearchResult>> {
   Timer? _debounceTimer;
 
   @override
-  FutureOr<List<Poi>> build() {
+  FutureOr<List<PoiSearchResult>> build() {
     return [];
   }
 

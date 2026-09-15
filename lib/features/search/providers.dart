@@ -1,17 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/features/search/controllers/search_controller.dart';
-import 'package:myplaces/features/search/datasources/search_datasource.dart';
+import 'package:myplaces/features/search/repositories/search_mapper.dart';
 import 'package:myplaces/features/search/repositories/search_repository.dart';
 import 'package:myplaces/features/search/services/search_service.dart';
-import '../../core/models/poi.dart';
+import 'package:myplaces/shared/datasource/poi/IPoiDataSource.dart';
+import 'package:myplaces/shared/datasource/poi/NominatingDataSource.dart';
 
-final searchDataSourceProvider = Provider<SearchDataSource>((ref) {
-  return MockSearchDataSource();
+import 'model/PoiSearchResult.dart';
+
+final poiDataSourceProvider = Provider<IPoiDataSource>((ref) {
+  return NominatingDataSource();
 });
 
 final searchRepositoryProvider = Provider<SearchRepository>((ref) {
-  final dataSource = ref.watch(searchDataSourceProvider);
-  return SearchRepository(dataSource);
+  final dataSource = ref.watch(poiDataSourceProvider);
+  return SearchRepository(dataSource, SearchMapper());
 });
 
 final searchServiceProvider = Provider<SearchService>((ref) {
@@ -19,7 +22,6 @@ final searchServiceProvider = Provider<SearchService>((ref) {
   return SearchService(repository);
 });
 
-final searchControllerProvider =
-    AsyncNotifierProvider<SearchController, List<Poi>>(() {
-      return SearchController();
-    });
+final searchControllerProvider = AsyncNotifierProvider<SearchController, List<PoiSearchResult>>(() {
+  return SearchController();
+});
