@@ -94,7 +94,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stack) => Center(child: Text('Error: $error')),
+              error: (error, stack) => Center(child: Text('Error during search')),
             ),
           ),
         ],

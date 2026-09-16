@@ -32,7 +32,7 @@ class SearchController extends AsyncNotifier<List<PoiSearchResult>> {
     _debounceTimer = Timer(AppConfig.debounceDuration, () async {
       state = await AsyncValue.guard(() async {
         final service = ref.read(searchServiceProvider);
-        return await service.searchPois(trimmedQuery);
+        return await service.search(trimmedQuery);
       });
     });
   }

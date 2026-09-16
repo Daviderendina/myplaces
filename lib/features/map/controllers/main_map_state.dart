@@ -4,8 +4,11 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/models/poi.dart';
 import 'package:myplaces/features/collections/models/collection.dart';
 
+enum PoiSelectionStatus { notSet, loading, error, loaded }
+
 class MainMapState {
   final Poi? selectedPoi;
+  final PoiSelectionStatus selectedPoiStatus;
   final bool? showSelectedPoiMarker;
   final LatLng? cameraMoveTarget;
   final double? targetZoom;
@@ -15,6 +18,7 @@ class MainMapState {
   const MainMapState({
     this.selectedPoi,
     this.showSelectedPoiMarker,
+    this.selectedPoiStatus = PoiSelectionStatus.notSet,
     this.cameraMoveTarget,
     this.targetZoom,
     this.targetOffset,
@@ -24,6 +28,7 @@ class MainMapState {
   MainMapState copyWith({
     Poi? selectedPoi,
     bool? showSelectedPoiMarker,
+    PoiSelectionStatus? selectedPoiStatus,
     LatLng? cameraMoveTarget,
     double? targetZoom,
     Offset? targetOffset,
@@ -34,6 +39,7 @@ class MainMapState {
     return MainMapState(
       selectedPoi: clearSelectedPoi ? null : (selectedPoi ?? this.selectedPoi),
       showSelectedPoiMarker: showSelectedPoiMarker ?? this.showSelectedPoiMarker,
+      selectedPoiStatus: selectedPoiStatus ?? this.selectedPoiStatus,
       cameraMoveTarget: clearCameraTarget ? null : (cameraMoveTarget ?? this.cameraMoveTarget),
       targetZoom: clearCameraTarget ? null : (targetZoom ?? this.targetZoom),
       targetOffset: clearCameraTarget ? null : (targetOffset ?? this.targetOffset),

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:myplaces/shared/datasource/poi/IPoiDataSource.dart';
+
+import 'IPoiDataSource.dart';
 
 class NominatingDataSource implements IPoiDataSource {
   static const _baseUrl = 'nominatim.openstreetmap.org';
-  static const _userAgent = 'drendina.myplaces.it';
 
   final http.Client _client = http.Client();
 
@@ -16,9 +17,26 @@ class NominatingDataSource implements IPoiDataSource {
       headers: const {'User-Agent': 'MyPlaces', 'accept-language': 'it'},
     );
 
+    return _handleResponse(response, 'search');
+  }
+
+  @override
+  Future<Map<String, dynamic>> searchByIdAndType(String type, String id) async {
+    final response = await _client.get(
+      Uri.https(_baseUrl, '/details', {
+        'osmtype': type.characters.first.toUpperCase(),
+        'osmid': id.toString(),
+      }),
+      headers: const {'User-Agent': 'MyPlaces', 'accept-language': 'it'},
+    );
+
+    return _handleResponse(response, 'details');
+  }
+
+  Map<String, dynamic> _handleResponse(http.Response response, String operation) {
     if (response.statusCode < 200 || response.statusCode >= 300) {
       throw http.ClientException(
-        'Nominatim search failed with status ${response.statusCode}',
+        'Nominatim $operation failed with status ${response.statusCode}',
         response.request?.url,
       );
     }

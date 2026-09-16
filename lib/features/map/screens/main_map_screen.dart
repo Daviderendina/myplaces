@@ -6,7 +6,9 @@ import 'package:myplaces/features/collections/models/collection.dart';
 import 'package:myplaces/features/map/controllers/main_map_state.dart';
 import 'package:myplaces/features/map/providers.dart';
 import 'package:myplaces/features/map/screens/widgets/AppMarker.dart';
-import 'package:myplaces/features/map/screens/widgets/poi_summary_sheet.dart';
+import 'package:myplaces/features/map/screens/widgets/poi_summary_sheet/poi_summary_sheet.dart';
+import 'package:myplaces/features/map/screens/widgets/poi_summary_sheet/poi_summary_sheet_on_error.dart';
+import 'package:myplaces/features/map/screens/widgets/poi_summary_sheet/poi_summary_sheet_on_loading.dart';
 import 'package:myplaces/features/map/screens/widgets/select_visible_lists_button.dart';
 import 'package:myplaces/shared/widgets/app_search_bar_container.dart';
 
@@ -63,6 +65,25 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
     return markers;
   }
 
+  Widget _buildPoiSummarySheet(MainMapState mapState, MainMapController mapController) {
+    switch (mapState.selectedPoiStatus) {
+      case PoiSelectionStatus.loading:
+        return PoiSummarySheetOnLoading(onCloseClick: () => mapController.clearSelection());
+      case PoiSelectionStatus.error:
+        return PoiSummarySheetOnError(
+          onCloseClick: () => mapController.clearSelection(),
+          onRetry: () => mapController.retryLoadPoiDetail(),
+        );
+      case PoiSelectionStatus.loaded:
+        return PoiSummarySheet(
+          poi: mapState.selectedPoi!,
+          onCloseClick: () => mapController.clearSelection(),
+        );
+      case PoiSelectionStatus.notSet:
+        return const SizedBox.shrink();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final MainMapState mapState = ref
@@ -96,17 +117,13 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
           controller: _mapController,
           markerBuilder: () => _buildMarkers(mapState, mapController),
         ),
-        if (mapState.selectedPoi != null)
+        if (mapState.selectedPoiStatus != PoiSelectionStatus.notSet)
           Positioned(
             left: AppLayout.geometry.mainPagePadding.left,
             right: AppLayout.geometry.mainPagePadding.right,
             bottom: AppLayout.screenHeight * .10,
-            child: PoiSummarySheet(
-              poi: mapState.selectedPoi!,
-              onCloseClick: () => mapController.clearSelection(),
-            ),
+            child: _buildPoiSummarySheet(mapState, mapController),
           ),
-
         Positioned(
           top: AppLayout.screenHeight * .05,
           right: 0,
@@ -125,7 +142,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
                     height: AppLayout.geometry.itemHeightSmall,
                     readOnly: true,
                     leading: Icon(Icons.search, color: Theme.of(context).hintColor),
-                    trailing: mapState.selectedPoi != null
+                    trailing: mapState.selectedPoiStatus != PoiSelectionStatus.notSet
                         ? Icon(Icons.close, color: Theme.of(context).hintColor)
                         : null,
                     onTrailingTap: () => mapController.clearSelection(),

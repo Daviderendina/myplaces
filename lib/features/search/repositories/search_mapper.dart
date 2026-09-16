@@ -1,6 +1,5 @@
-import 'package:myplaces/shared/repository/AbstractMapper.dart';
-
-import '../../../shared/extensions/MapExtensions.dart';
+import '../../../core/extensions/MapExtensions.dart';
+import '../../../core/repository/AbstractMapper.dart';
 import '../model/PoiSearchResult.dart';
 
 class SearchMapper extends AbstractMapper<Map<String, dynamic>, List<PoiSearchResult>> {
@@ -11,28 +10,26 @@ class SearchMapper extends AbstractMapper<Map<String, dynamic>, List<PoiSearchRe
       throw const FormatException('Invalid search result format');
     }
 
-    // TODO
-    if (properties.isEmpty) {
-      throw const FormatException('No search results found');
-    }
-
-    List<PoiSearchResult?> result = properties.map((rawPoi) => mapRawPoi(rawPoi)).toList();
-    result.removeWhere((element) => element == null);
-    return result.cast<PoiSearchResult>();
+    final result = properties
+        .map((rawPoi) => mapRawPoi(rawPoi))
+        .whereType<PoiSearchResult>()
+        .toList();
+    return result;
   }
 
   PoiSearchResult? mapRawPoi(Map<String, dynamic> rawPoi) {
-    Map<String, dynamic> properties = rawPoi.getOrDefault('properties', {});
-    Map<String, dynamic> geocoding = properties.getOrDefault('geocoding', {});
+    final properties = rawPoi.getOrDefault('properties', <String, dynamic>{});
+    final geocoding = properties.getOrDefault('geocoding', <String, dynamic>{});
 
     final name = geocoding.getOrDefault('name', '');
     final label = geocoding.getOrDefault('label', '');
-    final placeId = geocoding.getOrDefault('place_id', -1);
+    final osmType = geocoding.getOrDefault('osm_type', '');
+    final id = geocoding.getOrDefault('osm_id', -1);
 
-    if (label.isEmpty || placeId == -1 || name.isEmpty) {
+    if (label.isEmpty || name.isEmpty || id == -1 || osmType.isEmpty) {
       return null;
     }
 
-    return PoiSearchResult(placeId.toString(), name, label);
+    return PoiSearchResult(id.toString(), name, label, osmType: osmType);
   }
 }
