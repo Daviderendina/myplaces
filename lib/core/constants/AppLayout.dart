@@ -13,6 +13,7 @@ abstract class AppLayout {
   static final cards = _Cards();
   static final forms = _Forms();
   static final modals = _Modals();
+  static final markers = _Markers();
 
   static void init(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -26,6 +27,7 @@ abstract class AppLayout {
     cards._init(screenHeight, screenWidth);
     forms._init(screenHeight, screenWidth);
     modals._init(screenHeight, screenWidth);
+    markers._init(screenHeight, screenWidth);
   }
 }
 
@@ -55,17 +57,8 @@ class _Geometry {
   final double radiusLarge = 20.0;
 
   void _init(double h, double w) {
-    mainPagePadding = EdgeInsets.only(
-      top: h * 0.06,
-      left: w * 0.05,
-      right: w * 0.05,
-    );
-    untitledMainPagePadding = EdgeInsets.fromLTRB(
-      w * .05,
-      h * 0.045,
-      w * .05,
-      h * 0.02,
-    );
+    mainPagePadding = EdgeInsets.only(top: h * 0.06, left: w * 0.05, right: w * 0.05);
+    untitledMainPagePadding = EdgeInsets.fromLTRB(w * .05, h * 0.045, w * .05, h * 0.02);
 
     itemHeightSmall = h * .06;
   }
@@ -132,23 +125,22 @@ class _Forms {
   }
 }
 
+class _Markers {
+  late double compactSize;
+
+  void _init(double h, double w) {
+    compactSize = w * .02;
+  }
+}
+
 class _Modals {
   late EdgeInsets fullscreenPadding; // TODO mettere insieme all altro pading
   late double bottomSheetRadius;
   late EdgeInsets bottomSheetPadding; // TODO mettere insieme all altro pading
 
   void _init(double h, double w) {
-    fullscreenPadding = EdgeInsets.fromLTRB(
-      w * .05,
-      h * 0.01,
-      w * .05,
-      h * 0.02,
-    );
+    fullscreenPadding = EdgeInsets.fromLTRB(w * .05, h * 0.01, w * .05, h * 0.02);
     bottomSheetRadius = w * .08;
-    bottomSheetPadding = EdgeInsets.only(
-      top: h * 0.015,
-      left: w * .01,
-      right: w * .01,
-    );
+    bottomSheetPadding = EdgeInsets.only(top: h * 0.015, left: w * .01, right: w * .01);
   }
 }

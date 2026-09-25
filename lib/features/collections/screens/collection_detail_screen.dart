@@ -49,7 +49,7 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
               left: size.width * .05,
               right: size.width * .05,
             ),
-            markerBuilder: () => widget.collection.pois
+            markerBuilder: (zoom) => widget.collection.pois
                 .map(
                   (poi) => Marker(
                     point: poi.coordinates,

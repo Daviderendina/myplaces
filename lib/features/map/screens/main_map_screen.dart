@@ -38,7 +38,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
     super.dispose();
   }
 
-  List<Marker> _buildMarkers(MainMapState mapState, MainMapController mapController) {
+  List<Marker> _buildMarkers(MainMapState mapState, MainMapController mapController, double zoom) {
     // TODO perchè vien chiamata quando si esce dalla mappa e non solo quando si entra?
     final markers = <Marker>[];
 
@@ -55,6 +55,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
             poi,
             mapState.visibleCollections.firstWhere((c) => c.pois.contains(poi)),
             context,
+            useCompactStyle: zoom < 6,
             onTap: () => mapController.selectPoi(poi: poi, showSelectedPoiMarker: false),
           );
         })
@@ -65,6 +66,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
     return markers;
   }
 
+  // TODO forse questo va nel controller? un build bottom sheet e lui mi ritorna quello giusto
   Widget _buildPoiSummarySheet(MainMapState mapState, MainMapController mapController) {
     switch (mapState.selectedPoiStatus) {
       case PoiSelectionStatus.loading:
@@ -115,7 +117,7 @@ class _MainMapScreenState extends ConsumerState<MainMapScreen> {
       children: [
         MapViewScreen(
           controller: _mapController,
-          markerBuilder: () => _buildMarkers(mapState, mapController),
+          markerBuilder: (zoom) => _buildMarkers(mapState, mapController, zoom),
         ),
         if (mapState.selectedPoiStatus != PoiSelectionStatus.notSet)
           Positioned(

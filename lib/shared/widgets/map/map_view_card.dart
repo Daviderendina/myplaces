@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+
 import 'map_view.dart';
 
 class MapViewCard extends StatelessWidget {
   final MapController controller;
-  final List<Marker> Function() markerBuilder;
+  final MarkerBuilder markerBuilder;
   final double height;
 
   const MapViewCard({

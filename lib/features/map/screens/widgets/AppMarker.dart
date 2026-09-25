@@ -23,13 +23,36 @@ class AppMarker {
     Collection collection,
     BuildContext context, {
     required VoidCallback onTap,
+    required bool useCompactStyle,
   }) {
-    return Marker(
-      point: poi.coordinates,
-      child: GestureDetector(
-        onTap: onTap,
-        child: CircledEmoji(collection: collection, addBorder: true),
-      ),
-    );
+    final color = collection.emoji.color;
+
+    return useCompactStyle
+        ? Marker(
+            point: poi.coordinates,
+            width: AppLayout.markers.compactSize,
+            height: AppLayout.markers.compactSize,
+            child: GestureDetector(
+              onTap: onTap,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: color.withValues(alpha: .85),
+                  border: Border.all(color: color.withValues(alpha: .95)),
+                ),
+                child: SizedBox(
+                  width: AppLayout.markers.compactSize,
+                  height: AppLayout.markers.compactSize,
+                ),
+              ),
+            ),
+          )
+        : Marker(
+            point: poi.coordinates,
+            child: GestureDetector(
+              onTap: onTap,
+              child: CircledEmoji(collection: collection, addBorder: true),
+            ),
+          );
   }
 }

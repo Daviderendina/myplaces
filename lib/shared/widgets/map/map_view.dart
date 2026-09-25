@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-typedef MarkerBuilder = List<Marker> Function();
+typedef MarkerBuilder = List<Marker> Function(double zoom);
 
 class MapView extends StatefulWidget {
   final MapController controller;
@@ -29,10 +29,17 @@ class _MapViewState extends State<MapView> {
   static const double _defaultZoom = 5;
   bool _mapReady = false;
   List<LatLng> _lastPoints = [];
+  double _currentZoom = _defaultZoom;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentZoom = widget.initialZoom ?? _defaultZoom;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final markers = widget.markerBuilder();
+    final markers = widget.markerBuilder(_currentZoom);
     _maybeFitMap(markers);
 
     return FlutterMap(
@@ -55,6 +62,13 @@ class _MapViewState extends State<MapView> {
               _maybeFitMap(markers, force: true);
             });
           }
+        },
+        onPositionChanged: (position, hasGesture) {
+          final zoom = position.zoom;
+          if (zoom == null || zoom == _currentZoom) return;
+          setState(() {
+            _currentZoom = zoom;
+          });
         },
       ),
       children: [
