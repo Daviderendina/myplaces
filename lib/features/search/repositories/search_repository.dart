@@ -2,16 +2,16 @@ import 'package:myplaces/core/models/poi.dart';
 
 import '../../../core/datasource/poi/IPoiDataSource.dart';
 import '../../../core/repository/AbstractMapper.dart';
-import '../model/PoiSearchResult.dart';
+import '../model/PoiPreview.dart';
 
 class SearchRepository {
   final IPoiDataSource _dataSource;
-  final AbstractMapper<Map<String, dynamic>, List<PoiSearchResult>> _searchMapper;
+  final AbstractMapper<Map<String, dynamic>, List<PoiPreview>> _searchMapper;
   final AbstractMapper<Map<String, dynamic>, Poi> _poiDetailsMapper;
 
   SearchRepository(this._dataSource, this._searchMapper, this._poiDetailsMapper);
 
-  Future<List<PoiSearchResult>> search(String query) async {
+  Future<List<PoiPreview>> search(String query) async {
     final rawData = await _dataSource.search(query);
     return _searchMapper.map(rawData);
   }

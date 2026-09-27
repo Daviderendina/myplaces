@@ -3,24 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/models/poi.dart';
-import 'package:myplaces/core/providers.dart';
-import 'package:myplaces/logger.dart';
 import 'package:myplaces/features/collections/providers.dart';
 import 'package:myplaces/features/collections/services/collections_service.dart';
 import 'package:myplaces/features/map/controllers/main_map_state.dart';
 import 'package:myplaces/features/map/providers.dart';
-import 'package:myplaces/features/search/model/PoiSearchResult.dart';
+import 'package:myplaces/features/search/model/PoiPreview.dart';
 import 'package:myplaces/features/search/providers.dart';
+import 'package:myplaces/logger.dart';
 
 class MainMapController extends AsyncNotifier<MainMapState> {
   late final CollectionService _service;
-  late final AppLogger _logger;
-  PoiSearchResult? _pendingSearchResult;
+  PoiPreview? _pendingSearchResult;
 
   @override
   Future<MainMapState> build() async {
     _service = ref.read(mainMapCollectionsServiceProvider);
-    _logger = ref.read(loggerProvider);
 
     ref.listen(collectionsStreamProvider, (_, next) {
       next.whenData((collections) {
@@ -38,13 +35,13 @@ class MainMapController extends AsyncNotifier<MainMapState> {
   }
 
   Future<void> onSearchTap(BuildContext context) async {
-    final PoiSearchResult? result = await context.push<PoiSearchResult>('/search');
+    final PoiPreview? result = await context.push<PoiPreview>('/search');
     if (result != null) {
       selectFromSearch(result);
     }
   }
 
-  void selectFromSearch(PoiSearchResult result) {
+  void selectFromSearch(PoiPreview result) {
     _loadPoiDetail(result);
   }
 
@@ -55,7 +52,7 @@ class MainMapController extends AsyncNotifier<MainMapState> {
     }
   }
 
-  Future<void> _loadPoiDetail(PoiSearchResult result) async {
+  Future<void> _loadPoiDetail(PoiPreview result) async {
     _pendingSearchResult = result;
     final currentState = state.value ?? const MainMapState();
     state = AsyncData(
@@ -64,10 +61,10 @@ class MainMapController extends AsyncNotifier<MainMapState> {
 
     try {
       final service = ref.read(searchServiceProvider);
-      final poi = await service.searchByIdAndType(result.osmType, result.id);
+      final poi = await service.getPoiDetailFromPreview(result);
       selectPoi(poi: poi);
     } catch (e, st) {
-      _logger.error('Failed to load POI detail: $e', MainMapController, error: e, stackTrace: st);
+      AppLogger.error('Failed to load POI detail: $e', MainMapController, error: e, stackTrace: st);
       state = AsyncData(state.requireValue.copyWith(selectedPoiStatus: PoiSelectionStatus.error));
     }
   }

@@ -1,6 +1,7 @@
 import 'package:latlong2/latlong.dart';
 
 import '../../../core/models/entity.dart';
+import 'poi_image.dart';
 
 class PoiAddress {
   final String text;
@@ -14,6 +15,9 @@ class Poi extends Entity {
   final String type;
   final PoiAddress address;
   final String osmType;
+  final List<PoiImage> photos;
+
+  get imageList => photos.map((p) => p.url).toList();
 
   Poi({
     required super.id,
@@ -22,5 +26,26 @@ class Poi extends Entity {
     this.type = '',
     this.address = const PoiAddress(),
     this.osmType = '',
+    this.photos = const [],
   });
+
+  Poi copyWith({
+    String? id,
+    String? name,
+    LatLng? coordinates,
+    String? type,
+    PoiAddress? address,
+    String? osmType,
+    List<PoiImage>? photos,
+  }) {
+    return Poi(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      coordinates: coordinates ?? this.coordinates,
+      type: type ?? this.type,
+      address: address ?? this.address,
+      osmType: osmType ?? this.osmType,
+      photos: photos ?? this.photos,
+    );
+  }
 }

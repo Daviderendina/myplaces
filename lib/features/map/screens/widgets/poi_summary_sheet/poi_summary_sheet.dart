@@ -23,16 +23,7 @@ class PoiSummarySheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppImageCarousel(
-            // images: widget.poi.images
-            //     .map((i) => i.imageUrl ?? '')
-            //     .toList(),
-            images: [
-              'https://picsum.photos/800/600',
-              'https://picsum.photos/200',
-              'https://picsum.photos/800/600',
-              'https://picsum.photos/400/600',
-              'https://picsum.photos/800/600',
-            ],
+            images: poi.imageList,
             overlay: IconAppButton.surfaceTransparent(
               onPressed: onCloseClick ?? () {},
               icon: Icons.close,

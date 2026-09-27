@@ -19,14 +19,6 @@ class PoiDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var height = MediaQuery.sizeOf(context).height;
 
-    final images = [
-      'https://picsum.photos/800/600',
-      'https://picsum.photos/200',
-      'https://picsum.photos/800/600',
-      'https://picsum.photos/400/600',
-      'https://picsum.photos/800/600',
-    ];
-
     final displayPoi =
         poi ?? Poi(id: "0", name: "Cimone di Margno", coordinates: const LatLng(45.123, 9.123));
 
@@ -38,7 +30,7 @@ class PoiDetailScreen extends ConsumerWidget {
           spacing: 0,
           children: [
             AppImageCarousel(
-              images: images,
+              images: displayPoi.imageList,
               height: height * 0.45,
               overlay: TransparentBackButton(),
             ),
