@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import '../button/transparent_back_button.dart';
+import 'package:myplaces/logger.dart';
 
 class AppImageCarousel extends StatefulWidget {
   final List<String> images;
@@ -51,6 +51,9 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
               autoPlay: false,
               pageSnapping: true,
               onPageChanged: (index, reason) {
+                preloadImage(index + 1);
+                preloadImage(index + 2);
+
                 setState(() {
                   _currentImageIndex = index;
                 });
@@ -68,37 +71,34 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     color: Colors.grey.shade900,
-                    child: const Icon(
-                      Icons.broken_image,
-                      color: Colors.white30,
-                    ),
+                    child: const Icon(Icons.broken_image, color: Colors.white30),
                   );
                 },
               );
             }).toList(),
           ),
         ),
-        if (widget.images.length > 1)
-          Positioned(
-            bottom: 12.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: widget.images.asMap().entries.map((entry) {
-                return Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(
-                      _currentImageIndex == entry.key ? 0.9 : 0.4,
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
 
+        // if (widget.images.length > 1)
+        //   Positioned(
+        //     bottom: 12.0,
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: widget.images.asMap().entries.map((entry) {
+        //         return Container(
+        //           width: 8.0,
+        //           height: 8.0,
+        //           margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        //           decoration: BoxDecoration(
+        //             shape: BoxShape.circle,
+        //             color: Colors.white.withOpacity(
+        //               _currentImageIndex == entry.key ? 0.9 : 0.4,
+        //             ),
+        //           ),
+        //         );
+        //       }).toList(),
+        //     ),
+        //   ),
         if (widget.overlay != null)
           Positioned(
             top: 8,
@@ -106,10 +106,15 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
             right: widget.overlayAlignment == Alignment.topRight ? 8 : null,
             child: widget.overlay!,
           ),
-
-        // if (widget.showBackButton)
-        //   Positioned(left: 8, top: 8, child: TransparentBackButton()),
       ],
     );
+  }
+
+  void preloadImage(int index) async {
+    AppLogger.debug('Preloading image at index $index', AppImageCarousel);
+    if (widget.images.length > index) {
+      final provider = NetworkImage(widget.images[index]);
+      precacheImage(provider, context);
+    }
   }
 }
