@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/core/constants/AppConfig.dart';
 import 'package:myplaces/features/search/providers.dart';
 
-import '../model/PoiPreview.dart';
+import '../../../core/models/poi/poi_preview.dart';
 
 class SearchController extends AsyncNotifier<List<PoiPreview>> {
   Timer? _debounceTimer;

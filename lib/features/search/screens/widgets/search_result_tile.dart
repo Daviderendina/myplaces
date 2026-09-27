@@ -20,16 +20,26 @@ class SearchResultTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircledView(
-        diameter: AppLayout.icons.large,
+        diameter: AppLayout.icons.medium,
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: Icon(
           icon,
-          size: AppLayout.icons.medium,
+          size: AppLayout.icons.small,
           color: Theme.of(context).colorScheme.onPrimary,
         ),
       ),
-      title: Text(title, style: Theme.of(context).textTheme.titleLarge),
-      subtitle: Text(subtitle, style: Theme.of(context).textTheme.titleSmall),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(
+        subtitle,
+        style: Theme.of(context).textTheme.titleSmall,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       onTap: onTap,
     );
   }

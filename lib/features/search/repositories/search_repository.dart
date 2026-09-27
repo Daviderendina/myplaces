@@ -1,8 +1,8 @@
 import 'package:myplaces/core/models/poi.dart';
 
 import '../../../core/datasource/poi/IPoiDataSource.dart';
+import '../../../core/models/poi/poi_preview.dart';
 import '../../../core/repository/AbstractMapper.dart';
-import '../model/PoiPreview.dart';
 
 class SearchRepository {
   final IPoiDataSource _dataSource;

@@ -1,51 +1,35 @@
 import 'package:latlong2/latlong.dart';
+import 'package:myplaces/core/models/poi/poi_preview.dart';
 
-import '../../../core/models/entity.dart';
 import 'poi_image.dart';
 
-class PoiAddress {
-  final String text;
-
-  const PoiAddress({this.text = 'Address details not available yet'});
-}
-
-class Poi extends Entity {
-  final String name;
+class Poi extends PoiPreview {
   final LatLng coordinates;
-  final String type;
-  final PoiAddress address;
-  final String osmType;
   final List<PoiImage> photos;
 
-  get imageList => photos.map((p) => p.url).toList();
+  List<String> get imageList => photos.map((p) => p.url).toList();
 
   Poi({
     required super.id,
-    required this.name,
+    required super.name,
+    super.address,
+    super.type,
+    super.photoQuery,
+    super.category,
     required this.coordinates,
-    this.type = '',
-    this.address = const PoiAddress(),
-    this.osmType = '',
     this.photos = const [],
   });
 
-  Poi copyWith({
-    String? id,
-    String? name,
-    LatLng? coordinates,
-    String? type,
-    PoiAddress? address,
-    String? osmType,
-    List<PoiImage>? photos,
-  }) {
+  Future<Poi> copyWith({required List<PoiImage> photos}) async {
     return Poi(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      coordinates: coordinates ?? this.coordinates,
-      type: type ?? this.type,
-      address: address ?? this.address,
-      osmType: osmType ?? this.osmType,
-      photos: photos ?? this.photos,
+      id: id,
+      name: name,
+      address: address,
+      type: type,
+      photoQuery: photoQuery,
+      category: category,
+      coordinates: coordinates,
+      photos: photos,
     );
   }
 }

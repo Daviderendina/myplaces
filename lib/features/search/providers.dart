@@ -4,14 +4,14 @@ import 'package:myplaces/core/datasource/photo/IPhotoDataSource.dart';
 import 'package:myplaces/features/search/controllers/search_controller.dart';
 import 'package:myplaces/features/search/repositories/photo_mapper.dart';
 import 'package:myplaces/features/search/repositories/photo_repository.dart';
+import 'package:myplaces/features/search/repositories/poi_details_mapper.dart';
 import 'package:myplaces/features/search/repositories/search_mapper.dart';
 import 'package:myplaces/features/search/repositories/search_repository.dart';
 import 'package:myplaces/features/search/services/search_service.dart';
-import 'package:myplaces/features/search/repositories/poi_details_mapper.dart';
 
 import '../../core/datasource/poi/IPoiDataSource.dart';
 import '../../core/datasource/poi/NominatingDataSource.dart';
-import 'model/PoiPreview.dart';
+import '../../core/models/poi/poi_preview.dart';
 
 final poiDataSourceProvider = Provider<IPoiDataSource>((ref) {
   return NominatingDataSource();

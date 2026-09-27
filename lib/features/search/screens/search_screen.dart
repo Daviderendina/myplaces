@@ -77,14 +77,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   return const Center(child: Text('No results found'));
                 }
                 return ListView.builder(
-                  padding: EdgeInsets.zero,
+                  padding: EdgeInsets.only(top: AppLayout.screenHeight * .016),
                   itemCount: pois.length,
                   itemBuilder: (context, index) {
                     final poi = pois[index];
                     return SearchResultTile(
                       title: poi.name,
                       subtitle: poi.positionLabel,
-                      icon: Icons.location_on,
+                      icon: poi.category.icon,
                       onTap: () {
                         ref.read(searchControllerProvider.notifier).clearResults();
                         context.pop(poi);

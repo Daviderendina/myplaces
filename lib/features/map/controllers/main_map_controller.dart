@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/models/poi.dart';
+import 'package:myplaces/core/models/poi/poi_preview.dart';
 import 'package:myplaces/features/collections/providers.dart';
 import 'package:myplaces/features/collections/services/collections_service.dart';
 import 'package:myplaces/features/map/controllers/main_map_state.dart';
 import 'package:myplaces/features/map/providers.dart';
-import 'package:myplaces/features/search/model/PoiPreview.dart';
 import 'package:myplaces/features/search/providers.dart';
 import 'package:myplaces/logger.dart';
 

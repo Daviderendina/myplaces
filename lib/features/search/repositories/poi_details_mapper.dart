@@ -2,7 +2,9 @@ import 'package:latlong2/latlong.dart';
 
 import '../../../core/extensions/MapExtensions.dart';
 import '../../../core/models/poi.dart';
+import '../../../core/models/poi/poi_address.dart';
 import '../../../core/repository/AbstractMapper.dart';
+import '../../../core/utils/poi_category_mapping.dart';
 
 class PoiDetailsMapper extends AbstractMapper<Map<String, dynamic>, Poi> {
   @override
@@ -10,6 +12,12 @@ class PoiDetailsMapper extends AbstractMapper<Map<String, dynamic>, Poi> {
     final osmIdRaw = data.getOrDefault('osm_id', -1);
     final osmId = osmIdRaw is num ? osmIdRaw.toInt() : -1;
     final name = _resolveName(data);
+
+    final osmKey = data.getOrDefault('osm_key', '');
+    final osmValue = data.getOrDefault('osm_value', '');
+    final category = mapPoiCategory(osmKey, osmValue); // TODO non mi piace farlo in giro così
+
+    final type = data.getOrDefault('osm_type', '');
 
     if (osmId == -1 || name.isEmpty) {
       throw const FormatException('Invalid POI detail format');
@@ -19,9 +27,9 @@ class PoiDetailsMapper extends AbstractMapper<Map<String, dynamic>, Poi> {
       id: osmId.toString(),
       name: name,
       coordinates: _resolveCoordinates(data),
-      type: data.getOrDefault('type', ''),
+      type: type,
+      category: category,
       address: const PoiAddress(text: 'Address details not available yet'),
-      osmType: data.getOrDefault('osm_type', ''),
     );
   }
 

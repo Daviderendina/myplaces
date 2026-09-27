@@ -3,9 +3,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/datasource/photo/IPhotoDataSource.dart';
 import 'package:myplaces/core/datasource/poi/IPoiDataSource.dart';
 import 'package:myplaces/core/models/poi.dart';
+import 'package:myplaces/core/models/poi/poi_preview.dart';
 import 'package:myplaces/core/models/poi_image.dart';
 import 'package:myplaces/core/repository/AbstractMapper.dart';
-import 'package:myplaces/features/search/model/PoiPreview.dart';
 import 'package:myplaces/features/search/repositories/photo_repository.dart';
 import 'package:myplaces/features/search/repositories/search_repository.dart';
 import 'package:myplaces/features/search/services/search_service.dart';
@@ -25,6 +25,7 @@ class _SearchMapperFake extends AbstractMapper<Map<String, dynamic>, List<PoiPre
 
 class _PoiMapperFake extends AbstractMapper<Map<String, dynamic>, Poi> {
   final Poi poi;
+
   _PoiMapperFake(this.poi);
 
   @override
@@ -38,6 +39,7 @@ class _PhotoDataSourceFake implements IPhotoDataSource {
 
 class _PhotoMapperFake extends AbstractMapper<Map<String, dynamic>, List<PoiImage>> {
   final List<PoiImage> photos;
+
   _PhotoMapperFake(this.photos);
 
   @override
@@ -47,11 +49,7 @@ class _PhotoMapperFake extends AbstractMapper<Map<String, dynamic>, List<PoiImag
 void main() {
   group('SearchService', () {
     test('enriches poi with photos when photo repository returns them', () async {
-      final poi = Poi(
-        id: '1',
-        name: 'Fontana di Trevi',
-        coordinates: const LatLng(41.0, 12.0),
-      );
+      final poi = Poi(id: '1', name: 'Fontana di Trevi', coordinates: const LatLng(41.0, 12.0));
       final searchRepository = SearchRepository(
         _PoiDataSourceFake(),
         _SearchMapperFake(),
@@ -60,13 +58,16 @@ void main() {
       final photoRepository = PhotoRepository(
         _PhotoDataSourceFake(),
         _PhotoMapperFake(const [
-          PoiImage(url: 'https://example.com/image.jpg', thumbnailUrl: 'https://example.com/thumb.jpg'),
+          PoiImage(
+            url: 'https://example.com/image.jpg',
+            thumbnailUrl: 'https://example.com/thumb.jpg',
+          ),
         ]),
       );
       final service = SearchService(searchRepository, photoRepository);
 
       final result = await service.getPoiDetailFromPreview(
-        PoiPreview(id: '1', name: 'Fontana di Trevi', positionLabel: 'Rome', osmType: 'N'),
+        PoiPreview(id: '1', name: 'Fontana di Trevi', type: 'N'),
       );
 
       expect(result.photos, hasLength(1));
@@ -74,24 +75,17 @@ void main() {
     });
 
     test('returns poi with empty photos when photo repository throws', () async {
-      final poi = Poi(
-        id: '1',
-        name: 'Fontana di Trevi',
-        coordinates: const LatLng(41.0, 12.0),
-      );
+      final poi = Poi(id: '1', name: 'Fontana di Trevi', coordinates: const LatLng(41.0, 12.0));
       final searchRepository = SearchRepository(
         _PoiDataSourceFake(),
         _SearchMapperFake(),
         _PoiMapperFake(poi),
       );
-      final photoRepository = PhotoRepository(
-        _PhotoDataSourceFake(),
-        _PhotoMapperFake(const []),
-      );
+      final photoRepository = PhotoRepository(_PhotoDataSourceFake(), _PhotoMapperFake(const []));
       final service = SearchService(searchRepository, photoRepository);
 
       final result = await service.getPoiDetailFromPreview(
-        PoiPreview(id: '1', name: 'Fontana di Trevi', positionLabel: 'Rome', osmType: 'N'),
+        PoiPreview(id: '1', name: 'Fontana di Trevi', type: 'N'),
       );
 
       expect(result.photos, isEmpty);

@@ -2,8 +2,8 @@ import 'package:myplaces/core/models/poi.dart';
 import 'package:myplaces/features/search/repositories/photo_repository.dart';
 import 'package:myplaces/features/search/repositories/search_repository.dart';
 
+import '../../../core/models/poi/poi_preview.dart';
 import '../../../core/models/poi_image.dart';
-import '../model/PoiPreview.dart';
 
 class SearchService {
   final SearchRepository _repository;
@@ -17,18 +17,22 @@ class SearchService {
   }
 
   Future<Poi> getPoiDetailFromPreview(PoiPreview preview) async {
-    if (preview.id.trim().isEmpty || preview.osmType.trim().isEmpty) {
+    if (preview.id.trim().isEmpty || preview.type.trim().isEmpty) {
       throw const FormatException('PoiPreview is required to lookup a POI');
     }
 
     final results = await Future.wait([
-      _repository.searchByIdAndType(preview.osmType.trim(), preview.id),
-      _photoRepository.search(preview.photoQuery),
+      _repository.searchByIdAndType(preview.type.trim(), preview.id),
+      _photoRepository.search(_buildPoiDetailsQuery(preview)),
     ], eagerError: false);
 
     final poi = results[0] as Poi;
     final photosResult = results[1] as List<PoiImage>;
 
     return poi.copyWith(photos: photosResult);
+  }
+
+  String _buildPoiDetailsQuery(PoiPreview preview) {
+    return '${preview.name} ${preview.address.text}';
   }
 }
