@@ -8,16 +8,20 @@ import 'package:myplaces/features/collections/providers.dart';
 import 'package:myplaces/features/collections/services/collections_service.dart';
 import 'package:myplaces/features/map/controllers/main_map_state.dart';
 import 'package:myplaces/features/map/providers.dart';
-import 'package:myplaces/features/search/providers.dart';
+import 'package:myplaces/features/poi/services/poi_service.dart';
 import 'package:myplaces/logger.dart';
 
+import '../../poi/providers.dart';
+
 class MainMapController extends AsyncNotifier<MainMapState> {
-  late final CollectionService _service;
+  late final CollectionsService _collectionService;
+  late final PoiService _poiService;
   PoiPreview? _pendingSearchResult;
 
   @override
   Future<MainMapState> build() async {
-    _service = ref.read(mainMapCollectionsServiceProvider);
+    _collectionService = ref.read(mainMapcollectionServiceProvider);
+    _poiService = ref.read(poiServiceProvider);
 
     ref.listen(collectionsStreamProvider, (_, next) {
       next.whenData((collections) {
@@ -30,7 +34,7 @@ class MainMapController extends AsyncNotifier<MainMapState> {
       });
     });
 
-    final visibleCollections = await _service.fetchAllVisible();
+    final visibleCollections = await _collectionService.fetchAllVisible();
     return MainMapState(visibleCollections: visibleCollections);
   }
 
@@ -60,8 +64,7 @@ class MainMapController extends AsyncNotifier<MainMapState> {
     );
 
     try {
-      final service = ref.read(searchServiceProvider);
-      final poi = await service.getPoiDetailFromPreview(result);
+      final poi = await _poiService.getPoiDetail(result);
       selectPoi(poi: poi);
     } catch (e, st) {
       AppLogger.error('Failed to load POI detail: $e', MainMapController, error: e, stackTrace: st);
@@ -96,6 +99,6 @@ class MainMapController extends AsyncNotifier<MainMapState> {
   }
 
   Future<void> updateVisibleCollections(List<String> visibleIds) async {
-    await _service.setVisibleCollections(visibleIds.toSet());
+    await _collectionService.setVisibleCollections(visibleIds.toSet());
   }
 }

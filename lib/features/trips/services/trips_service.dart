@@ -1,3 +1,5 @@
+import 'package:myplaces/core/models/poi/poi_preview.dart';
+
 import '../models/trip.dart';
 
 class TripsService {
@@ -9,5 +11,9 @@ class TripsService {
       Trip(id: '2', name: 'Weekend a Parigi'),
       Trip(id: '3', name: 'Tour della Toscana'),
     ];
+  }
+
+  Future<List<Trip>> getTripsByPoi(PoiPreview poi) {
+    return getTrips().then((trips) => trips.where((t) => t.id == '1').toList());
   }
 }

@@ -388,8 +388,8 @@ final geoAreaTags = <String>{
   'place|prefecture',
 };
 
-PoiCategory mapPoiCategory(String osmKey, String osmType) {
-  final value = '$osmKey|$osmType';
+PoiCategory mapPoiCategory(String? osmKey, String? osmValue) {
+  final value = '${osmKey ?? ''}|${osmValue ?? ''}';
 
   if (countryTags.contains(value)) {
     return PoiCategory.country;

@@ -29,10 +29,10 @@ class SearchService {
     final poi = results[0] as Poi;
     final photosResult = results[1] as List<PoiImage>;
 
-    return poi.copyWith(photos: photosResult);
+    return poi.copyWith(photos: photosResult, address: preview.address);
   }
 
   String _buildPoiDetailsQuery(PoiPreview preview) {
-    return '${preview.name} ${preview.address.text}';
+    return '${preview.name} ${preview.address?.city} ${preview.address?.country}';
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
 import 'package:myplaces/core/models/poi.dart';
+import 'package:myplaces/core/models/poi/poi_category.dart';
 import 'package:myplaces/features/collections/screens/select_collection_modal.dart';
 import 'package:myplaces/features/poi/screens/widgets/icon_text_row.dart';
 import 'package:myplaces/shared/widgets/button/text_app_button.dart';
@@ -20,7 +21,14 @@ class PoiDetailScreen extends ConsumerWidget {
     var height = MediaQuery.sizeOf(context).height;
 
     final displayPoi =
-        poi ?? Poi(id: "0", name: "Cimone di Margno", coordinates: const LatLng(45.123, 9.123));
+        poi ??
+        Poi(
+          id: "0",
+          name: "Cimone di Margno",
+          coordinates: const LatLng(45.123, 9.123),
+          type: '',
+          category: PoiCategory.culture,
+        );
 
     return Scaffold(
       body: Padding(

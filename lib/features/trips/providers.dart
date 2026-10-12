@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'controllers/trips_controller.dart';
 import 'controllers/trips_state.dart';
 import 'services/trips_service.dart';

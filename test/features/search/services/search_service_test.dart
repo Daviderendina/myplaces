@@ -3,6 +3,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:myplaces/core/datasource/photo/IPhotoDataSource.dart';
 import 'package:myplaces/core/datasource/poi/IPoiDataSource.dart';
 import 'package:myplaces/core/models/poi.dart';
+import 'package:myplaces/core/models/poi/poi_category.dart';
 import 'package:myplaces/core/models/poi/poi_preview.dart';
 import 'package:myplaces/core/models/poi_image.dart';
 import 'package:myplaces/core/repository/AbstractMapper.dart';
@@ -49,7 +50,13 @@ class _PhotoMapperFake extends AbstractMapper<Map<String, dynamic>, List<PoiImag
 void main() {
   group('SearchService', () {
     test('enriches poi with photos when photo repository returns them', () async {
-      final poi = Poi(id: '1', name: 'Fontana di Trevi', coordinates: const LatLng(41.0, 12.0));
+      final poi = Poi(
+        id: '1',
+        name: 'Fontana di Trevi',
+        type: 'N',
+        category: PoiCategory.tourism,
+        coordinates: const LatLng(41.0, 12.0),
+      );
       final searchRepository = SearchRepository(
         _PoiDataSourceFake(),
         _SearchMapperFake(),
@@ -67,7 +74,12 @@ void main() {
       final service = SearchService(searchRepository, photoRepository);
 
       final result = await service.getPoiDetailFromPreview(
-        PoiPreview(id: '1', name: 'Fontana di Trevi', type: 'N'),
+        PoiPreview(
+          id: '1',
+          name: 'Fontana di Trevi',
+          type: 'N',
+          category: PoiCategory.tourism,
+        ),
       );
 
       expect(result.photos, hasLength(1));
@@ -75,7 +87,13 @@ void main() {
     });
 
     test('returns poi with empty photos when photo repository throws', () async {
-      final poi = Poi(id: '1', name: 'Fontana di Trevi', coordinates: const LatLng(41.0, 12.0));
+      final poi = Poi(
+        id: '1',
+        name: 'Fontana di Trevi',
+        type: 'N',
+        category: PoiCategory.tourism,
+        coordinates: const LatLng(41.0, 12.0),
+      );
       final searchRepository = SearchRepository(
         _PoiDataSourceFake(),
         _SearchMapperFake(),
@@ -85,7 +103,12 @@ void main() {
       final service = SearchService(searchRepository, photoRepository);
 
       final result = await service.getPoiDetailFromPreview(
-        PoiPreview(id: '1', name: 'Fontana di Trevi', type: 'N'),
+        PoiPreview(
+          id: '1',
+          name: 'Fontana di Trevi',
+          type: 'N',
+          category: PoiCategory.tourism,
+        ),
       );
 
       expect(result.photos, isEmpty);

@@ -19,11 +19,11 @@ enum ValidationStatus {
 }
 
 class AddCollectionController extends Notifier<AddCollectionState> {
-  late final CollectionService _service;
+  late final CollectionsService _service;
 
   @override
   AddCollectionState build() {
-    _service = ref.read(collectionsServiceProvider);
+    _service = ref.read(collectionServiceProvider);
 
     return AddCollectionState();
   }

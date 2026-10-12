@@ -1,10 +1,13 @@
+import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
+import 'package:myplaces/core/extensions/StringExtensions.dart';
 import 'package:myplaces/shared/widgets/button/icon_app_button.dart';
 import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
 
+import '../../../../../core/constants/AppColors.dart';
 import '../../../../../core/models/poi.dart';
 import '../../../../collections/screens/select_collection_modal.dart';
 import 'poi_summary_sheet_container.dart';
@@ -36,13 +39,47 @@ class PoiSummarySheet extends StatelessWidget {
 
           SizedBox(height: AppLayout.spaces.verticalMedium),
           Text(poi.name, style: Theme.of(context).textTheme.displaySmall),
+
           SizedBox(height: AppLayout.spaces.verticalSmall),
-          Text(
-            "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi conLorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi con",
-            style: Theme.of(context).textTheme.bodySmall,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
+          Row(
+            spacing: AppLayout.spaces.horizontalXSmall,
+            children: [
+              CircleFlag(poi.countryCode, size: AppLayout.icons.xsmall),
+              Text(poi.positionLabel, style: Theme.of(context).textTheme.bodySmall, maxLines: 1),
+              Text("·", style: Theme.of(context).textTheme.bodySmall, maxLines: 1),
+              Text(
+                poi.category.name.toTitleCase(),
+                style: Theme.of(context).textTheme.bodySmall,
+                maxLines: 1,
+              ),
+            ],
           ),
+
+          SizedBox(height: AppLayout.spaces.verticalSmall),
+
+          if (poi.collectionsBelonged.isNotEmpty)
+            Row(
+              spacing: AppLayout.spaces.horizontalXSmall,
+              children: [
+                Text(
+                  "Saved in ${poi.collectionsBelonged.length} collections",
+                  style: Theme.of(context).textTheme.bodySmall,
+                  maxLines: 1,
+                ),
+                Icon(Icons.bookmark, size: AppLayout.icons.xsmall, color: AppColors.cyanLight),
+              ],
+            ),
+
+          if (poi.tripsBelonged.isNotEmpty)
+            Row(
+              spacing: AppLayout.spaces.horizontalXSmall,
+              children: [
+                Text("Visited", style: Theme.of(context).textTheme.bodySmall, maxLines: 1),
+                Icon(Icons.check_circle, size: AppLayout.icons.xsmall, color: AppColors.greenLight),
+              ],
+            ),
+
+          //if (poi.tripsBelonged.isEmpty)
           SizedBox(height: AppLayout.spaces.verticalMedium),
 
           Row(

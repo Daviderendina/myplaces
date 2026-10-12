@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myplaces/features/collections/repositories/collection_repository.dart';
+
 import 'controllers/add_collection_controller.dart';
 import 'controllers/add_collection_state.dart';
 import 'controllers/collections_controller.dart';
@@ -15,8 +16,8 @@ final collectionRepositoryProvider = Provider<CollectionRepository>((ref) {
   return repo;
 });
 
-final collectionsServiceProvider = Provider<CollectionService>((ref) {
-  return CollectionService(ref.read(collectionRepositoryProvider));
+final collectionServiceProvider = Provider<CollectionsService>((ref) {
+  return CollectionsService(ref.read(collectionRepositoryProvider));
 });
 
 final collectionsControllerProvider =
@@ -30,5 +31,5 @@ final addCollectionControllerProvider =
 
 // Stream Provider: provide the stream of collections
 final collectionsStreamProvider = StreamProvider<List<Collection>>((ref) {
-  return ref.read(collectionsServiceProvider).watchCollections();
+  return ref.read(collectionServiceProvider).watchCollections();
 });
