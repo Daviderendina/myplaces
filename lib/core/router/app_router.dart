@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myplaces/core/models/poi.dart';
 import 'package:myplaces/features/collections/models/collection.dart';
 import 'package:myplaces/features/collections/screens/collection_detail_screen.dart';
 import 'package:myplaces/features/poi/screens/poi_detail_screen.dart';
 import 'package:myplaces/features/root/screens/root_screen.dart';
-import 'package:myplaces/core/models/poi.dart';
-
 import 'package:myplaces/features/search/screens/search_screen.dart';
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'root',
-);
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 // TODO fare delle costanti per i path
 
@@ -20,10 +17,7 @@ class AppRouter {
     initialLocation: '/',
     routes: [
       GoRoute(path: '/', builder: (context, state) => const RootScreen()),
-      GoRoute(
-        path: '/search',
-        builder: (context, state) => const SearchScreen(),
-      ),
+      GoRoute(path: '/search', builder: (context, state) => const SearchScreen()),
       GoRoute(
         path: '/collection-detail',
         builder: (context, state) {
@@ -34,7 +28,7 @@ class AppRouter {
       GoRoute(
         path: '/poi-detail',
         builder: (context, state) {
-          final poi = state.extra as Poi?;
+          final poi = state.extra as Poi;
           return PoiDetailScreen(poi: poi);
         },
       ),

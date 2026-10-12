@@ -27,10 +27,11 @@ class SearchMapper extends AbstractMapper<Map<String, dynamic>, List<PoiPreview>
     Map<String, dynamic> properties = rawPoi.getOrDefault('properties', <String, dynamic>{})!;
     Map<String, dynamic> geocoding = properties.getOrDefault('geocoding', <String, dynamic>{})!;
 
-    final String? name = geocoding.getOrDefault('name', null);
-    final String? label = geocoding.getOrDefault('label', null);
-    final String? type = geocoding.getOrDefault('osm_type', null);
-    final int? id = geocoding.getOrDefault('osm_id', null);
+    final String? name = geocoding['name']?.toString();
+    final String? label = geocoding['label']?.toString();
+    final String? type = geocoding['osm_type']?.toString();
+    final rawId = geocoding['osm_id'];
+    final String? id = rawId?.toString();
 
     final String? housenumber = geocoding.getOrDefault('housenumber', null);
     final String? postcode = geocoding.getOrDefault('postcode', null);
@@ -46,7 +47,8 @@ class SearchMapper extends AbstractMapper<Map<String, dynamic>, List<PoiPreview>
     final String? osmValue = geocoding.getOrDefault('osm_value', null);
     final PoiCategory category = mapPoiCategory(osmKey, osmValue);
 
-    if (label == null || name == null || id == null || type == null) {
+    if (label == null || name == null || id == null || type == null ||
+        label.isEmpty || name.isEmpty || id.isEmpty || type.isEmpty) {
       AppLogger.error(
         'Invalid search result format - label=$label name=$name id=$id type=$type',
         SearchMapper,
@@ -57,7 +59,7 @@ class SearchMapper extends AbstractMapper<Map<String, dynamic>, List<PoiPreview>
     AppLogger.debug('Successfully mapped POI: id=$id, name=$name', SearchMapper);
 
     return PoiPreview(
-      id: id.toString(),
+      id: id,
       name: name,
       address: PoiAddress(
         houseNumber: housenumber,

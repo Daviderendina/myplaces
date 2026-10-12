@@ -52,13 +52,16 @@ class _Spaces {
 class _Geometry {
   late EdgeInsets mainPagePadding;
   late EdgeInsets untitledMainPagePadding;
+  late EdgeInsets containerPadding;
   late double itemHeightSmall;
+  final double radiusSmall = 8.0;
   final double radiusMedium = 12.0;
   final double radiusLarge = 20.0;
 
   void _init(double h, double w) {
     mainPagePadding = EdgeInsets.only(top: h * 0.06, left: w * 0.05, right: w * 0.05);
     untitledMainPagePadding = EdgeInsets.fromLTRB(w * .05, h * 0.045, w * .05, h * 0.02);
+    containerPadding = EdgeInsets.all(w * 0.025);
 
     itemHeightSmall = h * .06;
   }

@@ -14,7 +14,7 @@ class AppTheme {
       primary: AppColors.primaryLight,
       onPrimary: AppColors.onPrimaryLight,
       surface: Colors.white,
-      surfaceContainer: AppColors.surfaceContainerLight,
+      surfaceContainer: AppColors.surfaceContainer,
       surfaceContainerLow: AppColors.surfaceContainerLowLight,
       onSurfaceVariant: AppColors.onSurfaceVariantLight,
     ),
@@ -34,9 +34,7 @@ class AppTheme {
     searchBarTheme: SearchBarThemeData(
       // SearchBar generica nell'app
       elevation: WidgetStateProperty.all(0),
-      backgroundColor: WidgetStateProperty.all(
-        AppColors.scaffoldBackgroundLight,
-      ),
+      backgroundColor: WidgetStateProperty.all(AppColors.scaffoldBackgroundLight),
       constraints: const BoxConstraints(minHeight: 0),
       shape: WidgetStateProperty.all(
         RoundedRectangleBorder(

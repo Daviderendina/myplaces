@@ -1,4 +1,3 @@
-import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myplaces/core/constants/AppLayout.dart';
@@ -7,9 +6,11 @@ import 'package:myplaces/shared/widgets/button/icon_app_button.dart';
 import 'package:myplaces/shared/widgets/button/text_app_button.dart';
 import 'package:myplaces/shared/widgets/carousel/app_image_carousel.dart';
 
-import '../../../../../core/constants/AppColors.dart';
 import '../../../../../core/models/poi.dart';
 import '../../../../collections/screens/select_collection_modal.dart';
+import '../../../../poi/screens/widgets/label/location_poi_label.dart';
+import '../../../../poi/screens/widgets/label/saved_poi_label.dart';
+import '../../../../poi/screens/widgets/label/visited_poi_label.dart';
 import 'poi_summary_sheet_container.dart';
 
 /// Bottom sheet con il dettaglio completo di un [Poi] già caricato.
@@ -44,8 +45,7 @@ class PoiSummarySheet extends StatelessWidget {
           Row(
             spacing: AppLayout.spaces.horizontalXSmall,
             children: [
-              CircleFlag(poi.countryCode, size: AppLayout.icons.xsmall),
-              Text(poi.positionLabel, style: Theme.of(context).textTheme.bodySmall, maxLines: 1),
+              LocationPoiLabel(poi: poi),
               Text("·", style: Theme.of(context).textTheme.bodySmall, maxLines: 1),
               Text(
                 poi.category.name.toTitleCase(),
@@ -57,27 +57,9 @@ class PoiSummarySheet extends StatelessWidget {
 
           SizedBox(height: AppLayout.spaces.verticalSmall),
 
-          if (poi.collectionsBelonged.isNotEmpty)
-            Row(
-              spacing: AppLayout.spaces.horizontalXSmall,
-              children: [
-                Text(
-                  "Saved in ${poi.collectionsBelonged.length} collections",
-                  style: Theme.of(context).textTheme.bodySmall,
-                  maxLines: 1,
-                ),
-                Icon(Icons.bookmark, size: AppLayout.icons.xsmall, color: AppColors.cyanLight),
-              ],
-            ),
+          if (poi.collectionsBelonged.isNotEmpty) SavedPoiLabel(poi: poi),
 
-          if (poi.tripsBelonged.isNotEmpty)
-            Row(
-              spacing: AppLayout.spaces.horizontalXSmall,
-              children: [
-                Text("Visited", style: Theme.of(context).textTheme.bodySmall, maxLines: 1),
-                Icon(Icons.check_circle, size: AppLayout.icons.xsmall, color: AppColors.greenLight),
-              ],
-            ),
+          if (poi.tripsBelonged.isNotEmpty) VisitedPoiLabel(poi: poi),
 
           //if (poi.tripsBelonged.isEmpty)
           SizedBox(height: AppLayout.spaces.verticalMedium),
