@@ -30,7 +30,7 @@ class SearchMapper extends AbstractMapper<Map<String, dynamic>, List<PoiPreview>
     final String? name = geocoding.getOrDefault('name', null);
     final String? label = geocoding.getOrDefault('label', null);
     final String? type = geocoding.getOrDefault('osm_type', null);
-    final String? id = geocoding.getOrDefault('osm_id', null);
+    final int? id = geocoding.getOrDefault('osm_id', null);
 
     final String? housenumber = geocoding.getOrDefault('housenumber', null);
     final String? postcode = geocoding.getOrDefault('postcode', null);
@@ -47,6 +47,10 @@ class SearchMapper extends AbstractMapper<Map<String, dynamic>, List<PoiPreview>
     final PoiCategory category = mapPoiCategory(osmKey, osmValue);
 
     if (label == null || name == null || id == null || type == null) {
+      AppLogger.error(
+        'Invalid search result format - label=$label name=$name id=$id type=$type',
+        SearchMapper,
+      );
       return null;
     }
 
